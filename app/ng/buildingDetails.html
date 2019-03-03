@@ -1,0 +1,13 @@
+<h2>{{buildings[key].name}}</h2>
+<p ng-if="level < buildings[key].maxLvl" style="text-align: center;">
+	Úroveň <b>{{level}}</b>, lze 
+	<a class="fakeLink" ng-click="upgrade(key)">vylepšit</a>:
+	<span ng-repeat="i in icons" ng-if="price[$index] > 0">
+		<img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">
+		{{price[$index].toFixed(0)}}
+	</span>
+</p>
+<p ng-if="level === buildings[key].maxLvl" style="text-align: center;">
+	Úroveň <b>{{level}}</b>, bylo dosaženo nejvyšší možné úrovně.
+</p>
+<p>{{buildings[key].flavor}}</p>

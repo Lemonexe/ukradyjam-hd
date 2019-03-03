@@ -1,0 +1,38 @@
+zaměnit cenu techů pro kostel a palác??? a dát náboženství req 'PolA4' místo A5
+
+SAVE&LOAD -> dopočítat ticks. obě funkce v middle.js
+	save:  save s, ctrl, každý cyklus
+	load:  load s, ctrl, retrospective ticks, initGame(), popup kolik cyklů proběhlo
+	clear: delete local storage, reload
+
+>>> ŠTURM <<<
+CANVAS BATTLEFIELD
+JUICY PARTICLE EFFECTS
+
+NUKE možné koupit jen jednou za rok (5 min), skladovat lze pouze jeden
+	zkušebna sníží recharge rate na nuke (za zachování vysoké ceny)
+	nukleární tlačítko bude přímo v bitevním screenu, po stisknutí se kurzor změní na crosshair
+	při prvním použití popup, který informuje, že mám kliknout na bitevní pole
+
+finish achievments
+
+lepší dragging
+	https://docs.angularjs.org/guide/directive
+		>chapter Creating a Directive that Adds Event Listeners
+
+TODO ASSETS:
+	sklad: přidat nápis #amazing
+	? REMAKE slon
+	? REMAKE Palác
+	? REMAKE Kostel
+	ikonka pro island / city switch?
+	? REMAKE battle background
+
+---
+Poslat: MM, VP, FZ, PZ, VS, FČ, PŽ, KJ
+
+MM:
+Vyšlo to. Až do official release jsem seděl v cele a sepisoval parodii proti komunitě, ve který jsem deset let pwnil a lolečkoval.
+Po celou dobu developmentu jsem byl uzavřenej v malý cele na tajným místě a nesměl ke mně skoro nikdo. Po celou tu dobu jsem neviděl ani Dextera, ani jsem neudělal žádnou práci do školy, ale nakonec se to vyplatilo.
+>> Střih, kdy klikneš na následující odkaz:
+odkaz, ou yeah B)
