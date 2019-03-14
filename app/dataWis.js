@@ -49,26 +49,26 @@ const research = [
 	reqs: ['EcoA4'], f: function() {
 		s.p.drevo += 0.20;
 	}},
-{id: 'EcoA6a', class: 'Eco', name: 'Kýbly na mléko', cost: 2000,
+{id: 'EcoA6a', class: 'Eco', name: 'Vozíky na kamení', cost: 2000,
+	teaser: 'Dělníci dosud táhli kameny ručně a to moc efektivní není.',
+	result: 'Dělníci šutry stále nosí po jednom, ale jedou přitom ve vozíku a jde to tedy rychleji.',
+	effect: 'těžba kamení +20%',
+	reqs: ['EcoA4'], f: function() {
+		s.p.kamen += 0.20;
+	}},
+{id: 'EcoA6b', class: 'Eco', name: 'Morálka na moři', cost: 2000,
+	teaser: 'Na pivní plošině furt všichni jen chlastají! Je třeba zavést disciplínu a omezit tak ztráty piva.',
+	result: 'Uzavřel se přístup k hlavní nádrži. Většina dělníků tedy chlastá u ventilu, ale aspoň ti blbí už nepijou a ztráty piva byly omezeny.',
+	effect: 'těžba piva +20%',
+	reqs: ['EcoA6a'], f: function() {
+		s.p.pivo += 0.20;
+	}},
+{id: 'EcoA6c', class: 'Eco', name: 'Kýbly na mléko', cost: 2000,
 	teaser: 'Mléko pracovníci dosud nosili v dlaních. S kýblem to určitě půjde rychleji!',
 	result: 'Dělníci nechápou, proč nemají mléko nosit ve dlaních, to se nezměnilo, ale dali si kýbly na hlavu a snížila se tak úrazovost následkem pokopání krávou, takže efektivita práce se zvedla.',
 	effect: 'těžba sýry +20%',
-	reqs: ['EcoA4'], f: function() {
-		s.p.syra += 0.20;
-	}},
-{id: 'EcoA6b', class: 'Eco', name: 'Vozíky na kamení', cost: 2000,
-	teaser: 'Dělníci dosud táhli kameny ručně a to moc efektivní není.',
-	result: 'Dělníci šutry stále nosí po jednom, ale jedou přitom ve vozíku a jde to rychleji.',
-	effect: 'těžba kamení +20%',
-	reqs: ['EcoA6a'], f: function() {
-		s.p.kamen += 0.20;
-	}},
-{id: 'EcoA6c', class: 'Eco', name: 'Morálka na moři', cost: 2000,
-	teaser: 'Na pivní plošině furt všichni jen chlastají! Je třeba zavést disciplínu a omezit tak ztráty piva.',
-	result: 'Uzavřel se přístup k hlavní nádrži. Většina dělníků tedy chlastá u ventilu, ale aspoň ti blbí nepijou.',
-	effect: 'těžba piva +20%',
 	reqs: ['EcoA6b'], f: function() {
-		s.p.pivo += 0.20;
+		s.p.syra += 0.20;
 	}},
 {id: 'EcoA7', class: 'Eco', name: 'Splachovadlo', cost: 10000,
 	teaser: 'A potom že se prý nezajímáme o komfort obyčejných lidi! Moderní a čistý záchod ubytuje i početnou rodinu.',
@@ -180,25 +180,25 @@ const research = [
 		s.p.happy += 350;
 		s.p.obchod -= 0.10;
 	}},
-{id: 'PolA5', class: 'Pol', name: 'Honosný palác', cost: 9499,
-	teaser: 'Vládce musí být přece důstojný a reprezentovat naší zem svou vznešeností. Velkolepé vládní sídlo bude chloubou naší země, a občané to svému milovanému oligarchovi jistě rádi zacálují.',
-	result: 'Paráda, můžeme zahájit stavbu! Lidé se asi rozhořčí nad vysáváním státního rozpočtu na stavbu Holubího Hnízda, ale tak už to holt chodí. Všichni jsou si rovni, ale někteří jsou si rovnější.',
-	effect: 'odemknut palác',
-	reqs: ['PolA4'], f: function() {
-		s.p.unlockBuild.push('palac');
-	}},
-{id: 'PolB1', class: 'Pol', name: 'Státní náboženství', cost: 12999,
+{id: 'PolA5', class: 'Pol', name: 'Státní náboženství', cost: 7999,
 	teaser: 'To by nešlo, aby lidi jen tak v něco věřili a jen tak se někde modlili jak se jim zachce. Vytvoříme pořádně zregulovanou oficiální církev, která bude kázat submisivitu vůči posvěcené státní vrchnosti!',
 	result: 'Úžasné, naše nová církev je organizace tak neschopná a zkorumpovaná, že se nám o tom ani nesnilo! Nyní můžeme postavit svatý chrám a nahnat do něj věřící, ať už je to zajímá nebo ne.',
 	effect: 'odemknut kostel',
-	reqs: ['PolA5'], f: function() {
+	reqs: ['PolA4'], f: function() {
 		s.p.unlockBuild.push('kostel');
 	}},
-{id: 'PolA6', class: 'Pol', name: 'Populismus', cost: 27999,
+{id: 'PolA6', class: 'Pol', name: 'Honosný palác', cost: 16999,
+	teaser: 'Vládce musí být přece důstojný a reprezentovat naší zem svou vznešeností. Velkolepé vládní sídlo bude chloubou naší země, a občané to svému milovanému oligarchovi jistě rádi zacálují.',
+	result: 'Paráda, můžeme zahájit stavbu! Lidé se asi rozhořčí nad vysáváním státního rozpočtu na stavbu Holubího Hnízda, ale tak už to holt chodí. Všichni jsou si rovni, ale někteří jsou si rovnější.',
+	effect: 'odemknut palác',
+	reqs: ['PolA5'], f: function() {
+		s.p.unlockBuild.push('palac');
+	}},
+{id: 'PolA7', class: 'Pol', name: 'Populismus', cost: 28999,
 	teaser: 'Převratný traktát v oboru politické filozofie, který má prý v praxi přinést harmonizaci vztahů mezi plebsem a oligarchií, jakož i pozvednout politickou kulturu v zemi.',
 	result: 'Portrét vypaseného vládce visí na všech rozích a lidé přikyvují: no ano, chceme lepší budoucnost! Rozhazovat peníze je spravedlivé, úspory jsou stejně jenom výmysl nějakých ročíldů z volstrýtu.',
 	effect: 'vygebenost +700, platy dělníků +10%, daňový výběr -10%',
-	reqs: ['PolA5'], f: function() {
+	reqs: ['PolA6'], f: function() {
 		s.p.happy += 700;
 		s.p.plat += 0.10;
 		s.p.prachy -= 0.10;
@@ -207,14 +207,14 @@ const research = [
 	teaser: 'Oslavy náhodného dne v kalendáři jsou vhodnou záminkou k chlastání a dělání bordelu. Dáme občanům den svátku, odpálíme ohňostroj a budou spokojení!',
 	result: 'Po několika případech těžkých popálenin jsme ohňostroj raději zakázali a oslavy zrušili. Můžeme však tyto zbraně hromadného ničení vypustit na nepřátelské armády a proměnit tak bojiště v krvavá jatka!',
 	effect: 've zkušebně ohňostrojů odemčen novoroční ohňostroj',
-	reqs: ['PolA6', 'ArmB5'], f: function() {
+	reqs: ['PolA7', 'ArmB5'], f: function() {
 		s.p.unlockNuke = true;
 	}},
 {id: 'PolGrand', class: 'Pol', name: 'Budoucnost politiky', cost: 99999,
 	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně a sviňárny nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
 	effect: 'vygebenost +1600, platy dělníků -20%',
-	reqs: ['PolA6', 'PolB1', 'PolC1'], f: function() {
+	reqs: ['PolA7', 'PolC1'], f: function() {
 		s.p.happy += 1600;
 		s.p.plat -= 0.20;
 	}},

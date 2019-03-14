@@ -2,16 +2,12 @@ let app = angular.module('UK', []);
 
 app.controller('middle', function($scope, $interval) {
 /* VIEW / CONTROLLER RELATED CODE */
-	$scope.version = [0, 0, 0];
-	$scope.support = [0, 0, 0];
+	//current version of this build & last supported version (savegame compatibility)
+	$scope.version = game.version;
 
-	//USER SETTINGS - this whole object can be saved and loaded, contains all state variables of view/controller
-	$scope.ctrl = {
-		window: 'intro',
-		tab: 'city',
-		parentTab: 'city', //city or island
-		zoom: 600
-	};
+	//USER SETTINGS - contains all state variables of view/controller (this object is shared between S and $scope)
+	$scope.ctrl = s.ctrl;
+
 	//zoom factor
 	function zf() {return $scope.ctrl.zoom / 600};
 	$scope.zoomOptions = [600, 900, 1200];
@@ -20,7 +16,6 @@ app.controller('middle', function($scope, $interval) {
 	$scope.ctrl2 = {
 		showBuildingList: false,
 		generalView: true, //true = list of units, false = battle history
-		beer: s.hospoda,
 	};
 
 	//s každou změnou bude potřeba provést digest, ale to by mělo jít celkem samo
@@ -199,11 +194,23 @@ app.controller('middle', function($scope, $interval) {
 
 
 /*GAME RELEATED CODE*/
+	//this will be executed every tick
+	let tick = function() {
+		game.tick();
+		saveService.save();
+	};
+
+	//the game will start after pressing a button in intro screen or when a savegame is loaded
 	$scope.initGame = function() {
+		s.running = true;
+		s.timestamp = Date.now();
 		$scope.ctrl.window = 'game';
-		$scope.intervalHandle = $interval(function() {
-			game.tick();
-		}, consts.dt);
+		$scope.intervalHandle = $interval(tick, consts.dt);
+	};
+
+	//this function will be fired at the end of controller - try to load a local save and initialize game
+	$scope.autoLoad = function() {
+		saveService.load() && ($scope.s = s) && ($scope.ctrl = s.ctrl) && $scope.initGame();
 	};
 
 	//try to access mines
@@ -261,10 +268,10 @@ app.controller('middle', function($scope, $interval) {
 		});
 	};
 
-	//listen to onchange for distribution slider
-	$scope.distributeBeer = function() {
-		s.hospoda = $scope.ctrl2.beer;
-		game.achieve('pivo');
+	//getter / setter function for beer
+	$scope.getSetBeer = function(newBeer) {
+		newBeer && game.achieve('pivo');
+		return (typeof newBeer === 'number') ? (s.hospoda = newBeer) : s.hospoda;
 	};
 
 	//choose a new name for city (with a predefined suggestion)
@@ -300,4 +307,11 @@ app.controller('middle', function($scope, $interval) {
 			.filter(item => s.achievements.indexOf(item) === -1)
 			.map(item => achievements[item].description);
 	}
+
+
+
+
+
+	//try to start the game from a savegame
+	$scope.autoLoad();
 });

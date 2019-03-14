@@ -17,4 +17,6 @@
 		<img ng-src="res/GUI/icon_{{suroviny[selected].id}}.png"> {{calculate()[1].withSign()}}
 	</td>
 	<td style="text-align: right; width: 100px;">nakoupit &rarr;</td>
-</tr></table>
+</tr>
+<tr ng-if="status"><td colspan="3" class="thisIsBad" style="text-align: center;">{{status}}</td></tr>
+</table>

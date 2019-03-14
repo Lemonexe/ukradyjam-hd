@@ -3,10 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="description" content="Nejlepší budovatelská hra na světě!">
+		<meta name="author" content="Jiří Zbytovský">
 		<title>Ukradyjam: HD edition</title>
 		<script>
 // Do not execute this function unless you are a skilled H4CK0R!!!
-			let get_HACKER_achievement = function() {
+			var get_HACKER_achievement = function() {
 				game.achieve('hacker');
 				forceDigest();
 			};
@@ -66,13 +67,13 @@
 		<escape-win></escape-win>
 		<h1>Nastavení</h1>
 		<p>Velikost okna: <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
-		<p><input type="button" onclick="purgeSave()" value="Smazat save"></p>
+		<p><input type="button" onclick="saveService.purge()" value="Smazat save"></p>
 	</div>
 
 	<div ng-switch-when="game">
 		<div id="topBar" ng-style="style.gameWidth">
 			<div id="suroviny" ng-style="style.suroviny">
-				<div ng-repeat="i in icons" ng-class="{skladOverflow: isOverflow($index)}" ng-click="accessMine(mineNames[$index])"
+				<div ng-repeat="i in icons" ng-class="{thisIsBad: isOverflow($index)}" ng-click="accessMine(mineNames[$index])"
 					title="{{(isOverflow($index) ? 'Je třeba dostavět sklad, kapacita je zcela naplněna!' : '')}}">
 					<img ng-src="res/GUI/icon_{{i}}.png">{{s.sur[$index].toFixed(0)}}&nbsp;
 				</div>
@@ -229,11 +230,19 @@
 				<hr>
 				<p><b>Přehled města {{s.name}}:</b> <a ng-click="renameCity()" class="fakeLink">přejmenovat</a></p>
 				<p>
-					<span class="tip" title="Celková populace včetně dělníků">Populace</span>: {{game.popTotal()}}<br>
-					<span class="tip" title="Volná místa na záchodech radnice">Populační limit</span>: {{game.popLimit()}}<br>
-					<span class="tip" title="Míra vytlemenosti obyvatel">Vygebenost</span>: {{game.realHappiness()}}<br>
-					<span class="tip" title="Růst populace za jeden cyklus, počítá se jako vygebenost/50">Růst populace</span>: {{game.popGrowth().withSign()}}<br>
-					Založeno: před {{s.iteration}} cykly.
+					<p class="tip" title="Celková populace včetně dělníků">
+						Populace: {{game.popTotal()}}
+					</p>
+					<p class="tip" title="Volná místa na záchodech radnice" ng-class="{thisIsBad: game.popLimit() === game.popTotal()}">
+						Populační limit: {{game.popLimit()}}
+					</p>
+					<p class="tip" title="Míra vytlemenosti obyvatel, určuje růst populace">
+						Vygebenost: {{game.realHappiness()}}
+					</p>
+					<p class="tip" title="Růst populace za jeden cyklus, počítá se jako vygebenost/50" ng-class="{thisIsBad: game.popGrowth() < 0}">
+						Růst populace: {{game.popGrowth().withSign()}}
+					</p>
+					<p>Město založeno: před {{s.iteration}} cykly.</p>
 				</p>
 			</div>
 
@@ -284,7 +293,7 @@
 					Rozšíření zahrádky, baru a posílení obsluhy nám umožňuje zvýšit pravidelný příděl piva, přičemž každá úroveň přídělu piva vygebí obyvatelstvo o 150.
 				</p><p>
 					<img src="res/GUI/icon_pivo.png">&nbsp;
-					<input type="range" class="distributeSlider" step="1" min="0" max="{{game.getBlvl('hospoda')}}" ng-model="ctrl2.beer" ng-change="distributeBeer()">
+					<input type="range" class="distributeSlider" step="1" min="0" max="{{game.getBlvl('hospoda')}}" ng-model="getSetBeer" ng-model-options="{getterSetter: true}">
 				</p><p>
 					Nastavený příděl: <b>{{game.pridelHospoda()}}</b><br>
 					Bonus vygebenosti: +{{game.happyHospoda()}}<br>

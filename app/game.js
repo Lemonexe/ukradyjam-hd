@@ -1,7 +1,17 @@
 //STATE object factory
 let S = () => ({
-	//for compatibility purposes
-	version: [0, 0, 0],
+	//set to true when game is initialized
+	running: false,
+	//version of this save, for compatibility purposes
+	version: game.version,
+
+	//user settings - contains all state variables of view/controller (this object is shared between S and $scope)
+	ctrl: {
+		window: 'intro',
+		tab: 'city',
+		parentTab: 'city', //city or island
+		zoom: 600
+	},
 
 	//last tick, tick count
 	timestamp: 0,
@@ -82,13 +92,14 @@ let S = () => ({
 	}
 });
 
-//initiate an instance of S
-let s = S();
-
 //game object
 let game = {
+	//current version of this build & last supported version (savegame compatibility)
+	version: [0, 1, 0],
+	support: [0, 1, 0],
+
+	//the central function of this discrete model
 	tick: function() {
-	//GENERIC
 		s.timestamp = Date.now();
 		s.iteration++;
 	//WP
@@ -117,7 +128,7 @@ let game = {
 		(overflow.filter(item => item).length === 4) && this.achieve('stack');
 
 	//BEER
-		if(s.sur[4] > this.pridelHospoda()) {
+		if(s.sur[4] >= this.pridelHospoda()) {
 			s.sur[4] -= this.pridelHospoda();
 		}
 		else {
@@ -181,7 +192,7 @@ let game = {
 		}
 	},
 
-	//TEMPORARY
+	//try to achieve an achievement (if player hasn't achieved to achieve that achievement so far)
 	achieve: function(id) {
 		if(s.achievements.indexOf(id) > -1) {return;}
 		s.achievements.push(id);
@@ -380,3 +391,6 @@ let game = {
 	//xD
 	asdf: 'lol'
 };
+
+//initiate an instance of S
+let s = S();

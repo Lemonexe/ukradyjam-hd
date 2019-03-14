@@ -9,18 +9,10 @@ window.onresize = function() {
 	forceDigest();
 };
 
-function purgeSave() {
-	if(confirm('Opravdu chcete smazat veškerá vaše data v této hře?')) {
-		//s = S();//TODO save the reseted save and RELOAD (because angular is still linked to the old object)
-	}
-}
-
-//this is ONLY for spontaneous popups (triggered by certain time event)
-//do NOT use for popups generated inside Angular controller or by functions called from there - just use s.messages.push(text)
-function message(text) {
-	s.messages.push(text);
-	forceDigest();
-}
+//save game before leaving
+window.onbeforeunload = function() {
+	saveService.save();
+};
 
 //object with functions concerning dragging buildings around
 let drag = {
@@ -58,4 +50,52 @@ Number.prototype.withSign = function() {
 	let n = Math.round(this.valueOf());
 	let s = n.toFixed(0)
 	return n > 0 ? ('+' + s) : s;
+};
+
+const saveService = {
+	//save game to local storage
+	save: () => s.running && localStorage.setItem('savegame', JSON.stringify(s)),
+
+	//load game from local storage and perform iterations. Return true or false = whether there was a savegame a successfully loaded
+	load: function() {
+		let data = localStorage.getItem('savegame');
+		if(data) {
+			data = JSON.parse(data);
+
+			//check version of the game against version of save, and if save is no longer supported, ignore & delete it mercilessly
+			let ver2num = ver => ver[0]*1e4 + ver[1]*1e2 + ver[2];
+			if(ver2num(data.version) < ver2num(game.support)) {
+				s.messages.push('Bohužel, vaše uložená data byla ztracena, protože novější verze hry už neposkytuje zpětnou kompatibilitu.');
+				localStorage.removeItem('savegame');
+				return false;
+			}
+
+			//actually load the data
+			s = data;
+
+			//and retrospectively perform ticks
+			let diff = Date.now() - data.timestamp;
+			let cycles = Math.floor(diff / consts.dt);
+			if(cycles <= 0) {return true;}
+
+			for(let i = 0; i < cycles; i++) {
+				game.tick();
+			}
+
+			s.messages.push([`Zatímco byl vládce na dovolené, proběhlo ${cycles} cyklů.`,
+				`Raději zkontrolujte, zda-li je ${s.name} v pořádku.`,
+				'Řím možná nebyl postaven za den, ale naši občané by ho za den zvládli zcela vybydlet.']);
+			return true;
+		}
+		return false;
+	},
+
+	//delete local save
+	purge: function() {
+		if(confirm('Opravdu chcete smazat veškerá vaše data v této hře?')) {
+			window.onbeforeunload = null;
+			localStorage.removeItem('savegame');
+			location.reload();
+		}
+	}
 };

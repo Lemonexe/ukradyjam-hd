@@ -55,6 +55,7 @@ app.directive('resourceSlider', function() {
 app.directive('tradeSlider', function() {
 	return {
 		controller: ['$scope', function($scope) {
+			$scope.status = '';
 			$scope.suroviny = consts.surFullDescription;
 			$scope.selected = 0;
 			$scope.percent = 50;
@@ -66,14 +67,24 @@ app.directive('tradeSlider', function() {
 				let i = $scope.selected + 1; //index of s.sur
 				let e =  game.eff().obchod;
 				$scope.eff = e;
-				let j = (p-50)/50; //multiplier
-				//maximum of 'i' that can be bought is limited either by money, or by storage capacity for 'i'
-				let maxBuy = Math.min(s.sur[0].positify()*e, game.storage() - s.sur[i]);
+				let j = (p-50)/50; //multiplier between -1 and 1
+				//maximum of 'i' that can be bought is limited either by available money, or by free storage capacity for 'i'
+				let maxGold = s.sur[0].positify()*e;
+				let freeStorage = game.storage() - s.sur[i];
+				let maxBuy = Math.min(maxGold, freeStorage);
+				//maximum that can be sold = what player has
+				let maxSell = s.sur[i];
+
+				$scope.status =
+					(p > 50 && (maxGold     === 0) && 'Nemáme žádné zlato, takže nelze nic kupovat!') ||
+					(p > 50 && (freeStorage === 0) && 'Této suroviny máme úplně plno, nelze kupovat více!') ||
+					(p < 50 && (maxSell     === 0) && 'Tuto surovinu vůbec nemáme, takže ji nemůžeme prodat!') || 
+					'';
 				
-				//(slider is on the right) ? BUY : SELL
+				//(slider is on the right) ? BUY : SELL as [zlato, sur]
 				return (p > 50) ?
-					[-maxBuy/e*j, maxBuy*j] :
-					[s.sur[i]*e*j*-1, -s.sur[i]*j*-1];
+					[-maxBuy /e*j, maxBuy *j] :
+					[-maxSell*e*j, maxSell*j];
 			};
 
 			//perform trade
@@ -82,7 +93,7 @@ app.directive('tradeSlider', function() {
 				s.sur[0] += change[0];
 				s.sur[$scope.selected + 1] += change[1];
 				$scope.percent = 50;
-				if($scope.eff > 1) {game.achieve('ecozmrd');}
+				$scope.eff > 1 && game.achieve('ecozmrd');
 			};
 		}],
 		restrict: 'E',
@@ -112,11 +123,12 @@ app.directive('training', function() {
 			}
 			getAvailableUnits();
 
+			$scope.atLeast1 = n => n > 0 ? n : 1;
 			//how much population does unit 'id' cost in given quantity
-			$scope.popPrice = id => units[id].pop * $scope.ranges[id];
+			$scope.popPrice = (id, n) => units[id].pop * n;
 
 			//how much resource 'i' does unit 'id' cost in given quantity
-			$scope.surPrice = (id, i) => units[id].price[i] * $scope.ranges[id] * $scope.eff();
+			$scope.surPrice = (id, i, n) => units[id].price[i] * n * $scope.eff();
 
 			//find limiting reactant from (resources & population) and return how many units can be bought
 			$scope.getBuyLimit = function(id) {
@@ -136,10 +148,15 @@ app.directive('training', function() {
 
 			//buy the unit 'id' and reset slider
 			$scope.buy = function(id) {
-				s.army[id] += $scope.ranges[id];
-				s.pop[0] -= $scope.popPrice(id);
-				s.sur = s.sur.map((s, i) => s - $scope.surPrice(id, i));
-				id === 'trj' && $scope.ranges[id] > 0 && game.achieve('trojan');
+				if($scope.getBuyLimit(id) <= 0) {
+					s.messages.push(`Na stavbu jednotky ${units[id].name} není dost surovin.`);
+					return;
+				}
+				let n = $scope.ranges[id];
+				s.army[id] += n;
+				s.pop[0] -= $scope.popPrice(id, n);
+				s.sur = s.sur.map((s, i) => s - $scope.surPrice(id, i, n));
+				id === 'trj' && n > 0 && game.achieve('trojan');
 				$scope.ranges[id] = 0;
 			};
 		}],
