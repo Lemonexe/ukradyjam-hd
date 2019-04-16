@@ -75,10 +75,11 @@ let S = () => ({
 	mirsReceived: [],//miracles that have been activated (-> achievement)
 
 
-	//TODO
-	army:      {kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0},
-	armyEnemy: {kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0},
-	battlefield: [],
+	//WAR RELATED STUFF
+	army:  {kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0},
+	armyE: false, //currently remaining enemy army
+	enemyLevel: 0, //index of enemyArmies
+	battlefield: false,
 	battleReports: [],
 	nukeCooldown: 0,
 
@@ -95,8 +96,11 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [0, 1, 0],
-	support: [0, 1, 0],
+	version: [0, 1, 1],
+	support: [0, 1, 1],
+
+	//all warfare related functions are outsourced to a factory
+	war: War(),
 
 	//the central function of this discrete model
 	tick: function() {

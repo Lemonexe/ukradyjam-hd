@@ -1,13 +1,15 @@
 >>> ŠTURM <<<
 CANVAS BATTLEFIELD
+	canvas directive: http://embed.plnkr.co/c13ZPW/
 JUICY PARTICLE EFFECTS
 
-NUKE možné koupit jen jednou za rok (5 min), skladovat lze pouze jeden
+NUKE možné koupit jen jednou za rok (5 min = 30 cyklů), skladovat lze pouze jeden
 	zkušebna sníží recharge rate na nuke (za zachování vysoké ceny)
 	nukleární tlačítko bude přímo v bitevním screenu, po stisknutí se kurzor změní na crosshair
 	při prvním použití popup, který informuje, že mám kliknout na bitevní pole
 
 finish achievments
+	add: něco za návrat po dlouhé absenci - po dni, po týdnu, po roce
 
 lepší dragging
 	https://docs.angularjs.org/guide/directive

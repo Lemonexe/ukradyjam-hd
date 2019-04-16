@@ -142,6 +142,12 @@ const units = {
 	}
 };
 
+//table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army. Rows means size of battlefield = [1,3,5,7]
+const enemyArmies = [		
+	{rows: 1, dranc: 50,     army: {kop: 1,    luk: 1,    hop: 0,    sln: 0,    trj: 0,    obr: 0,    baz: 0,    bal: 0,    gyr: 0}},
+	{rows: 1, dranc: 100,    army: {kop: 4,    luk: 1,    hop: 0,    sln: 0,    trj: 0,    obr: 0,    baz: 0,    bal: 0,    gyr: 0}}
+];
+
 //description is a function of kostel lvl
 const miracles = {
 	faust: {name: 'Faust, bůh kovárny',

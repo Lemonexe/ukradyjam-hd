@@ -69,7 +69,7 @@ app.directive('tradeSlider', function() {
 				$scope.eff = e;
 				let j = (p-50)/50; //multiplier between -1 and 1
 				//maximum of 'i' that can be bought is limited either by available money, or by free storage capacity for 'i'
-				let maxGold = s.sur[0].positify()*e;
+				let maxGold = s.sur[0].positify()*e/3;
 				let freeStorage = game.storage() - s.sur[i];
 				let maxBuy = Math.min(maxGold, freeStorage);
 				//maximum that can be sold = what player has
@@ -83,8 +83,8 @@ app.directive('tradeSlider', function() {
 				
 				//(slider is on the right) ? BUY : SELL as [zlato, sur]
 				return (p > 50) ?
-					[-maxBuy /e*j, maxBuy *j] :
-					[-maxSell*e*j, maxSell*j];
+					[-maxBuy /e*j*3, maxBuy *j] :
+					[-maxSell*e*j*3, maxSell*j];
 			};
 
 			//perform trade
@@ -132,7 +132,8 @@ app.directive('training', function() {
 
 			//find limiting reactant from (resources & population) and return how many units can be bought
 			$scope.getBuyLimit = function(id) {
-				let price = units[id].price.concat(units[id].pop);
+				let eff = $scope.eff();
+				let price = units[id].price.map(item => item*eff).concat(units[id].pop);
 				let avail = s.sur.concat(s.pop[0]);
 
 				//relative prices - available resource over cost

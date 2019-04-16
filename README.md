@@ -18,8 +18,10 @@ Téměř veškeré HTML je v **index.html**, veškeré statické CSS je v **app/
 **app/middle.js** obsahuje angular controller. Tedy vše, co se týká view/controller vrstvy aplikace a není definované v direktivách, je právě zde, naházeno bez ladu a skladu
 
 **app/game.js** obsahuje model aplikace, který je rozdělen do dvou objektů:  
-`s`, definovaný pomocí konstruktoru `S`, obsahuje veškerý stav aplikace - který se zase nenachází nikde jinde než zde. Právě tento objekt je tedy ukládán a načítán přes Local Storage  
-`game` obsahuje veškerou funkcionalitu samotné hry
+`s`, definovaný pomocí factory `S`, obsahuje veškerý stav aplikace - který se zase nenachází nikde jinde než zde. Právě tento objekt je tedy ukládán a načítán přes Local Storage  
+`game` obsahuje téměř veškerou funkcionalitu samotné hry - jedná se tedy o model aplikace, avšak bez stavu
+
+**app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto factory `War`. Její instance je zařazena do objektu `game`
 
 **app/data.js** obsahuje konstantní data pro hru:  
 `consts` různé obecné parametry  

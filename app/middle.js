@@ -62,6 +62,8 @@ app.controller('middle', function($scope, $interval) {
 	//research stuff
 	$scope.WPgroups = ['Eco', 'Pol', 'Wis', 'Arm'];
 	$scope.WPgroupNames = ['Ekonomika', 'Politika', 'Vzdělávání', 'Armáda'];
+
+	//tab addresses to be opened when you click on resources in top bar
 	$scope.mineNames = ['', 'islandPila', 'islandKamen', 'islandSyra', 'islandPivo'];
 
 	//merge multiple styles objects ('styles' array) in ng-style
@@ -152,9 +154,9 @@ app.controller('middle', function($scope, $interval) {
 			syra: [160, 180, 64, 64],
 			pivo: [0, 500, 128, 96],
 			myPolis: [150, 320, 200, 100],
-			myPolisName: [240, 370, 0, 0],
+			myPolisName: [240, 370, 0, 220],
 			enemyPolis: [460, 140, 64, 64],
-			enemyPolisName: [460, 150, 0, 0]
+			enemyPolisName: [460, 145, 0, 100]
 		};
 		let pos = objectPositions[arg];
 		return {'position': 'absolute',

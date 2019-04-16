@@ -15,6 +15,7 @@
 		<script src="libs/angular.min.js"></script>
 		<script src="app/misc.js" type="text/javascript"></script>
 		<script src="app/middle.js" type="text/javascript"></script>
+		<script src="app/war.js" type="text/javascript"></script>
 		<script src="app/game.js" type="text/javascript"></script>
 		<script src="app/data.js" type="text/javascript"></script>
 		<script src="app/dataWis.js" type="text/javascript"></script>
@@ -49,7 +50,7 @@
 
 	<div ng-switch-when="achievements" ng-style="mergeStyles(['containerHeight', 'gameWidth'])" id="achievements">
 		<escape-win></escape-win>
-		<h1>Achievements</h1>
+		<h1>Achievements 🏆</h1>
 		<div ng-if="getAchievementGoals().length > 0"><p>Tyto úspěchy můžete splnit: <a class="fakeLink" ng-click="showTODO = !showTODO">{{showTODO ? 'Skrýt' : 'Vypsat'}}</a></p>
 		<ul ng-if="showTODO">
 			<li ng-repeat="g in getAchievementGoals()">{{g}}</li>
@@ -65,7 +66,7 @@
 
 	<div ng-switch-when="options">
 		<escape-win></escape-win>
-		<h1>Nastavení</h1>
+		<h1>Nastavení 🔧</h1>
 		<p>Velikost okna: <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
 		<p><input type="button" onclick="saveService.purge()" value="Smazat save"></p>
 	</div>
@@ -127,7 +128,7 @@
 				<img src="res/env/polis_4.png" ng-style="islandPos('myPolis')" ng-click="tab('city')" class="clickImg">
 				<span ng-style="islandPos('myPolisName')" class="strong clickImg" ng-click="tab('city')">{{s.name}}</span>
 				<img src="res/env/polis_1.png" ng-style="islandPos('enemyPolis')" ng-click="tab('islandPolis')" class="clickImg">
-				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">Polis</span>
+				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">{{s.battlefield ? '🔥' : ''}}Polis</span>
 			</div>
 
 		<!-- BATTLE -->
@@ -178,7 +179,10 @@
 				<escape></escape>
 				<h2>Strategický přehled</h2>
 				<p>Generál ti naplánuje všechna slavná vojenská tažení a možná někdy i vyhraje.</p>
-				<p>TODO: ODKAZ NA BĚŽÍCÍ BITVU</p>
+				<div ng-if="s.battlefield">
+					<p class="strong" ng-click="tab('battle')">🔥 <span class="fakeLink">Právě probíhá bitva!</span></p>
+					<p class="fakeLink tip" title="Poslat všechny dostupné jednotky do bitvy" ng-click="game.war.reinforceBattle()">Posílit bitvu</p>
+				</div>
 				<hr>
 				<div ng-if="ctrl2.generalView">
 					<p><span class="strong">Přehled armády ve městě</span> <a class="fakeLink" ng-click="ctrl2.generalView = false">zobrazit záznamy bitev</a></p>
@@ -189,7 +193,7 @@
 					<p></p>
 					<table>
 						<tr ng-repeat="(i,n) in s.army" ng-if="n > 0">
-							<td><img ng-src="res\unit\{{units[i].img}}"</td>
+							<td><img ng-src="res\unit\{{units[i].img}}"></td>
 							<td><p>
 								<b>{{units[i].name}} ({{n}} ks)</b><br>
 								{{units[i].flavor}}<br>
@@ -209,7 +213,7 @@
 				<h2>Výzkumný přehled</h2>
 				<p>Vědec ti vynalezne nejrůznější technologie - užitečná hnojiva i šílené rovnice!</p>
 				<p>
-					Počet výzkumných bodů: {{s.WP}}<br>
+					Počet výzkumných bodů: 💡{{s.WP}}<br>
 					<span class="tip" title="počet výzkumných bodů za jeden cyklus">Rychlost výzkumu: {{game.rateWP()}}</span>
 				</p>
 				<div ng-repeat="g in WPgroups">
@@ -252,7 +256,7 @@
 				<hr>
 				<p>
 					Škola vytváří výzkumné body, výzkumy se pak kupují v okně vědce<br>
-					Počet výzkumných bodů: {{s.WP}}<br>
+					Počet výzkumných bodů: 💡{{s.WP}}<br>
 					<span class="tip" title="počet výzkumných bodů za jeden cyklus">Rychlost získávání bodů:
 					{{demMulti([game.rateWP()/game.eff().skola], [game.eff().skola]) }}</span>
 				</p>
@@ -311,6 +315,7 @@
 				<escape></escape>
 				<building-details key="ctrl.tab"></building-details>
 				<training building="'zkusebna'"></training>
+				<p style="font-size: 40px">☢</p>
 			</div>
 
 			<div ng-switch-when="palac" ng-style="screenStyle()">
@@ -399,7 +404,13 @@
 				<escape></escape>
 				<h2>Polis</h2>
 				<p>Nepřátelská vesnice, která jistě skrývá ohromné bohatství zralé k uloupení!</p>
-				<p>TADY BUDE: pokud neprobíhá bitva tak tlačítko zaútočit, pokud ano, tak místo něj tlačítko posílit bitvu, plus obrovský nápis vlézt do bitvy.</p>
+				<div ng-if="!s.battlefield">
+					<p class="strong" ng-click="game.war.initBattle()">⚔️ <span class="fakeLink">Zaútočit</span> (úroveň {{s.enemyLevel+1}})</p>
+				</div>
+				<div ng-if="s.battlefield">
+					<p class="strong" ng-click="tab('battle')">🔥 <span class="fakeLink">Právě probíhá bitva!</span></p>
+					<p class="fakeLink tip" title="Poslat všechny dostupné jednotky do bitvy" ng-click="game.war.reinforceBattle()">Posílit bitvu</p>
+				</div>
 			</div>
 
 		</div>
