@@ -103,7 +103,7 @@ td {
 	font-size: 20px;
 }
 .numTable {margin-left: 30px;}
-.numTable td:first-child{
+.numTable td:first-child {
 	text-align: right;
 	padding-right: 10px;
 }

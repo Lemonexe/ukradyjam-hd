@@ -52,7 +52,6 @@ app.controller('middle', function($scope, $interval) {
 		suroviny: {'max-width': '390px'},
 		city:   {'background-image': 'url("res/env/CITY.png")'},
 		island: {'background-image': 'url("res/env/ISLAND.png")'},
-		battle: {'background-image': 'url("res/env/BATTLE.png")'},
 		pilaBlink: {'animation': 'blinker 0.8s linear 2'}
 	};
 
@@ -155,8 +154,8 @@ app.controller('middle', function($scope, $interval) {
 			pivo: [0, 500, 128, 96],
 			myPolis: [150, 320, 200, 100],
 			myPolisName: [240, 370, 0, 220],
-			enemyPolis: [460, 140, 64, 64],
-			enemyPolisName: [460, 145, 0, 100]
+			enemyPolis: [460, 150, 64, 64],
+			enemyPolisName: [460, 150, 0, 100]
 		};
 		let pos = objectPositions[arg];
 		return {'position': 'absolute',
@@ -166,6 +165,9 @@ app.controller('middle', function($scope, $interval) {
 			'width':  Math.round(pos[3]*zf()) + 'px'
 		};
 	};
+
+	//number of icon for player's polis on island view
+	$scope.polisIcon = () => Math.ceil(game.getBlvl('radnice')/4);
 
 	//specific style - blink islandPila if it hasn't been visited yet
 	$scope.styleislandPila = () => s.singleUse.visitedPila ? $scope.islandPos('pila') : angular.extend($scope.islandPos('pila'), $scope.style.pilaBlink);
@@ -185,7 +187,7 @@ app.controller('middle', function($scope, $interval) {
 		if(event.keyCode === 27 || event.key === 'Escape') {
 			if(s.messages.length > 0) {s.messages.pop();return;}
 			if($scope.ctrl.window === 'intro') {return;}
-			$scope.ctrl.window = 'game';
+			if($scope.ctrl.window !== 'game') {$scope.ctrl.window = 'game'; return;}
 			$scope.ctrl.tab = $scope.ctrl.parentTab;
 			$scope.ctrl2.showBuildingList = false;
 		}
@@ -205,8 +207,9 @@ app.controller('middle', function($scope, $interval) {
 	//the game will start after pressing a button in intro screen or when a savegame is loaded
 	$scope.initGame = function() {
 		s.running = true;
-		s.timestamp = Date.now();
+		s.timestampInit = s.timestamp = Date.now();
 		$scope.ctrl.window = 'game';
+		if($scope.ctrl.tab === 'battle') {$scope.ctrl.tab = 'islandPolis';}
 		$scope.intervalHandle = $interval(tick, consts.dt);
 	};
 

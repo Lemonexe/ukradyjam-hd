@@ -35,7 +35,7 @@ const research = [
 	reqs: ['EcoA2', 'EcoB2'], f: function() {
 		s.p.unlockBuild.push('hospoda');
 	}},
-{id: 'EcoA4', class: 'Eco', name: 'Logistika', cost: 1000,
+{id: 'EcoA4', class: 'Eco', name: 'Logistika', cost: 700,
 	teaser: 'Ve velkých polisech prý mají jakýsi "logistický systém", což znamená, že staví obrovské sklady surovin. Takové chci mít taky!',
 	result: 'To bude určitě dobrý nápad, zkuste jeden postavit. Snad lidem nebudou vadit hovna od povozů a nevzhledné krabice.',
 	effect: 'odemknut sklad',
@@ -99,20 +99,20 @@ const research = [
 		s.p.prachy += 0.30;
 		s.p.happy -= 40;
 	}},
-{id: 'EcoB3', class: 'Eco', name: 'Chodníkový zákon', cost: 1200,
-	teaser: 'Každej na svůj chodník jenom sere a město pak musí platit údržbu. Od nynějška bude majitel zasraného chodníku pokutován, což zvýší incentivu k uklízení.',
-	result: 'Konečně ty prasata zametaj aspoň ty největší hovna! Bohužel se jim to moc nelíbí, ale alespoň konečně to tu nevypadá jako ve chlévě.',
-	effect: 'údržba města -10%, vygebenost -60',
-	reqs: ['EcoB2', 'EcoA3'], f: function() {
-		s.p.udrzba -= 0.10;
-		s.p.happy -= 60;
-	}},
-{id: 'EcoB4', class: 'Eco', name: 'Podvod', cost: 2999,
+{id: 'EcoB3', class: 'Eco', name: 'Podvod', cost: 999,
 	teaser: 'Proč se při obchodování otravovat s přesným měřením? Kilo sem, tuna tam, a hned vyděláme trochu více!',
 	result: 'Cizí obchodníci odcházeji spokojeni, když se naše váhy honosí Národním Certifikátem Přesnosti! My jsme ještě spokojenější.',
 	effect: 'účinnost obchodu +10%',
-	reqs: ['EcoB3'], f: function() {
+	reqs: ['EcoB2', 'EcoA3'], f: function() {
 		s.p.obchod += 0.10;
+	}},
+{id: 'EcoB4', class: 'Eco', name: 'Chodníkový zákon', cost: 5000,
+	teaser: 'Každej na svůj chodník jenom sere a město pak musí platit údržbu. Od nynějška bude majitel zasraného chodníku pokutován, což zvýší incentivu k uklízení.',
+	result: 'Konečně ty prasata zametaj aspoň ty největší hovna! Bohužel se jim to moc nelíbí, ale alespoň konečně to tu nevypadá jako ve chlévě.',
+	effect: 'údržba města -10%, vygebenost -60',
+	reqs: ['EcoB3'], f: function() {
+		s.p.udrzba -= 0.10;
+		s.p.happy -= 60;
 	}},
 {id: 'EcoB5', class: 'Eco', name: 'Novela zákonu o daních', cost: 12000,
 	teaser: 'Zrušíme velice nepopulární daň z příjmu, zato zavedeme spoustu menších daní a správních poplatků za všechno možné.',

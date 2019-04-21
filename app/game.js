@@ -13,7 +13,8 @@ let S = () => ({
 		zoom: 600
 	},
 
-	//last tick, tick count
+	//initial tick, last tick, tick count
+	timestampInit: 0,
 	timestamp: 0,
 	iteration: 0,
 
@@ -77,10 +78,11 @@ let S = () => ({
 
 	//WAR RELATED STUFF
 	army:  {kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0},
-	armyE: false, //currently remaining enemy army
+	armyE: enemyArmies[0].army, //currently remaining enemy army
 	enemyLevel: 0, //index of enemyArmies
 	battlefield: false,
 	battleReports: [],
+	ownNuke: false,
 	nukeCooldown: 0,
 
 	achievements: [],
@@ -96,8 +98,8 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [0, 1, 1],
-	support: [0, 1, 1],
+	version: [0, 2, 0],
+	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
 	war: War(),
@@ -386,7 +388,7 @@ let game = {
 		maxed: function() {//there are all buildings && all of them have lvl === maxLvl
 			if(s.build.length === Object.keys(buildings).length &&
 				s.build.reduce((and, item) => (and && (item.lvl === buildings[item.id].maxLvl)), true)
-				) {
+			) {
 				game.achieve('maxed');
 			}
 		}

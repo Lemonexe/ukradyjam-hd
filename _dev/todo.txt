@@ -1,7 +1,6 @@
 >>> ŠTURM <<<
-CANVAS BATTLEFIELD
-	canvas directive: http://embed.plnkr.co/c13ZPW/
-JUICY PARTICLE EFFECTS
+	tutoriál
+	Battle reports - unit details (rozbalit tabulku)
 
 NUKE možné koupit jen jednou za rok (5 min = 30 cyklů), skladovat lze pouze jeden
 	zkušebna sníží recharge rate na nuke (za zachování vysoké ceny)
@@ -11,14 +10,16 @@ NUKE možné koupit jen jednou za rok (5 min = 30 cyklů), skladovat lze pouze j
 finish achievments
 	add: něco za návrat po dlouhé absenci - po dni, po týdnu, po roce
 
-lepší dragging
+lepší dragging -> achievement multi
 	https://docs.angularjs.org/guide/directive
 		>chapter Creating a Directive that Adds Event Listeners
 
 TODO ASSETS:
+	favicon
 	sklad: přidat nápis #amazing
 	? REMAKE slon
 	? REMAKE Palác
 	? REMAKE Kostel
 	ikonka pro island / city switch?
 	? REMAKE battle background
+	předělat obra aby držel ceduli rukama

@@ -14,6 +14,9 @@ window.onbeforeunload = function() {
 	saveService.save();
 };
 
+//preload images
+window.onload = imgPreload;
+
 //object with functions concerning dragging buildings around
 let drag = {
 	clientX: 0,
@@ -52,9 +55,18 @@ Number.prototype.withSign = function() {
 	return n > 0 ? ('+' + s) : s;
 };
 
-const saveService = {
+let saveService = {
 	//save game to local storage
-	save: () => s.running && localStorage.setItem('savegame', JSON.stringify(s)),
+	save: function() {
+		if(!s.running) {return;}
+		//check if the last save is from the a different application instance = if initial timestamps clash (they're basically instance ID)
+		//emit a warning if this is the 2nd time it clashed (thus ignore clash from loading a save)
+		let data = localStorage.getItem('savegame');
+		data && JSON.parse(data).timestampInit !== s.timestampInit && (saveService.clash++) &&
+			(saveService.clash >= 2) && s.messages.push(['Ukradyjam:HD je otevřen ve více než jednom panelu.',
+				'To vám rozhodně nezvýší těžbu surovin, proto raději zavřete všechny kromě toho, který plánujete hrát ;-)']);
+		localStorage.setItem('savegame', JSON.stringify(s));
+	},
 
 	//load game from local storage and perform iterations. Return true or false = whether there was a savegame a successfully loaded
 	load: function() {
@@ -97,5 +109,21 @@ const saveService = {
 			localStorage.removeItem('savegame');
 			location.reload();
 		}
-	}
+	},
+
+	//number of application instance ID clashes, see save
+	clash: 0,
 };
+
+//these images will be used in canvas, and therefore need to be preloaded
+let imgs = {battle: 'res/env/BATTLE.png'};
+function imgPreload() {
+	for(let k in units) {
+		imgs[k] = 'res/unit/' + units[k].img;
+	}
+	for(let k in imgs) {
+		let newImage = new Image()
+		newImage.src = imgs[k];
+		imgs[k] = newImage;
+	}
+}

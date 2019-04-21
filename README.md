@@ -21,7 +21,7 @@ Téměř veškeré HTML je v **index.html**, veškeré statické CSS je v **app/
 `s`, definovaný pomocí factory `S`, obsahuje veškerý stav aplikace - který se zase nenachází nikde jinde než zde. Právě tento objekt je tedy ukládán a načítán přes Local Storage  
 `game` obsahuje téměř veškerou funkcionalitu samotné hry - jedná se tedy o model aplikace, avšak bez stavu
 
-**app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto factory `War`. Její instance je zařazena do objektu `game`
+**app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto factory `War`. Její instance je zařazena do objektu *game*. Též se zde nachází direktiva `battleCanvas`, která řídí časovač boje a propojuje *war* s příslušným canvas elementem.
 
 **app/data.js** obsahuje konstantní data pro hru:  
 `consts` různé obecné parametry  

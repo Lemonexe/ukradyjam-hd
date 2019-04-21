@@ -6,6 +6,9 @@ app.directive('escapeWin', function() {return {restrict: 'E', template: '<div cl
 //directive for generic (not type specific) content on a building detail page
 app.directive('buildingDetails', function() {
 	return {
+		restrict: 'E',
+		scope: {key: '='},
+		templateUrl: 'app/ng/buildingDetails.html',
 		controller: ['$scope', function($scope) {
 			$scope.buildings = buildings;
 			$scope.icons = consts.surAliases;
@@ -20,18 +23,16 @@ app.directive('buildingDetails', function() {
 				game.upgradeBuilding(key);
 				update();
 			};
-		}],
-		restrict: 'E',
-		scope: {
-			key: '='
-		},
-		templateUrl: 'app/ng/buildingDetails.html'
+		}]
 	};
 });
 
 //directive for a slider to distribute workers
 app.directive('resourceSlider', function() {
 	return {
+		restrict: 'E',
+		scope: {i: '='},
+		templateUrl: 'app/ng/resourceSlider.html',
 		controller: ['$scope', function($scope) {
 			$scope.s = s;
 			$scope.icons = consts.surAliases;
@@ -42,18 +43,16 @@ app.directive('resourceSlider', function() {
 				s.pop[0] = s.pop[0] + s.pop[i] - $scope.pop;//set taxpayers
 				s.pop[i] = $scope.pop;//set miners
 			};
-		}],
-		restrict: 'E',
-		scope: {
-			i: '='
-		},
-		templateUrl: 'app/ng/resourceSlider.html'
+		}]
 	};
 });
 
 //directive for the whole trading interface
 app.directive('tradeSlider', function() {
 	return {
+		restrict: 'E',
+		scope: {},
+		templateUrl: 'app/ng/tradeSlider.html',
 		controller: ['$scope', function($scope) {
 			$scope.status = '';
 			$scope.suroviny = consts.surFullDescription;
@@ -95,16 +94,16 @@ app.directive('tradeSlider', function() {
 				$scope.percent = 50;
 				$scope.eff > 1 && game.achieve('ecozmrd');
 			};
-		}],
-		restrict: 'E',
-		scope: {},
-		templateUrl: 'app/ng/tradeSlider.html'
+		}]
 	};
 });
 
 //directive for generic training interface
 app.directive('training', function() {
 	return {
+		restrict: 'E',
+		scope: {building: '='},
+		templateUrl: 'app/ng/training.html',
 		controller: ['$scope', function($scope) {
 			$scope.icons = consts.surAliases;
 			$scope.units = {};
@@ -160,11 +159,6 @@ app.directive('training', function() {
 				id === 'trj' && n > 0 && game.achieve('trojan');
 				$scope.ranges[id] = 0;
 			};
-		}],
-		restrict: 'E',
-		scope: {
-			building: '='
-		},
-		templateUrl: 'app/ng/training.html'
+		}]
 	};
 });

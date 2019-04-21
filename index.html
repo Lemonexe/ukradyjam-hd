@@ -14,11 +14,11 @@
 		</script>
 		<script src="libs/angular.min.js"></script>
 		<script src="app/misc.js" type="text/javascript"></script>
+		<script src="app/data.js" type="text/javascript"></script>
+		<script src="app/dataWis.js" type="text/javascript"></script>
 		<script src="app/middle.js" type="text/javascript"></script>
 		<script src="app/war.js" type="text/javascript"></script>
 		<script src="app/game.js" type="text/javascript"></script>
-		<script src="app/data.js" type="text/javascript"></script>
-		<script src="app/dataWis.js" type="text/javascript"></script>
 		<script src="app/ng/directives.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="app/style.css">
 	</head>
@@ -125,15 +125,16 @@
 				<img src="res/env/prod_syra.png" ng-style="islandPos('syra')" ng-click="accessMine('islandSyra')" title="Krávy" class="clickImg">
 				<img src="res/env/prod_pivo.png" ng-style="islandPos('pivo')" ng-click="accessMine('islandPivo')" title="Pivní plošina" class="clickImg">
 
-				<img src="res/env/polis_4.png" ng-style="islandPos('myPolis')" ng-click="tab('city')" class="clickImg">
+				<img ng-src="res/env/polis_{{polisIcon()}}.png" ng-style="islandPos('myPolis')" ng-click="tab('city')" class="clickImg">
 				<span ng-style="islandPos('myPolisName')" class="strong clickImg" ng-click="tab('city')">{{s.name}}</span>
-				<img src="res/env/polis_1.png" ng-style="islandPos('enemyPolis')" ng-click="tab('islandPolis')" class="clickImg">
-				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">{{s.battlefield ? '🔥' : ''}}Polis</span>
+				<img src="res/env/polis_E.png" ng-style="islandPos('enemyPolis')" ng-click="tab('islandPolis')" class="clickImg">
+				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">{{s.battlefield ? '🔥' : '&nbsp;'}}Polis</span>
 			</div>
 
 		<!-- BATTLE -->
-			<div ng-switch-when="battle" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'battle'])">
-				battle
+			<div ng-switch-when="battle" ng-style="mergeStyles(['gameWidth', 'gameHeight'])" style="overflow: hidden">
+				<escape></escape>
+				<canvas width="600" height="600" ng-style="mergeStyles(['gameWidth', 'gameHeight'])" battle-canvas></canvas>
 			</div>
 
 		<!-- ADVISOR SCREEN TABS -->
@@ -182,6 +183,7 @@
 				<div ng-if="s.battlefield">
 					<p class="strong" ng-click="tab('battle')">🔥 <span class="fakeLink">Právě probíhá bitva!</span></p>
 					<p class="fakeLink tip" title="Poslat všechny dostupné jednotky do bitvy" ng-click="game.war.reinforceBattle()">Posílit bitvu</p>
+					<p class="fakeLink tip" title="Prohrát bitvu a zachránit zbývající jednotky" ng-click="game.war.surrender()">Kapitulace</p>
 				</div>
 				<hr>
 				<div ng-if="ctrl2.generalView">
@@ -204,7 +206,15 @@
 				</div>
 				<div ng-if="!ctrl2.generalView">
 					<p><span class="strong">Záznamy bitev</span> <a class="fakeLink" ng-click="ctrl2.generalView = true">zobrazit přehled armády</a></p>
-					<p>Nic</p>
+					<ul><li ng-repeat="report in s.battleReports">
+						<div ng-if="report.victory">
+							<span style="font-weight: bold; color: #0000bb;">Vítězství!</span><br> Rozdrtili jsme armádu Polisu (úroveň {{report.lvl}}) za {{report.cycles}} kol.<br>
+							Vydrancováno: <span ng-repeat="i in icons"><img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">{{report.dranc[$index].toFixed(0)}}&nbsp;</span>
+						</div>
+						<div ng-if="!report.victory">
+							<span style="font-weight: bold; color: #bb0000;">Porážka!</span><br> Polis (úroveň {{report.lvl}}) rozdrtil naši armádu za {{report.cycles}} kol.
+						</div>
+					</li></ul>
 				</div>
 			</div>
 
@@ -410,6 +420,7 @@
 				<div ng-if="s.battlefield">
 					<p class="strong" ng-click="tab('battle')">🔥 <span class="fakeLink">Právě probíhá bitva!</span></p>
 					<p class="fakeLink tip" title="Poslat všechny dostupné jednotky do bitvy" ng-click="game.war.reinforceBattle()">Posílit bitvu</p>
+					<p class="fakeLink tip" title="Prohrát bitvu a zachránit zbývající jednotky" ng-click="game.war.surrender()">Kapitulace</p>
 				</div>
 			</div>
 
