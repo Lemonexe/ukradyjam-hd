@@ -10,7 +10,8 @@ let S = () => ({
 		window: 'intro',
 		tab: 'city',
 		parentTab: 'city', //city or island
-		zoom: 600
+		zoom: 600,
+		drawBattleGrid: false
 	},
 
 	//initial tick, last tick, tick count
@@ -126,6 +127,8 @@ let game = {
 			if(s.sur[j] >= storage) {
 				s.sur[j] = storage;
 				overflow[j] = true;
+				s.pop[0] += s.pop[j];
+				s.pop[j] = 0;
 			}
 		});
 
@@ -188,7 +191,7 @@ let game = {
 	//activate a one time warning
 	singleUseWarn: function(which) {
 		let warnings = {
-			warnOverflow: ['Skladovací kapacita je naplněna, je třeba dostavět sklad!', 'Toto varování už nebude znovu zobrazeno.'],
+			warnOverflow: ['Skladovací kapacita je naplněna, je třeba dostavět sklad (po vynálezu Logistiky v odvětví ekonomiky). Dělníci byli staženi.', 'Toto varování už nebude znovu zobrazeno.'],
 			warnPopLimit: ['Populační limit naplněn, je třeba vylepšit radnici!', 'Toto varování už nebude znovu zobrazeno.'],
 			warnUnhappy: ['Vygebenost je nulová, takže populace nebude růst, a při velmi nízké hodnotě bude i klesat!', 'Toto varování už nebude znovu zobrazeno.'],
 		};

@@ -8,6 +8,7 @@ const consts = {
 	baseRateWP: 4, //základní rychlost výzkumu, škola posiluje
 	tax: 3, //base money gain per taxpayer
 	wage: 3, //base money loss per worker
+	goldValue: 6, //exchange rate of resources to gold
 	baseSklad: 1e3,
 
 	mirCountdown: 8, //duration of miracle
@@ -22,6 +23,7 @@ const consts = {
 	groundUnits: ['kop', 'hop', 'luk', 'baz', 'sln', 'trj', 'obr'],
 
 	//misc
+	backAchieve: 24*3600e3,
 	carnageAchieve: 100
 };
 
@@ -227,14 +229,16 @@ const achievements = {
 		flavor: 'Půda je nyní promáčená krví synů Řecka, kteří zcela zbytečně položili životy na poli válečném. Historie nikdy nezapomene na tato jatka.'},
 nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
 		flavor: 'Novoroční ohňostroje mění svět v kouřící ruiny. A taky plaší domácí mazlíčky!!!'},
-	budoucnost: {name: 'My žijeme v roce 3019', description: 'vynalézt všechny výzkumy',
+	budoucnost: {name: 'My žijeme v roce ' + (new Date().getFullYear()), description: 'vynalézt všechny výzkumy',
 		flavor: 'Tak dlouho jsme se snažili dosáhnout utopických vizí zářných zítřků, a teď v té neuskutečnitelné budoucnosti konečně žijeme!'},
 	maxed: {name: 'Nepodceňujte online závislost', description: 'vylepšit všechny budovy na maximum',
 		flavor: 'Tohle není normální.'},
 //SECRET - nezobrazují se vůbec, než je hráč odemkne
-sparta: {secret: true, name: 'This is SPARTAAAAA!', description: 'prohrát bitvu pouze s hoplity',
+	back: {secret: true, name: 'I\'LL BE BACK', description: 'vrátit se po 24 hodinách neaktivity',
+		flavor: 'Ano, váš účet stále ještě existuje, ačkoliv v některých jiných hrách by již dávno mohl být smazán za neaktivitu!'},
+	sparta: {secret: true, name: 'This is SPARTAAAAA!', description: 'prohrát bitvu pouze s hoplity',
 		flavor: '300 naolejovaných svalnatců statečně čelí všem armádám světa a třeba i oslizlým ufonům z jiné dimenze - již bry i ve vašich amfiteátrech.'},
-blitz: {secret: true, name: 'Blitzkrieg', description: 'vyhrát bitvu pouze se stroji', //(trj, obr, bal, gyr)
+	blitz: {secret: true, name: 'Blitzkrieg', description: 'vyhrát bitvu pouze se stroji', //(trj, obr, bal, gyr)
 		flavor: 'Válečný stroj naolejovaný olivovým olejem za sebou zanechá jen ruiny a mrtvoly!'},
 	stack: {secret: true, name: 'Stack Overflow', description: 'naplnit sklad k prasknutí', //(všechny 4 suroviny)
 		flavor: 'runtime error: out of memory'},

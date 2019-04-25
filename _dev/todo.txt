@@ -1,14 +1,16 @@
 >>> ŠTURM <<<
-	tutoriál
-	Battle reports - unit details (rozbalit tabulku)
+	merge groups - když je o 1 políčko vpřed stejný druh jednotky, tak se "přelijou" dopředu
+	bug s posledním nepřítelem?
+	tutoriál (asi jako nový tab kde budou static images)
+	Battle reports - unit details (rozbalit tabulku), možnost smazat zprávu
 
 NUKE možné koupit jen jednou za rok (5 min = 30 cyklů), skladovat lze pouze jeden
 	zkušebna sníží recharge rate na nuke (za zachování vysoké ceny)
 	nukleární tlačítko bude přímo v bitevním screenu, po stisknutí se kurzor změní na crosshair
 	při prvním použití popup, který informuje, že mám kliknout na bitevní pole
+		achievement nuke
 
 finish achievments
-	add: něco za návrat po dlouhé absenci - po dni, po týdnu, po roce
 
 lepší dragging -> achievement multi
 	https://docs.angularjs.org/guide/directive

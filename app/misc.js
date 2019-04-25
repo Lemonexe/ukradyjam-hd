@@ -14,6 +14,8 @@ window.onbeforeunload = function() {
 	saveService.save();
 };
 
+window.onerror = function(err) {alert('Došlo k neočekávané chybě aplikace:\n' + err);}
+
 //preload images
 window.onload = imgPreload;
 
@@ -89,6 +91,7 @@ let saveService = {
 			let diff = Date.now() - data.timestamp;
 			let cycles = Math.floor(diff / consts.dt);
 			if(cycles <= 0) {return true;}
+			cycles >= consts.backAchieve/consts.dt && game.achieve('back');
 
 			for(let i = 0; i < cycles; i++) {
 				game.tick();
@@ -104,11 +107,9 @@ let saveService = {
 
 	//delete local save
 	purge: function() {
-		if(confirm('Opravdu chcete smazat veškerá vaše data v této hře?')) {
-			window.onbeforeunload = null;
-			localStorage.removeItem('savegame');
-			location.reload();
-		}
+		window.onbeforeunload = null;
+		localStorage.removeItem('savegame');
+		location.reload();
 	},
 
 	//number of application instance ID clashes, see save

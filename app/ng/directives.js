@@ -36,13 +36,10 @@ app.directive('resourceSlider', function() {
 		controller: ['$scope', function($scope) {
 			$scope.s = s;
 			$scope.icons = consts.surAliases;
-			$scope.pop = s.pop[$scope.i];//workers of mine 'i'
 
-			//distribute workers in s.pop according to the changed ng-model 'pop'
-			$scope.distributeWorker = function(i) {
-				s.pop[0] = s.pop[0] + s.pop[i] - $scope.pop;//set taxpayers
-				s.pop[i] = $scope.pop;//set miners
-			};
+			//getter / setter function to distribute workers in s.pop
+			//WARNING: if you read the following line, you might consequently need to bleach your eyes
+			$scope.distributeWorker = (newPop) => (typeof newPop === 'number') ? (s.pop[0] += s.pop[$scope.i] - (s.pop[$scope.i] = newPop)) : s.pop[$scope.i];
 		}]
 	};
 });
@@ -59,16 +56,18 @@ app.directive('tradeSlider', function() {
 			$scope.selected = 0;
 			$scope.percent = 50;
 			$scope.eff = game.eff().obchod;
+			$scope.rate = consts.goldValue; //exchange rate of resources to gold
 
 			//the key function, which converts percentage of slider to values of how much to sell/buy -> returns [gold, resource]
 			$scope.calculate = function() {
 				let p = $scope.percent;
 				let i = $scope.selected + 1; //index of s.sur
-				let e =  game.eff().obchod;
+				let e = game.eff().obchod;
+				let r = $scope.rate;
 				$scope.eff = e;
 				let j = (p-50)/50; //multiplier between -1 and 1
 				//maximum of 'i' that can be bought is limited either by available money, or by free storage capacity for 'i'
-				let maxGold = s.sur[0].positify()*e/3;
+				let maxGold = s.sur[0].positify()*e/r;
 				let freeStorage = game.storage() - s.sur[i];
 				let maxBuy = Math.min(maxGold, freeStorage);
 				//maximum that can be sold = what player has
@@ -82,8 +81,8 @@ app.directive('tradeSlider', function() {
 				
 				//(slider is on the right) ? BUY : SELL as [zlato, sur]
 				return (p > 50) ?
-					[-maxBuy /e*j*3, maxBuy *j] :
-					[-maxSell*e*j*3, maxSell*j];
+					[-maxBuy /e*j*r, maxBuy *j] :
+					[-maxSell*e*j*r, maxSell*j];
 			};
 
 			//perform trade

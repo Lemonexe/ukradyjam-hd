@@ -27,7 +27,7 @@
 	<span class="fakeLink" ng-click="window('intro2')">Úvod</span>
 	<span class="fakeLink" ng-click="window('achievements')">Achievmenty</span>
 	<span class="fakeLink" ng-click="window('options')">Nastavení</span>
-	<span>Verze {{version.join('.')}}</span>
+	<span class="fakeLink" ng-click="window('versions')">Verze {{version.join('.')}}</span>
 </div>
 
 <div ng-repeat="m in s.messages track by $index" class="popup" ng-style="getPopupStyle($index)">
@@ -50,7 +50,7 @@
 
 	<div ng-switch-when="achievements" ng-style="mergeStyles(['containerHeight', 'gameWidth'])" id="achievements">
 		<escape-win></escape-win>
-		<h1>Achievements 🏆</h1>
+		<h1>Achievementy 🏆</h1>
 		<div ng-if="getAchievementGoals().length > 0"><p>Tyto úspěchy můžete splnit: <a class="fakeLink" ng-click="showTODO = !showTODO">{{showTODO ? 'Skrýt' : 'Vypsat'}}</a></p>
 		<ul ng-if="showTODO">
 			<li ng-repeat="g in getAchievementGoals()">{{g}}</li>
@@ -68,7 +68,17 @@
 		<escape-win></escape-win>
 		<h1>Nastavení 🔧</h1>
 		<p>Velikost okna: <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
-		<p><input type="button" onclick="saveService.purge()" value="Smazat save"></p>
+		<p>Zobrazit mřížku bitevního pole: <input type="checkbox" ng-model="ctrl.drawBattleGrid"></p>
+		<p><input type="button" onclick="confirm('Opravdu chcete smazat veškerá vaše data v této hře?') && saveService.purge()" value="Smazat save"></p>
+	</div>
+
+	<div ng-switch-when="versions">
+		<escape-win></escape-win>
+		<h1>Historie Ukradyjamu 📜</h1>
+		<ul>
+			<!--<li><b>1.0.0</b> (??.04.2019) oficiální release</li>-->
+			<li><b>0.2.0</b> (21.04.2019) přidána válka</li>
+		</ul>
 	</div>
 
 	<div ng-switch-when="game">
@@ -144,7 +154,7 @@
 				<p>Starosta ti pomůže s vyděláváním prachů a managementem špinavého plebsu.</p>
 				<p><b>Finance</b></p>
 				<table class="numTable">
-					<tr class="tip" title="poplatníci · 3 · účinnost výběru"><td>Daňový výběr:</td>
+					<tr class="tip" title="daňoví poplatníci · 3 · účinnost výběru"><td>Daňový výběr:</td>
 						<td>{{demMulti([s.pop[0], consts.tax], [game.eff().prachy])}}</td>
 					</tr>
 					<tr class="tip" title="dělníci · 3 · výše platů"><td>Platy dělníků:</td>

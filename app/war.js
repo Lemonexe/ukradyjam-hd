@@ -355,7 +355,7 @@ let War = () => ({
 		ctx.clearRect(0, 0, 600, 600);
 		ctx.drawImage(imgs.battle, 0, 0);
 
-		//this.drawGrid(ctx);
+		s.ctrl.drawBattleGrid && this.drawGrid(ctx);
 		this.drawSide(ctx);
 		this.drawMap(ctx);
 		this.drawEffects(ctx);

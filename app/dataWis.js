@@ -19,9 +19,9 @@ const research = [
 		s.p.drevo += 0.20;
 	}},
 {id: 'EcoA2', class: 'Eco', name: 'Bohatství', cost: 100,
-	teaser: 'Zatím neznáme nic než dřevo a peníze – jíme klobásy z dřevěných pilin a pijeme dřevný líh. To není úplně zdravé - je čas obohatit náš život o nové substance!',
+	teaser: 'Zatím neznáme nic než dřevo a peníze – jíme klobásy z dřevěných pilin a pijeme dřevný líh. To není úplně zdravé – je čas obohatit náš život o nové substance!',
 	result: 'Nová filozofická studie podložená chemickým rozborem ukazuje, že se vesmír skládá z 5 živlů: nejen peníze a dřevo, ale také kamení, sýra a pivo.',
-	effect: 'odemknuta těžba kamení, sýry a piva. bonus 100 ks od každého',
+	effect: 'odemknuta těžba kamení, sýry a piva. Zdarma bonus 100 ks od každého',
 	reqs: ['EcoA1'], f: function() {
 		s.p.unlockLuxus = true;
 		s.sur[2] += 100;
@@ -370,7 +370,7 @@ const research = [
 	}},
 {id: 'ArmB6', class: 'Arm', name: 'Měchy na vzduch', cost: 22500,
 	teaser: 'To je ale šílený nápad – měchy na vzduch prý umožní potápěčům setrvat pod vodou a dobýt tak mořské hlubiny. Kdyby se to však povedlo, znamenalo by to převrat v námořním boji.',
-	result: 'Dostavil se nečekaný výsledek, měchy sice nelze využít na potápění, ale zase se umí VZNÁŠET! Dílna může tedy začít chrlit létající válečné stroje. Zmizte, ptáci - vzdušný prostor je náš!',
+	result: 'Dostavil se nečekaný výsledek, měchy sice nelze využít na potápění, ale zase se umí VZNÁŠET! Dílna může tedy začít chrlit létající válečné stroje. Zmizte, ptáci – vzdušný prostor je náš!',
 	effect: 'odemknut balón (dílna)',
 	reqs: ['ArmB5', 'ArmC2'], f: function() {
 		s.p.unlockUnit.push('bal');
@@ -383,7 +383,7 @@ const research = [
 		s.p.unlockUnit.push('gyr');
 	}},
 {id: 'ArmD1', class: 'Arm', name: 'Povinná vojna', cost: 44000,
-	teaser: 'Další buzerace občanů, tentokrát pro vojenské účely! Nevím, jestli budou rekruti bojeschopní, ale to je jedno - kvantita nad kvalitou, vždy a všude!',
+	teaser: 'Další buzerace občanů, tentokrát pro vojenské účely! Nevím, jestli budou rekruti bojeschopní, ale to je jedno – kvantita nad kvalitou, vždy a všude!',
 	result: 'Každý dospělý občan je zbuzerován a vycvičen, aby uměl salutovat, obléct si uniformu a vypotácet se ze stanu na ranní nástup. To značně pomůže produkci kanonenfutru v případě války.',
 	effect: 'cena jednotek -12%, síla jednotek -10%',
 	reqs: ['ArmB7', 'ArmC3'], f: function() {

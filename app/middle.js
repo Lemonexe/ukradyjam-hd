@@ -215,7 +215,8 @@ app.controller('middle', function($scope, $interval) {
 
 	//this function will be fired at the end of controller - try to load a local save and initialize game
 	$scope.autoLoad = function() {
-		saveService.load() && ($scope.s = s) && ($scope.ctrl = s.ctrl) && $scope.initGame();
+		try {saveService.load() && ($scope.s = s) && ($scope.ctrl = s.ctrl) && $scope.initGame();}
+		catch(err) {confirm('FATÁLNÍ CHYBA APLIKACE!\nNejspíše je způsobená nekompatibilním savem. Přejete si save smazat?') && saveService.purge();}
 	};
 
 	//try to access mines

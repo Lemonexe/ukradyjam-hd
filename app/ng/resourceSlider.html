@@ -1,6 +1,6 @@
 <p>
 	Zde můžeme naše občany vhodně rozdělit na daňové poplatníky a dělníky:<br>
 	<img src="res/GUI/icon_zlato.png">{{s.pop[0]}}&nbsp;
-	<input type="range" class="distributeSlider" step="1" min="0" max="{{s.pop[0] + s.pop[i]}}" ng-model="pop" ng-change="distributeWorker(i)">
+	<input type="range" class="distributeSlider" step="1" min="0" max="{{s.pop[0] + s.pop[i]}}" ng-model="distributeWorker" ng-model-options="{getterSetter: true}">
 	&nbsp;{{s.pop[i]}}<img ng-src="res/GUI/icon_{{icons[i]}}.png">
 </p>
