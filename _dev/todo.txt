@@ -12,10 +12,6 @@ NUKE možné koupit jen jednou za rok (5 min = 30 cyklů), skladovat lze pouze j
 
 finish achievments
 
-lepší dragging -> achievement multi
-	https://docs.angularjs.org/guide/directive
-		>chapter Creating a Directive that Adds Event Listeners
-
 TODO ASSETS:
 	favicon
 	sklad: přidat nápis #amazing
@@ -25,3 +21,4 @@ TODO ASSETS:
 	ikonka pro island / city switch?
 	? REMAKE battle background
 	předělat obra aby držel ceduli rukama
+	? draggable stromy a ovce jako budovy

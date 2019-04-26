@@ -23,6 +23,7 @@ const consts = {
 	groundUnits: ['kop', 'hop', 'luk', 'baz', 'sln', 'trj', 'obr'],
 
 	//misc
+	maxMessages: 20,
 	backAchieve: 24*3600e3,
 	carnageAchieve: 100
 };
@@ -244,7 +245,7 @@ nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hro
 		flavor: 'runtime error: out of memory'},
 	exodus: {secret: true, name: 'Půlnoční království', description: 'vyvolat exodus obyvatel', //(obyvatelstvo <=0, vygebenost <= 0)
 		flavor: 'Asociální politika dokázala z naší říše vystrnadit i ty nejservilnější občany.'},
-multi: {secret: true, name: 'Multifunkční středisko', description: 'nacpat všechny budovy na jedno místo', //(všechny budovy, co mám (ale alespoň 3), dát na radnici, aby ji překryly)
+	multi: {secret: true, name: 'Multifunkční středisko', description: 'nacpat všechny budovy na jedno místo', //(všechny budovy, co mám (ale alespoň 3), dát na radnici, aby ji překryly)
 		flavor: 'Kdo vyhraje: pečlivě promyšlený urbanistický plán, nebo drag & drop?'},
 	exec: {secret: true, name: 'Exekučně zabaveno', description: 'přivést stát ke krachu',
 		flavor: 'Národní rozpočet je úplně rozkradený a ubozí občané jsou utiskováni exekuční mafií. Zlatý komunisti ciwe, tohle tenkrát nebylo!'},

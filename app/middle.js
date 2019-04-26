@@ -107,7 +107,7 @@ app.controller('middle', function($scope, $interval) {
 	};
 
 	//this is only triggered on game initiation, not on resize, that'd be annoying
-	$scope.autoresize = function() {
+	function autoresize() {
 		let dim = getWindowDimensions();
 		$scope.zoomOptions.forEach(function(item) {
 			if(
@@ -118,7 +118,7 @@ app.controller('middle', function($scope, $interval) {
 		});
 		$scope.resize();
 	};
-	$scope.autoresize();
+	autoresize();
 
 	//'i' is just an integer in this function
 	$scope.getPopupStyle = function(i) {
@@ -136,12 +136,57 @@ app.controller('middle', function($scope, $interval) {
 		return {'position': 'absolute', 'top': t + 'px', 'left': l + 'px', 'width': w + 'px', 'height': w + 'px'};
 	};
 
+	//return array of buildings sorted ascending by their y position
 	$scope.sortBuildings = function() {
 		return s.build.sort(function(a, b) {
-			if(!a.draggable) {return 1;}
+			//non-draggable buildings are always on top
+			if(!a.draggable) {return -1;}
 			if(!b.draggable) {return 1;}
 			return a.pos[0] - b.pos[0];
 		});
+	};
+
+	//current state of dragging: pixel coordinates, building coordinates, building reference
+	let drag = {startX: 0, startY: 0, startPosX: 0, startPosY: 0, b: false};
+
+	//event listener for move mouse on the entire body. Acts only when a building is dragged
+	$scope.mouseMove = function(event) {
+		if(!drag.b || !drag.b.draggable) {return;}
+		//calculate total movement vector in pixels
+		let dx = event.clientX - drag.startX;
+		let dy = event.clientY - drag.startY;
+		//transform pixel vector to building coordinates
+		drag.b.pos[0] = drag.startPosY + dy/zf();
+		drag.b.pos[1] = drag.startPosX + dx/zf();
+		//apply coordinate constraints
+		let min = 32; //TODO other draggable objects?
+		let max = 468;
+		drag.b.pos = drag.b.pos.map(a => (a > max ? max : (a < min ? min : a)));
+	}
+
+	//event listener for move mouse on the entire body - finishes dragging and can click on the building
+	$scope.mouseUp = function(event) {
+		if(!drag.b) {return;}
+		//evaluate whether the dragging was short enough to qualify as a click
+		//if click lasted less than 300 ms and less than 10 pixels was traveled, then open the building tab
+		let comp = (a,b) => Math.abs(a-b) < 10;
+		if(Date.now() - drag.clickStart < 300 &&
+			comp(drag.startX, event.clientX) && comp(drag.startY, event.clientY)
+		) {$scope.tab(drag.b.id);}
+		//finish dragging
+		drag.b = false;
+		game.checkAchievement.multi();
+	}
+
+	//event listener for mouse down on building element - starts dragging
+	$scope.buildingMouseDown = function(event, b) {
+		event.preventDefault();
+		drag.b = b;
+		drag.startX = event.clientX;
+		drag.startY = event.clientY;
+		drag.startPosY = b.pos[0];
+		drag.startPosX = b.pos[1];
+		drag.clickStart = Date.now();
 	};
 
 	//generate ng-style for island images, which are all static images, 'arg' specifies which one
@@ -182,7 +227,7 @@ app.controller('middle', function($scope, $interval) {
 	//allow multiline messages - a message is either a string, or an array, so parseMessage turns strings to arrays
 	$scope.parseMessage = m => (typeof m === 'string' ? [m] : m);
 
-	//listen for Esc key press
+	//event listener for 'Esc' key press on the entire body
 	$scope.listen4Esc = function(event) {
 		if(event.keyCode === 27 || event.key === 'Escape') {
 			if(s.messages.length > 0) {s.messages.pop();return;}
@@ -249,16 +294,6 @@ app.controller('middle', function($scope, $interval) {
 		game.buyBuilding(key)
 	};
 
-	//executed from the outside - from drag object
-	$scope.moveBuilding = function(i, dx, dy) {
-		let b = s.build[i];
-		if(!b) {return;}
-		if(!b.draggable) {return;} //this shouldn't happen but sometimes it does. WTF?
-		b.pos[0] += dy/zf();
-		b.pos[1] += dx/zf();
-		b.pos = b.pos.map(a => (a > 468 ? 468 : (a < 32 ? 32 : a)));//lol xD
-	};
-
 	//get available researches in a certain class (from Eco, Pol, Wis, Arm)
 	$scope.getAvailableWis = function(c) {
 		return research.filter(function(item) {
@@ -293,7 +328,7 @@ app.controller('middle', function($scope, $interval) {
 		s.name = newName;
 	};
 
-	//is s.sur[i] in overflow? -> display blinking warning. Gold is never in overflow (i = 1)
+	//is s.sur[i] in overflow? -> display blinking warning. Gold is never in overflow (only i >= 1)
 	$scope.isOverflow = function(i) {
 		return (i !== 0) ? (s.sur[i] >= game.storage()) : false;
 	};

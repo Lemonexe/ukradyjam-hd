@@ -292,23 +292,44 @@ const research = [
 {id: 'ArmA1', class: 'Arm', name: 'Bojový výcvik', cost: 90,
 	teaser: 'Naučme vojáky, kterým koncem se kopí drží a do čeho se má bodat!',
 	result: 'Skvělé! Naše "armáda" už nevypadá jako mateřská školka, ale alespoň jako pouliční gang!',
-	effect: 'síla jednotek +10%',
+	effect: 'síla jednotek +20%',
 	reqs: [], f: function() {
-		s.p.power += 0.10;
+		s.p.power += 0.20;
 	}},
-{id: 'ArmA2', class: 'Arm', name: 'Motivační kouč', cost: 650,
+{id: 'ArmA2', class: 'Arm', name: 'Motivační kouč', cost: 1800,
 	teaser: 'Bojovat se nedá individuálně, vojáci potřebují tvrdé vedení. Určeme proto ty nejvíce arogantní a namyšlené slizouny jako lídry, aby mužstvo nahecovali a popohnali vstříc krvavému masakru!',
 	result: 'Vojáci už mají motivačních proslovů plné zuby, tak se radši bezhlavě vrhají do boje než aby ty kecy museli poslouchat. Účinnost armády je značně zvýšena!',
 	effect: 'síla jednotek +10%',
-	reqs: ['ArmA1'], f: function() {
+	reqs: ['ArmC1'], f: function() {
 		s.p.power += 0.10;
 	}},
-{id: 'ArmA3', class: 'Arm', name: 'Příděl piva', cost: 1800,
+{id: 'ArmA3', class: 'Arm', name: 'Příděl piva', cost: 9500,
 	teaser: 'Vojákům rozdáme před bojem pivo, abychom podpořili jejich agresivitu.',
 	result: 'Ožralí vojáci se sice neumí pořádně trefit do nepřátel, ale zase ztrácí pud sebezáchovy a zapomínají pak dezertovat. Bojová síla našich pluků se tedy značně zvýšila.',
 	effect: 'síla jednotek +10%',
-	reqs: ['ArmA2'], f: function() {
+	reqs: ['ArmC2'], f: function() {
 		s.p.power += 0.10;
+	}},
+{id: 'ArmC1', class: 'Arm', name: 'Konfiskace', cost: 650,
+	teaser: 'Vojáci nyní všechen lup schovávají do kapes a my tedy máme jen to, co neunesou a odpadne jim. Loupež musíme zlegalizovat, a především zorganizovat ku státnímu prospěchu!',
+	result: 'Vojáci jsou zklamaní, že už loupení není takové dobrodružství, ale my můžeme z války přivézt mnoho surovin pro rozvoj města!',
+	effect: 'účinnost drancování +40%',
+	reqs: ['ArmA1'], f: function() {
+		s.p.dranc += 0.40;
+	}},
+{id: 'ArmC2', class: 'Arm', name: 'Káry na brakování', cost: 3000,
+	teaser: 'Drancování je ta nejdůležitější část boje, proto musíme zajistit funkční logistiku vyplundrovaných surovin!',
+	result: 'Skvělé! Intenzita loupení a vykrádání se zlepšila a do našeho města může proudit tučná kořist. Alespoň NĚCO v tomhle státě funguje přesně podle očekávání.',
+	effect: 'účinnost drancování +30%',
+	reqs: ['ArmA2'], f: function() {
+		s.p.dranc += 0.30;
+	}},
+{id: 'ArmC3', class: 'Arm', name: 'Detektor kovu', cost: 29000,
+	teaser: 'Existuje teorie o zvláštním artefaktu posvěceném samotným Hefaistem, který nám umožní hledat skryté poklady v nepřátelských městech!',
+	result: 'Vědci přišli s hyperinflačním protonakadriovým homonitorem, který po náležité termoexaltační evisceraci provede širokospektrální paralytickou analýzu. ABYCHOM MOHLI UKRÁST VÍCE ZLATA!!!',
+	effect: 'účinnost drancování +30%',
+	reqs: ['ArmA3', 'ArmB4'], f: function() {
+		s.p.dranc += 0.30;
 	}},
 {id: 'ArmB1', class: 'Arm', name: 'Luk', cost: 250,
 	teaser: 'Jiná města umí házet nože pomocí klacku! To zní velice nebezpečně, tak proč to nezkusit?',
@@ -321,21 +342,21 @@ const research = [
 	teaser: 'Vědci by rádi zřídili ohrádku s cizokrajnými zvířaty, aby je mohli zevrubně studovat. Prý by to bylo i velice poučné a zábavné pro měšťany. Co je to za blbost, to jim nestačí ovce a krávy?',
 	result: 'Ztřeštěného nápadu vědců se chytli naši vojenští inženýři a zoo přestavěli na velkochov bitevních příšer. Pět tun masa s ohromnými kly se řítí po bojišti vražednou rychlostí – paráda!',
 	effect: 'odemknut slon (kasárna)',
-	reqs: ['ArmB1', 'ArmA2'], f: function() {
+	reqs: ['ArmB1'], f: function() {
 		s.p.unlockUnit.push('sln');
 	}},
 {id: 'ArmB3', class: 'Arm', name: 'Hopliti', cost: 2400,
 	teaser: 'Nový kopiníci budou větší, lepší, hezčí, delší a když se tito tvrdí hoši postaví do hrozivě vypadající formace, určitě hluboce penetrují nepřátelské linie.',
 	result: 'Tyto elitní jednotky s nablýskanou zbrojí jsou zlatým hřebem každé vojenské přehlídky!',
 	effect: 'odemknut hoplit (kasárna)',
-	reqs: ['ArmB2', 'ArmA3'], f: function() {
+	reqs: ['ArmB2'], f: function() {
 		s.p.unlockUnit.push('hop');
 	}},
 {id: 'ArmB4', class: 'Arm', name: 'Sochařství', cost: 5500,
 	teaser: 'Sochy jsou krásné a vznešené, měli bychom jimi zvelebit naši armádu. Třeba tak usmíříme své sveřepé soky!',
 	result: 'Dřevěné koně lze vydávat za umělecké dílo, takže můžeme část výdajů na armádu zahrnout pod kulturu a náš rozpočet hned vypadá přívětivěji! V útrobách koní zatím čekají chrabří bratři ve zbrani.',
 	effect: 'odemknuta dílna a v ní trojský kůň',
-	reqs: ['ArmB3'], f: function() {
+	reqs: ['ArmB3', 'ArmC2'], f: function() {
 		s.p.unlockBuild.push('dilna');
 		s.p.unlockUnit.push('trj');
 	}},
@@ -347,32 +368,11 @@ const research = [
 		s.p.unlockBuild.push('zkusebna');
 		s.p.unlockUnit.push('baz');
 	}},
-{id: 'ArmC1', class: 'Arm', name: 'Konfiskace', cost: 3000,
-	teaser: 'Vojáci nyní všechen lup schovávají do kapes a my tedy máme jen to, co neunesou a odpadne jim. Loupež musíme zlegalizovat, a především zorganizovat ku státnímu prospěchu!',
-	result: 'Vojáci jsou zklamaní, že už loupení není takové dobrodružství, ale my můžeme z války přivézt mnoho surovin pro rozvoj města!',
-	effect: 'účinnost drancování +40%',
-	reqs: ['ArmA3', 'ArmB3'], f: function() {
-		s.p.dranc += 0.40;
-	}},
-{id: 'ArmC2', class: 'Arm', name: 'Káry na brakování', cost: 9500,
-	teaser: 'Drancování je ta nejdůležitější část boje, proto musíme zajistit funkční logistiku vyplundrovaných surovin!',
-	result: 'Skvělé! Intenzita loupení a vykrádání se zlepšila a do našeho města může proudit tučná kořist. Alespoň NĚCO v tomhle státě funguje přesně podle očekávání.',
-	effect: 'účinnost drancování +30%',
-	reqs: ['ArmC1'], f: function() {
-		s.p.dranc += 0.30;
-	}},
-{id: 'ArmC3', class: 'Arm', name: 'Detektor kovu', cost: 29000,
-	teaser: 'Existuje teorie o zvláštním artefaktu posvěceném samotným Hefaistem, který nám umožní hledat skryté poklady v nepřátelských městech!',
-	result: 'Vědci přišli s hyperinflačním protonakadriovým homonitorem, který po náležité termoexaltační evisceraci provede širokospektrální paralytickou analýzu. ABYCHOM MOHLI UKRÁST VÍCE ZLATA!!!',
-	effect: 'účinnost drancování +30%',
-	reqs: ['ArmC2'], f: function() {
-		s.p.dranc += 0.30;
-	}},
 {id: 'ArmB6', class: 'Arm', name: 'Měchy na vzduch', cost: 22500,
 	teaser: 'To je ale šílený nápad – měchy na vzduch prý umožní potápěčům setrvat pod vodou a dobýt tak mořské hlubiny. Kdyby se to však povedlo, znamenalo by to převrat v námořním boji.',
 	result: 'Dostavil se nečekaný výsledek, měchy sice nelze využít na potápění, ale zase se umí VZNÁŠET! Dílna může tedy začít chrlit létající válečné stroje. Zmizte, ptáci – vzdušný prostor je náš!',
 	effect: 'odemknut balón (dílna)',
-	reqs: ['ArmB5', 'ArmC2'], f: function() {
+	reqs: ['ArmB5'], f: function() {
 		s.p.unlockUnit.push('bal');
 	}},
 {id: 'ArmB7', class: 'Arm', name: 'Létající řeznictví', cost: 34000,
@@ -393,8 +393,8 @@ const research = [
 {id: 'ArmGrand', class: 'Arm', name: 'Budoucnost války', cost: 99999,
 	teaser: 'Dovedete si vůbec představit, že se vojáci krvelačně vrhají do bitevní vřavy a poslušně poslouchají rozkazy? To je naše budoucnost!',
 	result: 'Po zuby ozbrojená banda lačnící po krveprolití. Naše válečná mašinerie může dobýt svět!',
-	effect: 'síla jednotek +30%',
+	effect: 'síla jednotek +20%',
 	reqs: ['ArmD1'], f: function() {
-		s.p.power += 0.30;
+		s.p.power += 0.20;
 	}}
 ];

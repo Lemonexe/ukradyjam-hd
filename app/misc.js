@@ -19,26 +19,6 @@ window.onerror = function(err) {alert('Došlo k neočekávané chybě aplikace:\
 //preload images
 window.onload = imgPreload;
 
-//object with functions concerning dragging buildings around
-let drag = {
-	clientX: 0,
-	clientY: 0,
-	allowDrop: function(event) {event.preventDefault();},
-	dragStart: function(event) {
-		this.clientX = event.clientX;
-		this.clientY = event.clientY;
-		event.dataTransfer.setData('text', event.target.getAttribute('index'));
-	},
-	drop: function(event) {
-		event.preventDefault();
-		let i = event.dataTransfer.getData('text');
-		let dx = event.clientX - this.clientX;
-		let dy = event.clientY - this.clientY;
-		angular.element(document).scope().moveBuilding(i, dx, dy);
-		forceDigest();
-	},
-};
-
 //just an exponential (+ optional linear) function
 function expF(x, a, b, c) {
 	c = c ? c : 0;

@@ -22,7 +22,7 @@
 		<script src="app/ng/directives.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="app/style.css">
 	</head>
-	<body ng-keyup="listen4Esc($event)">
+	<body ng-keyup="listen4Esc($event)" ng-mousemove="mouseMove($event)" ng-mouseup="mouseUp($event)">
 <div id="header">
 	<span class="fakeLink" ng-click="window('intro2')">Úvod</span>
 	<span class="fakeLink" ng-click="window('achievements')">Achievmenty</span>
@@ -75,6 +75,8 @@
 	<div ng-switch-when="versions">
 		<escape-win></escape-win>
 		<h1>Historie Ukradyjamu 📜</h1>
+		<p>Tento seznam pouze shrnuje nejvýznamější změny v důležitých verzích. Pokud Vás zajímá zdrojový kód aplikace včetně jeho vývoje,
+			navštivte GitHub <a href="https://github.com/Lemonexe/ukradyjam-hd" target="_blank">repozitář</a>.</p>
 		<ul>
 			<!--<li><b>1.0.0</b> (??.04.2019) oficiální release</li>-->
 			<li><b>0.2.0</b> (21.04.2019) přidána válka</li>
@@ -99,13 +101,13 @@
 		<div id="screen" ng-switch="ctrl.tab" ng-style="screenStyle()">
 
 		<!-- CITY -->
-			<div ng-switch-when="city" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'city'])" ondrop="drag.drop(event)" ondragover="drag.allowDrop(event)">
+			<div ng-switch-when="city" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'city'])">
 				<input type="button" class="switch" ng-click="tab('island')" value="OSTROV">
 				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl2.showBuildingList = !ctrl2.showBuildingList" class="clickImg">
 
 				<!-- existing buildings-->
-				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-click="tab(b.id)" ng-style="getBuildingStyle(b)" title="{{buildings[b.id].name + ' ' + b.lvl}}"
-					draggable="{{b.draggable}}" ondragstart="drag.dragStart(event)" ng-class="{building: b.draggable, clickImg: !b.draggable}" index="{{$index}}">
+				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-style="getBuildingStyle(b)" title="{{buildings[b.id].name + ' ' + b.lvl}}"
+					ng-mousedown="buildingMouseDown($event, b)" ng-class="{building: b.draggable, clickImg: !b.draggable}">
 				
 				<!-- construction interface -->
 				<div id="buildingList" ng-show="ctrl2.showBuildingList" ng-style="style.buildingList">
@@ -439,7 +441,7 @@
 </div>
 
 <div id="footer" ng-style="style.footer">
-	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> a <span class="fakeLink">Martin Mach</span> v roce 2019 za použití <a href="https://angularjs.org/">AngularJS</a>
+	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> a <span class="fakeLink">Martin Mach</span> v roce 2019 za použití <a href="https://angularjs.org/" target="_blank">AngularJS</a>
 </div>
 
 	</body>

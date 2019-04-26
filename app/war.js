@@ -1,6 +1,6 @@
 //Contains:
 //1. War object factory, which contains all functions related to warfare, both model and view
-//2. battleCanvas directive, which executes timeout links the the rendering functions with canvas object
+//2. battleCanvas directive, which executes timeout and links the rendering functions with canvas element
 let War = () => ({
 	//initiate a battle by creating the battle object (state of battlefield)
 	initBattle: function() {
@@ -68,8 +68,7 @@ let War = () => ({
 			//pillaged resources
 			let d = enemyArmies[s.enemyLevel].dranc * game.eff().dranc;
 			let dranc = new Array(5).fill(0).map(s => d * (0.5 + 0.5*Math.random()));
-			dranc[0] = dranc[0]*6; //zlato
-			dranc[1] = dranc[1]*2; //drevo
+			dranc[0] = dranc[0]*consts.goldValue; //more gold than other resources according to a fixed ratio
 			s.messages.push(['VÍTĚZSTVÍ!', `Rozdrtili jsme armádu Polisu (úroveň ${s.enemyLevel+1}) za ${cycles} kol`,
 				`Vydrancováno ${dranc[0].toFixed(0)} zlata, ${dranc[1].toFixed(0)} dřeva, ${dranc[2].toFixed(0)} kamení, ${dranc[3].toFixed(0)} sýry a ${dranc[4].toFixed(0)} piva`]);
 			s.sur = s.sur.map((s,i) => s + dranc[i]);
@@ -479,11 +478,10 @@ let War = () => ({
 					let y = coordY(e.y) + Math.cos(Math.random()*Math.PI*2) * 18 * Math.random();
 					ctx.beginPath();
 					ctx.arc(x, y, 1.5, 0, 2*Math.PI);
-					let color = '';
-					if(e.type === 'shitSplatter') {color = '#c05f00';}
-					else if(e.type === 'explosion') {color = '#e2e41c';}
-					else {color = '#c00000';}
-					ctx.fillStyle = color; ctx.fill();
+					if(e.type === 'shitSplatter') {ctx.fillStyle = '#c05f00';}
+					else if(e.type === 'explosion') {ctx.fillStyle = '#e2e41c';}
+					else {ctx.fillStyle = '#c00000';}
+					ctx.fill();
 				}
 			}
 			//straight line
@@ -510,6 +508,7 @@ let War = () => ({
 	}
 });
 
+//this directive executes timeout and links the rendering functions with canvas element
 app.directive('battleCanvas', function($interval) {
 	return {
 		restrict: 'A',

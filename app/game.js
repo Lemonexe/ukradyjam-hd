@@ -99,7 +99,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [0, 2, 0],
+	version: [0, 2, 2],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -107,6 +107,7 @@ let game = {
 
 	//the central function of this discrete model
 	tick: function() {
+		while(s.messages.length > consts.maxMessages) {s.messages.shift();}
 		s.timestamp = Date.now();
 		s.iteration++;
 	//WP
@@ -388,12 +389,18 @@ let game = {
 			if(key === 'palac') {game.achieve('palac');}
 			else if(key === 'muzeum') {game.achieve('muzeum');}
 		},
-		maxed: function() {//there are all buildings && all of them have lvl === maxLvl
+		//there are all buildings && all of them have lvl === maxLvl
+		maxed: function() {
 			if(s.build.length === Object.keys(buildings).length &&
-				s.build.reduce((and, item) => (and && (item.lvl === buildings[item.id].maxLvl)), true)
-			) {
-				game.achieve('maxed');
-			}
+				s.build.reduce((sum, b) => (sum && (b.lvl === buildings[b.id].maxLvl)), true)
+			) {game.achieve('maxed');}
+		},
+		//achieve if there are at least 4 buildings and all are stacked on one position
+		multi: function() {
+			let comp = (a,b) => Math.abs(a-b) <= 32; //whether coordinates  match
+			if(s.build.length >= 4 && 
+				s.build.reduce((sum, b) => (sum && comp(b.pos[0], s.build[0].pos[0]) && comp(b.pos[1], s.build[0].pos[1])), true)
+			){game.achieve('multi');}
 		}
 	},
 
