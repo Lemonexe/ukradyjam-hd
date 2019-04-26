@@ -9,6 +9,7 @@ let War = () => ({
 		let rows = enemyArmies[s.enemyLevel].rows + 1; //total number of rows on battlefield
 		s.battlefield = {
 			stroke: 0,
+			cycles: 0,
 			//total army that has visited the battlefield
 			logP: this.logArmyObj(s.army),
 			logE: this.logArmyObj(s.armyE),
@@ -59,8 +60,7 @@ let War = () => ({
 		}
 
 		//finish
-		let cycles = Math.ceil(bf.stroke/3);
-		let report = {victory: victory, lvl: s.enemyLevel+1, cycles: cycles, deadP: bf.deadP, deadE: bf.deadE};
+		let report = {victory: victory, lvl: s.enemyLevel+1, cycles: bf.cycles, deadP: bf.deadP, deadE: bf.deadE};
 		if(victory) {
 			game.achieve('GG');
 			(this.armySum(bf.logP) === bf.logP.trj + bf.logP.obr + bf.logP.bal + bf.logP.gyr) && game.achieve('blitz');
@@ -69,19 +69,18 @@ let War = () => ({
 			let d = enemyArmies[s.enemyLevel].dranc * game.eff().dranc;
 			let dranc = new Array(5).fill(0).map(s => d * (0.5 + 0.5*Math.random()));
 			dranc[0] = dranc[0]*consts.goldValue; //more gold than other resources according to a fixed ratio
-			s.messages.push(['VÍTĚZSTVÍ!', `Rozdrtili jsme armádu Polisu (úroveň ${s.enemyLevel+1}) za ${cycles} kol`,
+			s.messages.push(['VÍTĚZSTVÍ!', `Rozdrtili jsme armádu Polisu (úroveň ${s.enemyLevel+1}) za ${bf.cycles} kol`,
 				`Vydrancováno ${dranc[0].toFixed(0)} zlata, ${dranc[1].toFixed(0)} dřeva, ${dranc[2].toFixed(0)} kamení, ${dranc[3].toFixed(0)} sýry a ${dranc[4].toFixed(0)} piva`]);
 			s.sur = s.sur.map((s,i) => s + dranc[i]);
 			report.dranc = dranc;
 
 			//increment or regenerate enemy
-			if(bf.last) {enemyArmies[s.enemyLevel].army = angular.copy(bf.logE);}
-			else {s.enemyLevel++;}
-			s.armyE = enemyArmies[s.enemyLevel].army;
+			if(!bf.last) {s.enemyLevel++;}
+			s.armyE = angular.copy(enemyArmies[s.enemyLevel].army);
 		}
 		else {
 			(this.armySum(bf.logP) === bf.logP.hop) && game.achieve('sparta');
-			s.messages.push(['PORÁŽKA!', `Polis lvl ${s.enemyLevel+1} rozdrtil naši armádu za ${cycles} kol`]);
+			s.messages.push(['PORÁŽKA!', `Polis lvl ${s.enemyLevel+1} zničil naši armádu za ${bf.cycles} kol`]);
 		}
 		s.battlefield = false;
 		s.battleReports.unshift(report);
@@ -169,6 +168,7 @@ let War = () => ({
 		else if(bf.stroke % 3 === 1) {this.stroke2();}
 		else {this.stroke3();}
 		bf.stroke++;
+		bf.cycles = Math.ceil(bf.stroke/3); //just an informative value
 		(Math.ceil(bf.stroke/3) > consts.carnageAchieve) && game.achieve('carnage');
 	},
 
@@ -188,6 +188,20 @@ let War = () => ({
 				if((x < 2 || x > 3) && bf.map[y][x] && !bf.map[y][x+dir]) {
 					bf.map[y][x+dir] = bf.map[y][x];
 					bf.map[y][x] = false;
+				}
+				//try to merge group inward (if there are two adjacent groups of same unit type)
+				else if((x < 2 || x > 3) && bf.map[y][x] && bf.map[y][x+dir] && bf.map[y][x].key === bf.map[y][x+dir].key) {
+					let diff = units[bf.map[y][x+dir].key].group - bf.map[y][x+dir].n; //free space in the inner group
+					//entirely consume the outer unit
+					if(diff > 0 && diff >= bf.map[y][x].n) {
+						bf.map[y][x+dir].n += bf.map[y][x].n;
+						bf.map[y][x] = false;
+					}
+					//move units from outer unit to inner
+					else if(diff > 0) {
+						bf.map[y][x+dir].n += diff;
+						bf.map[y][x].n -= diff;
+					}
 				}
 				//try to move upward to 1st ground row (if not in sky row or 1st ground row)
 				else if(y > 1 && bf.map[y][x] && !bf.map[y-1][x]) {
@@ -211,7 +225,7 @@ let War = () => ({
 		}
 
 		//if it's the last enemy army, it will get replenished
-		if(bf.last) {bf.reserveE = angular.copy(bf.logE);}
+		if(bf.last) {bf.reserveE = angular.copy(enemyArmies[s.enemyLevel].army);}
 
 		//control for end - whoever loses all ground units is defeated
 		let BFsum = this.getBFsum(); //has to be called again!

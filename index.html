@@ -24,10 +24,10 @@
 	</head>
 	<body ng-keyup="listen4Esc($event)" ng-mousemove="mouseMove($event)" ng-mouseup="mouseUp($event)">
 <div id="header">
-	<span class="fakeLink" ng-click="window('intro2')">Úvod</span>
-	<span class="fakeLink" ng-click="window('achievements')">Achievmenty</span>
-	<span class="fakeLink" ng-click="window('options')">Nastavení</span>
-	<span class="fakeLink" ng-click="window('versions')">Verze {{version.join('.')}}</span>
+	<a class="fakeLink" ng-click="window('intro2')">Úvod</a>
+	<a class="fakeLink" ng-click="window('achievements')">Achievmenty</a>
+	<a class="fakeLink" ng-click="window('options')">Nastavení</a>
+	<a class="fakeLink" ng-click="window('versions')">Verze {{version.join('.')}}</a>
 </div>
 
 <div ng-repeat="m in s.messages track by $index" class="popup" ng-style="getPopupStyle($index)">
@@ -103,14 +103,14 @@
 		<!-- CITY -->
 			<div ng-switch-when="city" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'city'])">
 				<input type="button" class="switch" ng-click="tab('island')" value="OSTROV">
-				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl2.showBuildingList = !ctrl2.showBuildingList" class="clickImg">
+				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl.showBuildingList = !ctrl.showBuildingList" class="clickImg">
 
 				<!-- existing buildings-->
 				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-style="getBuildingStyle(b)" title="{{buildings[b.id].name + ' ' + b.lvl}}"
 					ng-mousedown="buildingMouseDown($event, b)" ng-class="{building: b.draggable, clickImg: !b.draggable}">
 				
 				<!-- construction interface -->
-				<div id="buildingList" ng-show="ctrl2.showBuildingList" ng-style="style.buildingList">
+				<div id="buildingList" ng-show="ctrl.showBuildingList" ng-style="style.buildingList">
 					<table>
 						<tr ng-repeat="b in getAvailableBuild()">
 							<td>
@@ -192,14 +192,10 @@
 				<escape></escape>
 				<h2>Strategický přehled</h2>
 				<p>Generál ti naplánuje všechna slavná vojenská tažení a možná někdy i vyhraje.</p>
-				<div ng-if="s.battlefield">
-					<p class="strong" ng-click="tab('battle')">🔥 <span class="fakeLink">Právě probíhá bitva!</span></p>
-					<p class="fakeLink tip" title="Poslat všechny dostupné jednotky do bitvy" ng-click="game.war.reinforceBattle()">Posílit bitvu</p>
-					<p class="fakeLink tip" title="Prohrát bitvu a zachránit zbývající jednotky" ng-click="game.war.surrender()">Kapitulace</p>
-				</div>
+				<battle-management></battle-management>
 				<hr>
-				<div ng-if="ctrl2.generalView">
-					<p><span class="strong">Přehled armády ve městě</span> <a class="fakeLink" ng-click="ctrl2.generalView = false">zobrazit záznamy bitev</a></p>
+				<div ng-show="!generalView">
+					<p><span class="strong">Přehled armády ve městě</span> <a class="fakeLink" ng-click="generalView = true">zobrazit záznamy bitev</a></p>
 					<p>
 						<span class="tip" title="násobí útok všech jednotek">Účinnost armády: {{game.eff().power.toPercent()}}</span>, 
 						<span class="tip" title="násobí vydrancované suroviny">účinnost drancování: {{game.eff().dranc.toPercent()}}</span>
@@ -211,22 +207,14 @@
 							<td><p>
 								<b>{{units[i].name}} ({{n}} ks)</b><br>
 								{{units[i].flavor}}<br>
-								útok: {{units[i].att}}, výdrž: {{units[i].hp}}
+								velikost skupiny: {{units[i].group}} ks
 							</p></td>
 						</tr>
 					</table>
 				</div>
-				<div ng-if="!ctrl2.generalView">
-					<p><span class="strong">Záznamy bitev</span> <a class="fakeLink" ng-click="ctrl2.generalView = true">zobrazit přehled armády</a></p>
-					<ul><li ng-repeat="report in s.battleReports">
-						<div ng-if="report.victory">
-							<span style="font-weight: bold; color: #0000bb;">Vítězství!</span><br> Rozdrtili jsme armádu Polisu (úroveň {{report.lvl}}) za {{report.cycles}} kol.<br>
-							Vydrancováno: <span ng-repeat="i in icons"><img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">{{report.dranc[$index].toFixed(0)}}&nbsp;</span>
-						</div>
-						<div ng-if="!report.victory">
-							<span style="font-weight: bold; color: #bb0000;">Porážka!</span><br> Polis (úroveň {{report.lvl}}) rozdrtil naši armádu za {{report.cycles}} kol.
-						</div>
-					</li></ul>
+				<div ng-show="generalView">
+					<p><span class="strong">Záznamy bitev</span> <a class="fakeLink" ng-click="generalView = false">zobrazit přehled armády</a></p>
+					<battle-reports></battle-reports>
 				</div>
 			</div>
 
@@ -427,13 +415,9 @@
 				<h2>Polis</h2>
 				<p>Nepřátelská vesnice, která jistě skrývá ohromné bohatství zralé k uloupení!</p>
 				<div ng-if="!s.battlefield">
-					<p class="strong" ng-click="game.war.initBattle()">⚔️ <span class="fakeLink">Zaútočit</span> (úroveň {{s.enemyLevel+1}})</p>
+					<p class="strong" ng-click="game.war.initBattle()">⚔️ <a class="fakeLink">Zaútočit</a> (úroveň {{s.enemyLevel+1}})</p>
 				</div>
-				<div ng-if="s.battlefield">
-					<p class="strong" ng-click="tab('battle')">🔥 <span class="fakeLink">Právě probíhá bitva!</span></p>
-					<p class="fakeLink tip" title="Poslat všechny dostupné jednotky do bitvy" ng-click="game.war.reinforceBattle()">Posílit bitvu</p>
-					<p class="fakeLink tip" title="Prohrát bitvu a zachránit zbývající jednotky" ng-click="game.war.surrender()">Kapitulace</p>
-				</div>
+				<battle-management></battle-management>
 			</div>
 
 		</div>
@@ -441,7 +425,7 @@
 </div>
 
 <div id="footer" ng-style="style.footer">
-	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> a <span class="fakeLink">Martin Mach</span> v roce 2019 za použití <a href="https://angularjs.org/" target="_blank">AngularJS</a>
+	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> a <a class="fakeLink">Martin Mach</a> v roce 2019 za použití <a href="https://angularjs.org/" target="_blank">AngularJS</a>
 </div>
 
 	</body>

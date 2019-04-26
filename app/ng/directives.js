@@ -1,7 +1,10 @@
 //button to close a screen, and thus return to city or island
-app.directive('escape',    function() {return {restrict: 'E', template: '<div class="escape" ng-click="tab()" title="Esc">&times;</div>'};});
+app.directive('escape',    () => ({restrict: 'E', template: '<div class="escape" ng-click="tab()" title="Esc">&times;</div>'}));
 //same, but for window
-app.directive('escapeWin', function() {return {restrict: 'E', template: '<div class="escape" ng-click="window(\'game\')" title="Esc">&times;</div>'};});
+app.directive('escapeWin', () => ({restrict: 'E', template: '<div class="escape" ng-click="window(\'game\')" title="Esc">&times;</div>'}));
+
+//directive for battle management options
+app.directive('battleManagement', () => ({restrict: 'E', templateUrl: 'app/ng/battleManagement.html'}));
 
 //directive for generic (not type specific) content on a building detail page
 app.directive('buildingDetails', function() {
@@ -161,3 +164,25 @@ app.directive('training', function() {
 		}]
 	};
 });
+
+//directive for a detailed report of battle
+app.directive('battleReports', () => ({
+	restrict: 'E',
+	scope: {},
+	templateUrl: 'app/ng/battleReports.html',
+	controller: ['$scope', function($scope) {
+		$scope.battleReports = s.battleReports;
+		$scope.icons = consts.surAliases;
+		$scope.units = units;
+		//which report should have details displayed
+		$scope.detailView = -1;
+		$scope.viewSwitch = (i) => ($scope.detailView = ($scope.detailView === i) ? -1 : i);
+		//permanently remove a report
+		$scope.deleteReport = function(i) {
+			if(confirm('Opravdu smazat zprávu?')) {
+				$scope.detailView = -1;
+				s.battleReports.splice(i, 1)
+			}
+		};
+	}]
+}));

@@ -11,6 +11,7 @@ let S = () => ({
 		tab: 'city',
 		parentTab: 'city', //city or island
 		zoom: 600,
+		showBuildingList: false,
 		drawBattleGrid: false
 	},
 
@@ -79,7 +80,7 @@ let S = () => ({
 
 	//WAR RELATED STUFF
 	army:  {kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0},
-	armyE: enemyArmies[0].army, //currently remaining enemy army
+	armyE: angular.copy(enemyArmies[0].army), //currently remaining enemy army
 	enemyLevel: 0, //index of enemyArmies
 	battlefield: false,
 	battleReports: [],
@@ -99,7 +100,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [0, 2, 2],
+	version: [0, 2, 3],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory

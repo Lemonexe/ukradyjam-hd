@@ -131,7 +131,7 @@ td {
 	padding-top: 3px;
 	text-align: center;
 }
-#header > span {
+#header > a {
 	display: inline-block;
 	width: 120px;
 }

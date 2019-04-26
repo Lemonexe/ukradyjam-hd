@@ -12,12 +12,6 @@ app.controller('middle', function($scope, $interval) {
 	function zf() {return $scope.ctrl.zoom / 600};
 	$scope.zoomOptions = [600, 900, 1200];
 
-	//these won't be saved
-	$scope.ctrl2 = {
-		showBuildingList: false,
-		generalView: true, //true = list of units, false = battle history
-	};
-
 	//s každou změnou bude potřeba provést digest, ale to by mělo jít celkem samo
 	$scope.s = s;
 	$scope.buildings = buildings;
@@ -37,7 +31,7 @@ app.controller('middle', function($scope, $interval) {
 	$scope.tab = function(arg) {
 		if(!arg) {$scope.ctrl.tab = $scope.ctrl.parentTab;return;}
 		$scope.ctrl.tab = arg;
-		$scope.ctrl2.showBuildingList = false;
+		$scope.ctrl.showBuildingList = false;
 		if(arg === 'city' || arg === 'island') {$scope.ctrl.parentTab = arg;}
 	};
 
@@ -234,7 +228,7 @@ app.controller('middle', function($scope, $interval) {
 			if($scope.ctrl.window === 'intro') {return;}
 			if($scope.ctrl.window !== 'game') {$scope.ctrl.window = 'game'; return;}
 			$scope.ctrl.tab = $scope.ctrl.parentTab;
-			$scope.ctrl2.showBuildingList = false;
+			$scope.ctrl.showBuildingList = false;
 		}
 	};
 
@@ -290,7 +284,7 @@ app.controller('middle', function($scope, $interval) {
 
 	//'key' refers to a building data object
 	$scope.buyBuilding = function(key) {
-		$scope.ctrl2.showBuildingList = false;
+		$scope.ctrl.showBuildingList = false;
 		game.buyBuilding(key)
 	};
 
