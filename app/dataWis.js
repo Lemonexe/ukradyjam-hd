@@ -19,7 +19,7 @@ const research = [
 		s.p.drevo += 0.20;
 	}},
 {id: 'EcoA2', class: 'Eco', name: 'Bohatství', cost: 100,
-	teaser: 'Zatím neznáme nic než dřevo a peníze – jíme klobásy z dřevěných pilin a pijeme dřevný líh. To není úplně zdravé – je čas obohatit náš život o nové substance!',
+	teaser: 'Zatím neznáme nic než dřevo a peníze – jíme klobásy z dřevěných pilin a pijeme dřevný líh. To není úplně zdravé, je proto čas obohatit náš život o nové substance!',
 	result: 'Nová filozofická studie podložená chemickým rozborem ukazuje, že se vesmír skládá z 5 živlů: nejen peníze a dřevo, ale také kamení, sýra a pivo.',
 	effect: 'odemknuta těžba kamení, sýry a piva. Zdarma bonus 100 ks od každého',
 	reqs: ['EcoA1'], f: function() {
@@ -214,7 +214,7 @@ const research = [
 	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně a sviňárny nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
 	effect: 'vygebenost +1600, platy dělníků -20%',
-	reqs: ['PolA7', 'PolC1'], f: function() {
+	reqs: ['PolA7'], f: function() {
 		s.p.happy += 1600;
 		s.p.plat -= 0.20;
 	}},
@@ -279,7 +279,7 @@ const research = [
 	reqs: ['WisB2', 'ArmB4'], f: function() {
 		s.p.unlockUnit.push('obr');
 	}},
-{id: 'WisGrand', class: 'Wis', name: 'Budoucnost školství', cost: 99999,
+{id: 'WisGrand', class: 'Wis', name: 'Budoucnost školství', cost: 49999,
 	teaser: 'Dovedete si vůbec představit, že žáci rádi chodí do školy a pilně se učí? To je naše budoucnost!',
 	result: 'Kvalitní výuka a motivovaní studenti. Čeká nás technický pokrok a zářná budoucnost!',
 	effect: 'účinnost školství +60%',

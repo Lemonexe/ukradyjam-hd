@@ -102,13 +102,13 @@
 
 		<!-- CITY -->
 			<div ng-switch-when="city" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'city'])">
-				<input type="button" class="switch" ng-click="tab('island')" value="OSTROV">
+				<img src="res/GUI/icon_island.png" class="switch clickImg" ng-click="tab('island')" title="Ostrov">
 				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl.showBuildingList = !ctrl.showBuildingList" class="clickImg">
 
 				<!-- existing buildings-->
-				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-style="getBuildingStyle(b)" title="{{buildings[b.id].name + ' ' + b.lvl}}"
+				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-style="getBuildingStyle(b)" title="{{buildings[b.id].name + ' (' + b.lvl + ')'}}"
 					ng-mousedown="buildingMouseDown($event, b)" ng-class="{building: b.draggable, clickImg: !b.draggable}">
-				
+
 				<!-- construction interface -->
 				<div id="buildingList" ng-show="ctrl.showBuildingList" ng-style="style.buildingList">
 					<table>
@@ -130,7 +130,7 @@
 
 		<!-- ISLAND -->
 			<div ng-switch-when="island" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'island'])">
-				<input type="button" class="switch" ng-click="tab('city')" value="MĚSTO">
+				<img src="res/GUI/icon_city.png" class="switch clickImg" ng-click="tab('city')" title="Město">
 
 				<img src="res/env/prod_pila.png" ng-style="styleislandPila()" ng-click="accessMine('islandPila')" title="Pila" class="clickImg">
 				<img src="res/env/prod_kamen.png" ng-style="islandPos('plaz')" ng-click="accessMine('islandKamen')" title="Kamenitá pláž" class="clickImg">
@@ -147,6 +147,7 @@
 			<div ng-switch-when="battle" ng-style="mergeStyles(['gameWidth', 'gameHeight'])" style="overflow: hidden">
 				<escape></escape>
 				<canvas width="600" height="600" ng-style="mergeStyles(['gameWidth', 'gameHeight'])" battle-canvas></canvas>
+				<div ng-show="s.battlefield && s.battlefield.nukeDuration > 0" id="nukeEffect" ng-style="mergeStyles(['gameWidth', 'gameHeight'])"></div>
 			</div>
 
 		<!-- ADVISOR SCREEN TABS -->
@@ -197,7 +198,7 @@
 				<div ng-show="!generalView">
 					<p><span class="strong">Přehled armády ve městě</span> <a class="fakeLink" ng-click="generalView = true">zobrazit záznamy bitev</a></p>
 					<p>
-						<span class="tip" title="násobí útok všech jednotek">Účinnost armády: {{game.eff().power.toPercent()}}</span>, 
+						<span class="tip" title="násobí útok všech jednotek">Účinnost armády: {{game.eff().power.toPercent()}}</span>,
 						<span class="tip" title="násobí vydrancované suroviny">účinnost drancování: {{game.eff().dranc.toPercent()}}</span>
 					</p>
 					<p></p>
@@ -233,9 +234,7 @@
 						{{w.teaser}}</p>
 					</div>
 				</div>
-				
 			</div>
-			
 
 		<!-- CITY SCREEN TABS -->
 			<div ng-switch-when="radnice" ng-style="screenStyle()">
@@ -244,16 +243,16 @@
 				<hr>
 				<p><b>Přehled města {{s.name}}:</b> <a ng-click="renameCity()" class="fakeLink">přejmenovat</a></p>
 				<p>
-					<p class="tip" title="Celková populace včetně dělníků">
+					<p class="tip" title="celková populace včetně dělníků">
 						Populace: {{game.popTotal()}}
 					</p>
-					<p class="tip" title="Volná místa na záchodech radnice" ng-class="{thisIsBad: game.popLimit() === game.popTotal()}">
+					<p class="tip" title="volná místa na záchodech radnice" ng-class="{thisIsBad: game.popLimit() === game.popTotal()}">
 						Populační limit: {{game.popLimit()}}
 					</p>
-					<p class="tip" title="Míra vytlemenosti obyvatel, určuje růst populace">
+					<p class="tip" title="míra vytlemenosti obyvatel, určuje růst populace">
 						Vygebenost: {{game.realHappiness()}}
 					</p>
-					<p class="tip" title="Růst populace za jeden cyklus, počítá se jako vygebenost/50" ng-class="{thisIsBad: game.popGrowth() < 0}">
+					<p class="tip" title="růst populace za jeden cyklus, počítá se jako vygebenost/50" ng-class="{thisIsBad: game.popGrowth() < 0}">
 						Růst populace: {{game.popGrowth().withSign()}}
 					</p>
 					<p>Město založeno: před {{s.iteration}} cykly.</p>
@@ -283,7 +282,6 @@
 				<escape></escape>
 				<building-details key="ctrl.tab"></building-details>
 				<training building="'kasarna'"></training>
-<!-- TODO -->
 			</div>
 
 			<div ng-switch-when="sklad" ng-style="screenStyle()">
@@ -325,7 +323,28 @@
 				<escape></escape>
 				<building-details key="ctrl.tab"></building-details>
 				<training building="'zkusebna'"></training>
-				<p style="font-size: 40px">☢</p>
+				<div ng-if="s.p.unlockNuke" style="text-align: center;">
+					<div style="height: 30px"></div>
+					<p><span class="strong">Novoroční ohňostroj</span> <span style="font-size: 40px">☢</span></p>
+					<div ng-if="s.ownNuke">
+						<p>Rachejtle jsou připraveny a bezpečně uloženy.</p>
+						<p>Nejlepší bude odpálit je během probíhající bitvy, aby ani sousedé nepřišly o tuto velkolepou podívanou! <i>(v okně generála nebo nepřátelské vesnice)</i></p>
+					</div>
+
+					<div ng-if="!s.ownNuke  && s.nukeCooldown > 0">
+						<p>Ohňostroj byl nedávno využit a než budeme moci koupit další, bude třeba uklidit všechny ty sýrou smrdící doutnající odpadky.</p>
+						<p>Úklid bude trvat ještě {{s.nukeCooldown}} cyklů.</p>
+					</div>
+
+					<div ng-if="!s.ownNuke && s.nukeCooldown === 0">
+						<p>Zde můžeme zakoupit ohňostroj na různé, ehm, oslavy. Bude to velmi zábavné!</p>
+						<p>
+							<img src="res/GUI/icon_zlato.png" width="16" height="16"> {{consts.nukePrice[0]}}
+							<img src="res/GUI/icon_syra.png" width="16" height="16">  {{consts.nukePrice[3]}}
+							<input type="button" ng-click="game.buyNuke()" value="Koupit">
+						</p>
+					</div>
+				</div>
 			</div>
 
 			<div ng-switch-when="palac" ng-style="screenStyle()">

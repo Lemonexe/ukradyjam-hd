@@ -19,9 +19,9 @@ app.directive('buildingDetails', function() {
 			function update() {
 				$scope.level = game.getBlvl($scope.key);
 				$scope.price = buildings[$scope.key].price($scope.level + 1);
-			};
+			}
 			update();
-			
+
 			$scope.upgrade = function(key) {
 				game.upgradeBuilding(key);
 				update();
@@ -79,9 +79,9 @@ app.directive('tradeSlider', function() {
 				$scope.status =
 					(p > 50 && (maxGold     === 0) && 'Nemáme žádné zlato, takže nelze nic kupovat!') ||
 					(p > 50 && (freeStorage === 0) && 'Této suroviny máme úplně plno, nelze kupovat více!') ||
-					(p < 50 && (maxSell     === 0) && 'Tuto surovinu vůbec nemáme, takže ji nemůžeme prodat!') || 
+					(p < 50 && (maxSell     === 0) && 'Tuto surovinu vůbec nemáme, takže ji nemůžeme prodat!') ||
 					'';
-				
+
 				//(slider is on the right) ? BUY : SELL as [zlato, sur]
 				return (p > 50) ?
 					[-maxBuy /e*j*r, maxBuy *j] :

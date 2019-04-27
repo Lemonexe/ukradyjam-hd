@@ -19,7 +19,7 @@ let War = () => ({
 			//"army object" with casualties
 			deadP: this.newArmyObj(),
 			deadE: this.newArmyObj(),
-			
+
 			/*MAP OF BATTLEFIELD as array of rows, first row means the sky
 				each cell is a group of units on the field. Example:
 				{key: 'kop', n: 42, hp: 4, own: true}
@@ -28,6 +28,8 @@ let War = () => ({
 			map: new Array(rows).fill(false).map((item) => new Array(6).fill(false)),
 			//special graphical effects
 			effects: [],
+			//whether there is currently a nuclear detonation taking place (how many strokes left to display the effect)
+			nukeDuration: 0, scheduledNuke: false,
 			//last enemy army (will get reinforcements if true)
 			last: s.enemyLevel === enemyArmies.length-1
 		};
@@ -64,7 +66,7 @@ let War = () => ({
 		if(victory) {
 			game.achieve('GG');
 			(this.armySum(bf.logP) === bf.logP.trj + bf.logP.obr + bf.logP.bal + bf.logP.gyr) && game.achieve('blitz');
-			
+
 			//pillaged resources
 			let d = enemyArmies[s.enemyLevel].dranc * game.eff().dranc;
 			let dranc = new Array(5).fill(0).map(s => d * (0.5 + 0.5*Math.random()));
@@ -136,7 +138,7 @@ let War = () => ({
 		let i = -1;
 		while(i < 0) {//just to be sure. The maximum cumulative probabilty doesn't necessarily have to be 1 due to rounding error
 			let rnd = Math.random();
-			i = P.findIndex(item => item > rnd);	
+			i = P.findIndex(item => item > rnd);
 		}
 		let key = unitSet[i];
 
@@ -168,14 +170,18 @@ let War = () => ({
 		else if(bf.stroke % 3 === 1) {this.stroke2();}
 		else {this.stroke3();}
 		bf.stroke++;
+
 		bf.cycles = Math.ceil(bf.stroke/3); //just an informative value
 		(Math.ceil(bf.stroke/3) > consts.carnageAchieve) && game.achieve('carnage');
+		
+		bf.nukeDuration -= (bf.nukeDuration > 0) ? 1 : 0;
+		if(bf.scheduledNuke) {this.nukeExec();}
 	},
 
 	//1st stroke: units advance on the map
 	stroke1: function() {
 		let bf = s.battlefield;
-		
+
 		//iterate every row
 		for(let y = 0; y < bf.rows; y++) {
 			let iterationOrder = [2, 3, 1, 4, 0, 5];
@@ -357,6 +363,32 @@ let War = () => ({
 		});
 	},
 
+	//schedule a nuke of all enemy ground units
+	nukeInit: function() {
+		let bf = s.battlefield;
+		if(!bf) {return;}
+		s.ownNuke = false; //deplete current fireworks supply
+		s.nukeCooldown = consts.nukeCooldown - game.getBlvl('zkusebna'); //set countdown to buy another one
+		s.ctrl.tab = 'battle'; //switch to battle
+		bf.nukeDuration = 5; //draw effect
+		bf.scheduledNuke = true; //schedule the actual killing for next stroke
+		game.achieve('nuke');
+	},
+
+	//execute a scheduled nuke
+	nukeExec: function() {
+		let bf = s.battlefield;
+		bf.scheduledNuke = false;
+		//burn them all. BURN THEM ALL!
+		for(let x = 0; x < 6; x++) {for(let y = 0; y < bf.rows; y++) {
+			if(x >= 3 && y >= 1) {
+				//destroy a group of units while logging casualties
+				bf[bf.map[y][x].own ? 'deadP' : 'deadE'][bf.map[y][x].key] += bf.map[y][x].n;
+				bf.map[y][x] = false;
+			}
+		}}
+	},
+
 
 
 
@@ -367,6 +399,10 @@ let War = () => ({
 		//clear & draw background image
 		ctx.clearRect(0, 0, 600, 600);
 		ctx.drawImage(imgs.battle, 0, 0);
+
+		//cycle number
+		ctx.textAlign = 'center'; ctx.fillStyle = 'black'; ctx.font = 'bold 16px Arial';
+		ctx.fillText('kolo ' + s.battlefield.cycles.toFixed(0), 300, 16);
 
 		s.ctrl.drawBattleGrid && this.drawGrid(ctx);
 		this.drawSide(ctx);
@@ -522,23 +558,19 @@ let War = () => ({
 	}
 });
 
-//this directive executes timeout and links the rendering functions with canvas element
-app.directive('battleCanvas', function($interval) {
-	return {
-		restrict: 'A',
-		link: function(scope, element) {
+//this directive links the rendering functions with canvas element
+app.directive('battleCanvas', () => ({
+	restrict: 'A',
+	link: function(scope, element) {
+		//render battlefield
+		function render() {
+			if(!s.battlefield) {return;}
 			let ctx = element[0].getContext('2d');
-
-			//one stroke of battle cycle (a full cycle is three strokes)
-			function stroke() {
-				if(!s.battlefield) {$interval.cancel(intervalHandle); return;}
-				game.war.stroke();
-				if(!s.battlefield) {$interval.cancel(intervalHandle); return;}
-				game.war.render(ctx);
-			}
-
-			let intervalHandle = $interval(stroke, consts.dtw);
 			game.war.render(ctx);
 		}
-	};
-});
+		//set listener, which will be called via a $broadcast by an $interval from main controller
+		scope.$on('renderWar', render);
+		//first-time render upon opening battle tab
+		render();
+	}
+}));

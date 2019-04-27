@@ -9,7 +9,7 @@ app.controller('middle', function($scope, $interval) {
 	$scope.ctrl = s.ctrl;
 
 	//zoom factor
-	function zf() {return $scope.ctrl.zoom / 600};
+	function zf() {return $scope.ctrl.zoom / 600;}
 	$scope.zoomOptions = [600, 900, 1200];
 
 	//s každou změnou bude potřeba provést digest, ale to by mělo jít celkem samo
@@ -27,9 +27,11 @@ app.controller('middle', function($scope, $interval) {
 			s.messages.push('Nejprve si přečtěte tutoriál a klikněte na tlačítko pokračovat.');return;
 		}
 		$scope.ctrl.window = arg;
+		if($scope.ctrl.tab === 'battle') {$scope.ctrl.tab = 'islandPolis';}
 	};
 	$scope.tab = function(arg) {
-		if(!arg) {$scope.ctrl.tab = $scope.ctrl.parentTab;return;}
+		let parentTab = ($scope.ctrl.tab === 'battle') ? 'islandPolis' : $scope.ctrl.parentTab;
+		if(!arg) {$scope.ctrl.tab = parentTab;return;}
 		$scope.ctrl.tab = arg;
 		$scope.ctrl.showBuildingList = false;
 		if(arg === 'city' || arg === 'island') {$scope.ctrl.parentTab = arg;}
@@ -75,17 +77,17 @@ app.controller('middle', function($scope, $interval) {
 			height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
 			width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 		};
-	};
+	}
 
 	//resize and move the elements
 	$scope.resize = function() {
 		let dim = getWindowDimensions();
-		
+
 		//game width = game height
 		let gw = $scope.ctrl.zoom; let gh = gw;
-		
+
 		//move the gameContainer div to center and specify container height
-		let left = Math.floor(dim.width/2 - gw/2)
+		let left = Math.floor(dim.width/2 - gw/2);
 		$scope.style['containerLeft']['left'] = (left > 0 ? left : 0) + 'px';
 		$scope.style['containerHeight']['height'] = (gh + 68) + 'px';
 
@@ -96,7 +98,7 @@ app.controller('middle', function($scope, $interval) {
 		$scope.style['gameWidth']['width'] = gw + 'px';
 		$scope.style['gameHeight']['height'] = gh + 'px';
 
-		$scope.style['buildingList']['max-height'] = (gh - 120) + 'px';
+		$scope.style['buildingList']['max-height'] = (gh - 160) + 'px';
 		$scope.style['suroviny']['max-width'] = (gw - 210) + 'px';
 	};
 
@@ -105,13 +107,13 @@ app.controller('middle', function($scope, $interval) {
 		let dim = getWindowDimensions();
 		$scope.zoomOptions.forEach(function(item) {
 			if(
-				item + 8  < dim.width && 
+				item + 8  < dim.width &&
 				item + 76 < dim.height &&
 				item > $scope.ctrl.zoom
 			) {$scope.ctrl.zoom = item;}
 		});
 		$scope.resize();
-	};
+	}
 	autoresize();
 
 	//'i' is just an integer in this function
@@ -227,7 +229,7 @@ app.controller('middle', function($scope, $interval) {
 			if(s.messages.length > 0) {s.messages.pop();return;}
 			if($scope.ctrl.window === 'intro') {return;}
 			if($scope.ctrl.window !== 'game') {$scope.ctrl.window = 'game'; return;}
-			$scope.ctrl.tab = $scope.ctrl.parentTab;
+			$scope.tab();
 			$scope.ctrl.showBuildingList = false;
 		}
 	};
@@ -237,11 +239,18 @@ app.controller('middle', function($scope, $interval) {
 
 
 /*GAME RELEATED CODE*/
-	//this will be executed every tick
-	let tick = function() {
+	//this will be executed every cycle
+	function tick() {
 		game.tick();
 		saveService.save();
-	};
+	}
+
+	//this will be executed every war stroke - calls link function in war directive
+	function tickWar() {
+		if(!s.battlefield) {return;}
+		game.war.stroke();
+		$scope.$broadcast('renderWar');
+	}
 
 	//the game will start after pressing a button in intro screen or when a savegame is loaded
 	$scope.initGame = function() {
@@ -250,11 +259,20 @@ app.controller('middle', function($scope, $interval) {
 		$scope.ctrl.window = 'game';
 		if($scope.ctrl.tab === 'battle') {$scope.ctrl.tab = 'islandPolis';}
 		$scope.intervalHandle = $interval(tick, consts.dt);
+		$scope.intervalHandleWar = $interval(tickWar, consts.dtw);
 	};
 
 	//this function will be fired at the end of controller - try to load a local save and initialize game
 	$scope.autoLoad = function() {
-		try {saveService.load() && ($scope.s = s) && ($scope.ctrl = s.ctrl) && $scope.initGame();}
+		try {
+			//run loading function, and depending on it's success finish it with controller-related actions
+			if(saveService.load()) {
+				$scope.s = s;
+				$scope.ctrl = s.ctrl;
+				$scope.initGame();
+				autoresize();
+			}
+		}
 		catch(err) {confirm('FATÁLNÍ CHYBA APLIKACE!\nNejspíše je způsobená nekompatibilním savem. Přejete si save smazat?') && saveService.purge();}
 	};
 

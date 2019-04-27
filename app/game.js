@@ -29,7 +29,7 @@ let S = () => ({
 	// prachy, dřevo, kameny, sýra, pivo
 	pop: [10, 0, 0, 0, 0],
 	sur: [250, 250, 50, 50, 50],
-	
+
 	// kolekce budov
 	build: [
 		{
@@ -73,7 +73,7 @@ let S = () => ({
 
 	//id zázraku (např. 'delfin') a počet zbývajících cyklů zázraku, resp. do další možné aktivace
 	miracle: false,
-	mirCountdown: 0, 
+	mirCountdown: 0,
 	mirCooldown: 0,
 	mirsReceived: [],//miracles that have been activated (-> achievement)
 
@@ -100,7 +100,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [0, 2, 3],
+	version: [0, 2, 4],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -150,10 +150,11 @@ let game = {
 	//POP
 		this.population();
 
-	//MIRACLE
+	//MIRACLE & NUKE
 		s.mirCountdown -= (s.mirCountdown > 0) ? 1 : 0;
 		s.mirCooldown -= (s.mirCooldown > 0) ? 1 : 0;
 		s.miracle = (s.mirCountdown > 0) ? s.miracle : false;
+		s.nukeCooldown -= (s.nukeCooldown > 0) ? 1 : 0;
 	},
 
 	//gain or drain population properly
@@ -231,7 +232,7 @@ let game = {
 			power:  s.p.power               + this.mir('faust', 0.10),
 			dranc:  s.p.dranc               - this.mir('faust', -0.05),
 			WC:     s.p.WC
-		}; 
+		};
 	},
 
 	//get existing building object on its id
@@ -379,6 +380,16 @@ let game = {
 		}
 	},
 
+	//buy a nuclear warhead
+	buyNuke: function() {
+		if(this.spend(consts.nukePrice)) {
+			s.ownNuke = true;
+		}
+		else {
+			s.messages.push('Nemáme dostatek surovin, a taková velkolepá pyrotechnická sestava přijde hodně draho!');
+		}
+	},
+
 	//achievement control functions - those that are too long and would make their callers difficult to read
 	checkAchievement: {
 		researches: function() {
@@ -399,7 +410,7 @@ let game = {
 		//achieve if there are at least 4 buildings and all are stacked on one position
 		multi: function() {
 			let comp = (a,b) => Math.abs(a-b) <= 32; //whether coordinates  match
-			if(s.build.length >= 4 && 
+			if(s.build.length >= 4 &&
 				s.build.reduce((sum, b) => (sum && comp(b.pos[0], s.build[0].pos[0]) && comp(b.pos[1], s.build[0].pos[1])), true)
 			){game.achieve('multi');}
 		}

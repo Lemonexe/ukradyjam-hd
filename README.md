@@ -1,5 +1,6 @@
 # Ukradyjam: HD edition
-Ponořte se do pivem zalité starořecké politiky v nejlepší budovatelské strategii!  [Odkaz na produkční aplikaci](http://jira.zby.cz/content/UkradyjamHD/)
+Ponořte se do pivem zalité starořecké politiky v nejlepší budovatelské strategii!  
+[odkaz](https://ukradyjam.netlify.com) na vývojový server, [odkaz](http://jira.zby.cz/content/UkradyjamHD/) na produkční aplikaci
 
 Ukradyjam je parodií na jistou dobře známou online hru, avšak není online a lze zde interagovat jen s prostředím, což ale nevadí, i to hráči poskytne dostatek zábavy!
 
@@ -21,7 +22,7 @@ Téměř veškeré HTML je v **index.html**, veškeré statické CSS je v **app/
 `s`, definovaný pomocí factory `S`, obsahuje veškerý stav aplikace - který se zase nenachází nikde jinde než zde. Právě tento objekt je tedy ukládán a načítán přes Local Storage  
 `game` obsahuje téměř veškerou funkcionalitu samotné hry - jedná se tedy o model aplikace, avšak bez stavu
 
-**app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto factory `War`. Její instance je zařazena do objektu *game*. Též se zde nachází direktiva `battleCanvas`, která řídí časovač boje a propojuje *war* s příslušným canvas elementem.
+**app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto factory `War`. Její instance je zařazena do objektu *game*. Též se zde nachází direktiva `battleCanvas`, která propojuje view funkce *war* s příslušným canvas elementem, avšak časovač je spouštěn z hlavního controlleru.
 
 **app/data.js** obsahuje konstantní data pro hru:  
 `consts` různé obecné parametry  

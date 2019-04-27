@@ -4,7 +4,7 @@
 </p>
 <table>
 	<tr ng-repeat="(id,unit) in units">
-		<td><img ng-src="res\unit\{{unit.img}}"</td>
+		<td><img ng-src="res\unit\{{unit.img}}"></td>
 		<td>
 			<p><b>{{unit.name}}</b><br>{{unit.flavor}}<br>
 				<input type="range" class="distributeSlider" step="1" min="0" max="{{getBuyLimit(id)}}" ng-model="ranges[id]"> <span class="strong">{{ranges[id]}}</span>

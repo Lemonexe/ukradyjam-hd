@@ -16,7 +16,7 @@ const consts = {
 	mirPrice: {pop: 13, zlato: 666},
 
 	nukeCooldown: 16, //base value of waiting time for new nuke
-	nukePrice: [1e4, 0, 0, 1e4, 0], //as sur
+	nukePrice: [5e3, 0, 0, 5e3, 0], //as sur
 
 	//which units are aerial / terrestrial. In this order they will be rendered on battlefield
 	skyUnits: ['bal', 'gyr'],
@@ -95,7 +95,7 @@ const units = {
 	'class': infantry, ranged, bomber, antibomber
 	'train': which building? Training GUI directive in all buildings automatically infers which units are trained there
 	'pop': cost in people
-	'bonus': {kop: 0.6} means 60% attack bonus against 'kop'
+	'bonus': {kop: 0.6} means +60% attack bonus against 'kop'
 	*/
 	kop: {class:'infantry', img: 'kopinik.png', train: 'kasarna',
 		name: 'Kopiník', flavor: 'Tupý branec z venkova ozbrojený klackem, vhodný jako kanonenfutr',
@@ -155,7 +155,7 @@ const units = {
 
 //table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army. Rows means size of battlefield = [1,3,5,7]
 //the last army will get continuous reinforcements - numbers will reset after every turn
-let enemyArmies = [		
+let enemyArmies = [
 	{rows: 1, dranc: 20,  army: {kop: 1,    luk: 0,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
 	{rows: 1, dranc: 50,  army: {kop: 5,    luk: 1,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
 	{rows: 1, dranc: 150, army: {kop: 20,   luk: 5,    hop: 3,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
@@ -228,9 +228,9 @@ const achievements = {
 //ENDGAME
 	carnage: {name: 'Blood for the Blood God', description: 'vést bitvu ' + consts.carnageAchieve + ' kol v kuse',
 		flavor: 'Půda je nyní promáčená krví synů Řecka, kteří zcela zbytečně položili životy na poli válečném. Historie nikdy nezapomene na tato jatka.'},
-nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
+	nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
 		flavor: 'Novoroční ohňostroje mění svět v kouřící ruiny. A taky plaší domácí mazlíčky!!!'},
-	budoucnost: {name: 'My žijeme v roce ' + (new Date().getFullYear()), description: 'vynalézt všechny výzkumy',
+	budoucnost: {name: 'My žijeme v roce ' + (new Date().getFullYear() + 1000).toFixed(0), description: 'vynalézt všechny výzkumy',
 		flavor: 'Tak dlouho jsme se snažili dosáhnout utopických vizí zářných zítřků, a teď v té neuskutečnitelné budoucnosti konečně žijeme!'},
 	maxed: {name: 'Nepodceňujte online závislost', description: 'vylepšit všechny budovy na maximum',
 		flavor: 'Tohle není normální.'},

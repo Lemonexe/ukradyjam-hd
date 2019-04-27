@@ -2,4 +2,5 @@
 	<p class="strong">🔥 <a class="fakeLink" ng-click="tab('battle')">PRÁVĚ PROBÍHÁ BITVA!</a> (kolo {{s.battlefield.cycles}})</p>
 	<p>➕ <a class="fakeLink tip" ng-click="game.war.reinforceBattle()" title="Poslat všechny dostupné jednotky do bitvy">Posílit bitvu</a></p>
 	<p>🏳️ <a class="fakeLink tip" ng-click="game.war.surrender()" title="Prohrát bitvu a zachránit zbývající jednotky">Kapitulace</a></p>
+	<p ng-if="s.ownNuke">&nbsp;☢&nbsp;&nbsp;<a class="fakeLink tip" ng-click="game.war.nukeInit()" title="Uspořádat novoroční ohňostroj">Ohňostroj</a></p>
 </div>

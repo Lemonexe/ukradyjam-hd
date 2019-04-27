@@ -192,6 +192,12 @@ td {
 	margin: 0px;
 	border: 3px solid #660000;
 }
+#nukeEffect {
+	position: absolute;
+	top: 0px; left: 0px;
+	background-color: white;
+	animation: whiteflash 4s linear forwards;
+}
 @keyframes shiver {
 	20% {transform: translate(1px, 1px);}
 	40% {transform: translate(1px, -1px);}
@@ -200,4 +206,10 @@ td {
 }
 @keyframes darken {
 	100% {background-color: #660000;}
+}
+@keyframes whiteflash {
+	0%   {opacity: 0;}
+	10%  {opacity: 1;}
+	25%  {opacity: 1;}
+	100% {opacity: 0;}
 }
