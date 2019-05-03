@@ -1,7 +1,14 @@
 >>> ŠTURM <<<
 	tutoriál (asi jako nový tab kde budou static images)
 
+více nepřátelských armád, aby bylo s čím bojovat když hráč má silnou eko ale nemá ještě balóny a gyrosáře
+	a asi předělat last army aby byla prostě jenom hodně velká (a obnovovala se po porážce - aby bylo co drancovat)
+
 rebalance units
+	asi celkově dražší jednotky (+ větší dranc), ať jsou syrné náklady aspoň trochu srovnatelné s minerálními náklady
+	a hlavně cenu v penězích aktualizovat = dvakrát zvýšit
+
+záchranný balíček od Helénské Unie v případě totálního krachu
 
 TODO ASSETS:
 	favicon

@@ -223,7 +223,7 @@ const research = [
 
 {id: 'WisA1', class: 'Wis', name: 'Křída', cost: 32,
 	teaser: 'Tyto kusy slepeného kamenného prášku umožní učiteli psát na tabuli různé symboly, což je velice poučné. Případně mohou být vrženy na rušící studenty.',
-	result: 'Skvělé! Teď, když se rušící žáci musí vyhýbat minerálním projektilům, jsou mnohem pozornější a nedělají tolik bordel!',
+	result: 'Skvělé! Teď, když se vyrušující žáci musí vyhýbat minerálním projektilům, jsou mnohem pozornější a nedělají tolik bordel!',
 	effect: 'účinnost školství +20%',
 	reqs: [], f: function() {
 		s.p.skola += 0.20;
@@ -236,8 +236,8 @@ const research = [
 		s.p.skola += 0.20;
 	}},
 {id: 'WisA3', class: 'Wis', name: 'Učebnice', cost: 512,
-	teaser: 'Kusy papyru z poznámkami se dají spojit dohromady, aby mohly být propůjčeny žákům.',
-	result: 'Skvělé, teď už nebudou žádné plané výmluvy, že "to sme přece nebrali"!',
+	teaser: 'Kusy papyru s poznámkami se dají spojit dohromady, aby mohly být propůjčeny žákům.',
+	result: 'Skvělé, teď už při zkoušení nebudou žádné plané výmluvy, že "to sme přece nebrali"!',
 	effect: 'účinnost školství +20%',
 	reqs: ['WisA2'], f: function() {
 		s.p.skola += 0.20;
@@ -279,11 +279,11 @@ const research = [
 	reqs: ['WisB2', 'ArmB4'], f: function() {
 		s.p.unlockUnit.push('obr');
 	}},
-{id: 'WisGrand', class: 'Wis', name: 'Budoucnost školství', cost: 49999,
+{id: 'WisGrand', class: 'Wis', name: 'Budoucnost školství', cost: 65536,
 	teaser: 'Dovedete si vůbec představit, že žáci rádi chodí do školy a pilně se učí? To je naše budoucnost!',
 	result: 'Kvalitní výuka a motivovaní studenti. Čeká nás technický pokrok a zářná budoucnost!',
 	effect: 'účinnost školství +60%',
-	reqs: ['WisA5', 'WisB2', 'WisC1'], f: function() {
+	reqs: ['WisA5', 'WisB2'], f: function() {
 		s.p.skola += 0.60;
 	}},
 

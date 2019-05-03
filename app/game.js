@@ -100,7 +100,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [0, 2, 4],
+	version: [0, 2, 5],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -122,15 +122,19 @@ let game = {
 		let eff = this.eff();
 		let storage = this.storage();
 		let overflow = new Array(5).fill(false);
+		let beerConsumption = this.pridelHospoda();
 
 		['drevo', 'kamen', 'syra', 'pivo'].forEach(function(o, i) {
 			let j = i+1;
 			s.sur[j] += s.pop[j] * eff[o];
+			//if storage is full
 			if(s.sur[j] >= storage) {
 				s.sur[j] = storage;
 				overflow[j] = true;
-				s.pop[0] += s.pop[j];
-				s.pop[j] = 0;
+				//relieve workers. In case of beer, keep as many workers as it takes to keep a constant supply of beer, otherwise relieve all workers
+				let newWorkers = (o === 'pivo') ? Math.ceil(beerConsumption/eff[o]) : 0;
+				s.pop[0] += s.pop[j] - newWorkers;
+				s.pop[j] = newWorkers;
 			}
 		});
 
@@ -139,8 +143,8 @@ let game = {
 		(overflow.filter(item => item).length === 4) && this.achieve('stack');
 
 	//BEER
-		if(s.sur[4] >= this.pridelHospoda()) {
-			s.sur[4] -= this.pridelHospoda();
+		if(s.sur[4] >= beerConsumption) {
+			s.sur[4] -= beerConsumption;
 		}
 		else {
 			s.hospoda = 0;
@@ -151,10 +155,10 @@ let game = {
 		this.population();
 
 	//MIRACLE & NUKE
-		s.mirCountdown -= (s.mirCountdown > 0) ? 1 : 0;
-		s.mirCooldown -= (s.mirCooldown > 0) ? 1 : 0;
+		s.nukeCooldown = (--s.nukeCooldown).positify();
+		s.mirCountdown = (--s.mirCountdown).positify();
+		s.mirCooldown = (--s.mirCooldown).positify();
 		s.miracle = (s.mirCountdown > 0) ? s.miracle : false;
-		s.nukeCooldown -= (s.nukeCooldown > 0) ? 1 : 0;
 	},
 
 	//gain or drain population properly

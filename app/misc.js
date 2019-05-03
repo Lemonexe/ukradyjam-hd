@@ -92,6 +92,31 @@ let saveService = {
 		location.reload();
 	},
 
+	//read uploaded file, save it to LocalStorage and reload the window. Cumbersome, but reliable!
+	manualLoad: function(file) {
+		if(!file) {return;}
+		let reader = new FileReader();
+		reader.onload = function() {
+			window.onbeforeunload = null;
+			localStorage.setItem('savegame', reader.result);
+			location.reload();
+		};
+		reader.readAsText(file);
+	},
+
+	//generate a save file for download
+	manualSave: function() {
+		let blob = new Blob([JSON.stringify(s)], { type : 'application/json' });
+		let url = (window.URL || window.webkitURL).createObjectURL(blob);
+		let elem = document.createElement('a');
+		elem.setAttribute('href', url);
+		elem.setAttribute('download', 'Ukradyjam.json');
+		elem.style.display = 'none';
+		document.body.appendChild(elem);
+		elem.click();
+		document.body.removeChild(elem);
+	},
+
 	//number of application instance ID clashes, see save
 	clash: 0,
 };

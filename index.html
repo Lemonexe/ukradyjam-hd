@@ -67,9 +67,16 @@
 	<div ng-switch-when="options">
 		<escape-win></escape-win>
 		<h1>Nastavení 🔧</h1>
-		<p>Velikost okna: <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
-		<p>Zobrazit mřížku bitevního pole: <input type="checkbox" ng-model="ctrl.drawBattleGrid"></p>
-		<p><input type="button" onclick="confirm('Opravdu chcete smazat veškerá vaše data v této hře?') && saveService.purge()" value="Smazat save"></p>
+		<p>Velikost okna <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
+		<p>Zobrazit mřížku bitevního pole <input type="checkbox" ng-model="ctrl.drawBattleGrid"></p>
+		<p>Manuální save
+			<span onclick="saveService.manualSave()" class="fakeButton" download="Ukradyjam.json">Uložit</span>
+			<input type="file" id="fileUpload" file-upload class="hidden">
+			<label for="fileUpload" class="fakeButton">Načíst</label>
+		</p>
+		<p>Automatický save
+			<span class="fakeButton" onclick="confirm('Opravdu chcete smazat veškerá vaše data v této hře?') && saveService.purge()">Smazat</span>
+		</p>
 	</div>
 
 	<div ng-switch-when="versions">
@@ -79,6 +86,8 @@
 			navštivte GitHub <a href="https://github.com/Lemonexe/ukradyjam-hd" target="_blank">repozitář</a>.</p>
 		<ul>
 			<!--<li><b>1.0.0</b> (??.04.2019) oficiální release</li>-->
+			<li><b>0.2.5</b> (03.05.2019) manuální ukládání hry</li>
+			<li><b>0.2.4</b> (28.04.2019) přidány zbraně hromadného ničení</li>
 			<li><b>0.2.0</b> (21.04.2019) přidána válka</li>
 		</ul>
 	</div>
@@ -166,7 +175,7 @@
 					<tr class="tip" title="za všechny budovy, roste exponenciálně s úrovní"><td>Údržba města:</td>
 						<td>{{demMulti([-game.moneyMaintenance()/game.eff().udrzba], [game.eff().udrzba])}}</td>
 					</tr>
-					<tr><td>&sum;</td><td>{{game.moneyTotal().withSign()}}</td></tr>
+					<tr class="tip" title="celková finanční bilance za jeden cyklus"><td>&sum;</td><td>{{game.moneyTotal().withSign()}}</td></tr>
 				</table>
 				<hr>
 				<p><b>Těžba</b></p>
@@ -185,7 +194,10 @@
 					<tr ng-if="game.happyMuzeum() > 0">  <td>muzeum:</td> <td>{{game.happyMuzeum().withSign()}}</td></tr>
 					<tr ng-if="game.happySklad() < 0">   <td>sklad:</td>  <td>{{game.happySklad().withSign()}}</td></tr>
 					<tr ng-if="game.happyPalac() < 0">   <td>palác:</td>  <td>{{game.happyPalac().withSign()}}</td></tr>
-					<tr><td>&sum;</td><td>{{game.realHappiness().withSign()}}</td></tr>
+					<tr><td>&sum;</td><td class="tip">
+						<span title="součet všech příspěvků vygebenosti">{{game.realHappiness().withSign()}}</span>
+						<span title="růst populace za jeden cyklus, počítá se jako vygebenost/50">(růst populace {{game.popGrowth().withSign()}})</span>
+					</td></tr>
 				</table>
 			</div>
 

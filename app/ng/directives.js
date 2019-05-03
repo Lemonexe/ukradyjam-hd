@@ -6,6 +6,11 @@ app.directive('escapeWin', () => ({restrict: 'E', template: '<div class="escape"
 //directive for battle management options
 app.directive('battleManagement', () => ({restrict: 'E', templateUrl: 'app/ng/battleManagement.html'}));
 
+//upload file for manual loading
+app.directive('fileUpload', () => ({restrict: 'A', link: function(scope, elem) {
+	elem.on('change', () => saveService.manualLoad(elem[0].files[0]));
+}}));
+
 //directive for generic (not type specific) content on a building detail page
 app.directive('buildingDetails', function() {
 	return {
@@ -53,10 +58,11 @@ app.directive('tradeSlider', function() {
 		restrict: 'E',
 		scope: {},
 		templateUrl: 'app/ng/tradeSlider.html',
+		link: (scope, elem) => elem.on('keydown', event => (event.keyCode === 13 || event.key === 'Enter') && scope.trade()),
 		controller: ['$scope', function($scope) {
 			$scope.status = '';
-			$scope.suroviny = consts.surFullDescription;
-			$scope.selected = 0;
+			$scope.icons = consts.surAliases;
+			$scope.selected = 1;
 			$scope.percent = 50;
 			$scope.eff = game.eff().obchod;
 			$scope.rate = consts.goldValue; //exchange rate of resources to gold
@@ -64,7 +70,7 @@ app.directive('tradeSlider', function() {
 			//the key function, which converts percentage of slider to values of how much to sell/buy -> returns [gold, resource]
 			$scope.calculate = function() {
 				let p = $scope.percent;
-				let i = $scope.selected + 1; //index of s.sur
+				let i = $scope.selected; //index of s.sur
 				let e = game.eff().obchod;
 				let r = $scope.rate;
 				$scope.eff = e;
@@ -92,10 +98,23 @@ app.directive('tradeSlider', function() {
 			$scope.trade = function() {
 				let change = $scope.calculate();
 				s.sur[0] += change[0];
-				s.sur[$scope.selected + 1] += change[1];
+				s.sur[$scope.selected] += change[1];
 				$scope.percent = 50;
 				$scope.eff > 1 && game.achieve('ecozmrd');
 			};
+
+			//preview the resources that are being traded (shorten the numbers using 'k')
+			$scope.preview = () => $scope.calculate().map(item => (Math.abs(item) > 1e4) ?
+				Math.round(item/1e3).withSign() + 'k' :
+				item.withSign());
+
+			//select resource to be traded
+			$scope.set = (index) => ($scope.selected = index);
+
+			//style for resource icons (for selection)
+			$scope.selectionStyle = (index) => (index === $scope.selected) ?
+			({'border': '1px solid #998855', 'background-color': '#ccbb88'}) :
+			({'margin': '1px'});
 		}]
 	};
 });
@@ -108,8 +127,10 @@ app.directive('training', function() {
 		templateUrl: 'app/ng/training.html',
 		controller: ['$scope', function($scope) {
 			$scope.icons = consts.surAliases;
+			$scope.army = s.army;
 			$scope.units = {};
 			$scope.ranges = {};//control for all sliders
+			$scope.freePop = () => s.pop[0];
 			$scope.eff = () => game.getUnitCost($scope.building);
 
 			//units that are unlocked and trained in the currently viewed building
@@ -150,11 +171,15 @@ app.directive('training', function() {
 
 			//buy the unit 'id' and reset slider
 			$scope.buy = function(id) {
+				let n = $scope.ranges[id];
 				if($scope.getBuyLimit(id) <= 0) {
 					s.messages.push(`Na stavbu jednotky ${units[id].name} není dost surovin.`);
 					return;
 				}
-				let n = $scope.ranges[id];
+				else if(n === 0) {
+					s.messages.push('Je nutno zvolit počet jednotek k nákupu.');
+					return;
+				}
 				s.army[id] += n;
 				s.pop[0] -= $scope.popPrice(id, n);
 				s.sur = s.sur.map((s, i) => s - $scope.surPrice(id, i, n));

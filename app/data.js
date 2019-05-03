@@ -2,9 +2,7 @@
 const consts = {
 	dt: 1e4, //duration of one cycle [ms]
 	dtw: 1e3, //duration of one battle stroke [ms]
-	//aliases for resources
-	surAliases: ['zlato', 'drevo', 'kamen', 'syra', 'pivo'],
-	surFullDescription: [{id: 'drevo', name: 'Dřevo'}, {id: 'kamen', name: 'Kamení'}, {id: 'syra', name: 'Sýra'}, {id: 'pivo', name: 'Pivo'}],
+	surAliases: ['zlato', 'drevo', 'kamen', 'syra', 'pivo'], //aliases for resources
 	baseRateWP: 4, //základní rychlost výzkumu, škola posiluje
 	tax: 3, //base money gain per taxpayer
 	wage: 3, //base money loss per worker
@@ -173,35 +171,35 @@ let enemyArmies = [
 //description is a function of kostel lvl
 const miracles = {
 	faust: {name: 'Faust, bůh kovárny',
-		flavor: 'Olympský ocelář nám naostří zbraně, ačkoliv si za to nárokuje trochu kořisti',
+		flavor: 'Olympský ocelář nám naostří zbraně, ačkoliv si za to nárokuje trochu kořisti.',
 		description: l => `síla jednotek +${(l*0.10).toPercent()}, účinnost drancování -${(l*0.05).toPercent()}`
 	},
 	delfin: {name: 'Delfín, bůh koupání',
-		flavor: 'Vládce všech rybníků pomáhá námořníkům v nesnázích a usnadňuje tak logistiku',
+		flavor: 'Vládce všech rybníků pomáhá námořníkům v nesnázích a usnadňuje tak logistiku.',
 		description: l => `účinnost obchodu +${(l*0.05).toPercent()}`
 	},
 	obr: {name: 'Obr, kolosální gigant',
-		flavor: 'Tenhle velkej hoch celý dny jenom maká, nikdo neudělá tolik práce jako on',
+		flavor: 'Tenhle velkej hoch celý dny jenom maká, nikdo neudělá tolik práce jako on.',
 		description: l => `těžba všech surovin +${(l*0.10).toPercent()}`
 	},
 	antena: {name: 'Palác Anténa, bohyně radiokomunikace',
-		flavor: 'Moudrá ajťačka olympská má vždy skvělé vynálezy pro naše vědecké bádání',
+		flavor: 'Moudrá ajťačka olympská má vždy skvělé vynálezy pro naše vědecké bádání.',
 		description: l => `účinnost školství +${(l*0.20).toPercent()}`
 	},
 	dmnt: {name: 'Dementér, bohyně hlupáků',
-		flavor: 'Tato bohyně nadá naše obyvatele otupující demencí, takže jsou o něco blaženější',
+		flavor: 'Tato bohyně nadá naše obyvatele otupující demencí, takže jsou o něco blaženější.',
 		description: l => `základ vygebenosti +${(l*0.10).toPercent()}, učinnost školství -${(l*0.10).toPercent()}`
 	},
 	apollo: {name: 'Apollo 11, bůh astrálních poutníků',
-		flavor: 'Hvězdné putování je sice k ničemu, ale státní rozpočet dokáže vyluxovat až do dna',
+		flavor: 'Hvězdné putování je sice k ničemu, ale státní rozpočet dokáže vyluxovat až do dna.',
 		description: l => `daňový výběr -${(l*0.10).toPercent()}`
 	},
 	had: {name: 'Had, bůh hrobníků',
-		flavor: 'Dělníci se flákají a vymlouvají se, že musí pořád chodit na různé pohřby',
+		flavor: 'Dělníci se flákají a vymlouvají se, že musí pořád chodit na různé pohřby.',
 		description: l => `těžba všech surovin -${(l*0.10).toPercent()}`
 	},
 	helma: {name: 'pan Helma, bůh bez portfeje',
-		flavor: 'Zcela neužitečný bůh, který svou naprostou zbytečností obyvatele akorát naštve',
+		flavor: 'Zcela neužitečný bůh, který svou naprostou zbytečností obyvatele akorát naštve.',
 		description: l => `základ vygebenosti -${(l*0.20).toPercent()}`
 	}
 };

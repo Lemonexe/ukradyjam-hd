@@ -5,19 +5,19 @@
 	Účinnost obchodu: {{eff.toPercent()}}, každá úroveň k účinnosti přidává 5%.
 </p>
 <p>
-	Obchodovaná surovina:
-	<select ng-model="selected">
-		<option ng-repeat="s in suroviny" ng-value="$index">{{s.name}}</option>
-	</select>
-	<input type="button" ng-click="trade()" value="Provést obchod">
+	Výběr obchodované suroviny:
+
+	<span ng-repeat="i in icons" ng-if="$index > 0" ng-click="set($index)">
+		<img ng-src="res/GUI/icon_{{i}}.png" ng-style="selectionStyle($index)">
+	</span>
 </p>
-<p></p>
 <p><input type="range" class="distributeSlider" step="1" min="0" max="100" ng-model="percent"></p>
 <table><tr>
 	<td style="text-align: left; width: 100px;">&larr; prodat</td>
 	<td style="text-align: center; width: 200px;">
-		<img src="res/GUI/icon_zlato.png"> {{calculate()[0].withSign()}}
-		<img ng-src="res/GUI/icon_{{suroviny[selected].id}}.png"> {{calculate()[1].withSign()}}
+		<img src="res/GUI/icon_zlato.png"> {{preview()[0]}}
+		<img ng-src="res/GUI/icon_{{icons[selected]}}.png"> {{preview()[1]}}
+		<p><input type="button" ng-click="trade()" value="Provést obchod" title="Enter"></p>
 	</td>
 	<td style="text-align: right; width: 100px;">nakoupit &rarr;</td>
 </tr>
