@@ -22,8 +22,7 @@ const consts = {
 
 	//misc
 	maxMessages: 20,
-	backAchieve: 24*3600e3,
-	carnageAchieve: 100
+	backAchieve: 24*3600e3
 };
 
 const buildings = {
@@ -97,75 +96,80 @@ const units = {
 	*/
 	kop: {class:'infantry', img: 'kopinik.png', train: 'kasarna',
 		name: 'Kopiník', flavor: 'Tupý branec z venkova ozbrojený klackem, vhodný jako kanonenfutr',
-		price: [5, 10, 0, 0, 0], pop: 1,
+		price: [10, 10, 0, 0, 0], pop: 1,
 		group: 50, att: 2, hp: 10,
 		bonus: {}
 	},
 	luk: {class: 'ranged', img: 'archys.png', train: 'kasarna',
 		name: 'Lučištník', flavor: 'Pidlooký branec z venkova, který se občas i trefí do nepřátelské armády',
-		price: [10, 15, 0, 0, 0], pop: 1,
+		price: [20, 15, 0, 0, 0], pop: 1,
 		group: 30, att: 3, hp: 8,
-		bonus: {trj: -0.3, obr: -0.2, hop: 0.2}
+		bonus: {kop: 0.2, hop: 0.4, trj: -0.2}
 	},
 	hop: {class: 'infantry', img: 'hoplit.png', train: 'kasarna',
 		name: 'Hoplit', flavor: 'Disciplinovaný voják v naleštěné uniformě je chloubou přehlídek',
-		price: [40, 30, 0, 10, 0], pop: 1,
+		price: [60, 25, 0, 10, 0], pop: 1,
 		group: 50, att: 5, hp: 18,
 		bonus: {}
 	},
 	sln: {class: 'infantry', img: 'slon.png', train: 'kasarna',
 		name: 'Slon', flavor: 'Tato obluda se sice nevrhá do bitevní vřavy, funguje však jako živý štít',
-		price: [450, 180, 0, 100, 0], pop: 3,
-		group: 10, att: 8, hp: 120,
-		bonus: {}
+		price: [450, 120, 0, 80, 0], pop: 3,
+		group: 10, att: 9, hp: 120,
+		bonus: {sln: 0.5}
 	},
 	trj: {class: 'infantry', img: 'trojan.png', train: 'dilna',
 		name: 'Trojský kůň', flavor: 'Navenek vkusné umělecké dílo, uvnitř však číhají ozbrojení záškodníci',
-		price: [600, 240, 0, 120, 0], pop: 4,
+		price: [600, 200, 0, 130, 0], pop: 4,
 		group: 10, att: 16, hp: 70,
 		bonus: {hop: 0.3}
 	},
 	obr: {class: 'infantry', img: 'steam.png', train: 'dilna',
 		name: 'Parní kolos', flavor: 'Hromada pístů, pružin a čepelí s řachotem rozdupe všechno před sebou',
-		price: [1250, 500, 0, 250, 0], pop: 5,
+		price: [1200, 400, 0, 350, 0], pop: 5,
 		group: 10, att: 20, hp: 100,
 		bonus: {}
 	},
 	baz: {class: 'ranged', img: 'ohnostrojcik.png', train: 'zkusebna',
 		name: 'Ohňostrojčík', flavor: 'Šílený vědec, co se vydal experimentovat s výbušninami přímo do bitvy',
-		price: [200, 10, 0, 70, 0], pop: 1,
-		group: 10, att: 19, hp: 7,
+		price: [200, 10, 0, 90, 0], pop: 1,
+		group: 10, att: 20, hp: 7,
 		bonus: {sln: -0.2, trj: 0.3, obr: 0.4}
 	},
 	bal: {class: 'bomber', img: 'balon.png', train: 'dilna',
 		name: 'Balón', flavor: 'Plně naložen naplněnými nočníky, které neváhá vylít na hlavy nepřátel',
-		price: [750, 40, 5, 120, 0], pop: 2,
-		group: 10, att: 5, hp: 15,
-		bonus: {kop: 3, luk: 3, hop: 5, sln: 2, trj: 5, obr: 5, baz: 0.2, bal: 0.5}
+		price: [900, 40, 5, 150, 0], pop: 2,
+		group: 10, att: 5, hp: 15, apparentAtt: 25,
+		bonus: {kop: 3, luk: 2.5, hop: 5, sln: 2, trj: 4, obr: 5, baz: 0.2, bal: 0.5}
 	},
 	gyr: {class: 'antibomber', img: 'gyrokoptera.png', train: 'dilna',
 		name: 'Gyrosář', flavor: 'Létající stánek s gyrosem je hrozivý vzdušný stroj obsypaný ostrými noži',
-		price: [400, 60, 0, 90, 0], pop: 1,
+		price: [400, 50, 0, 80, 0], pop: 1,
 		group: 10, att: 20, hp: 30,
 		bonus: {}
 	}
 };
 
-//table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army. Rows means size of battlefield = [1,3,5,7]
-//the last army will get continuous reinforcements - numbers will reset after every turn
+//table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army is loaded
+//the last army will simply get regenerated after defeat
+//rows means size of battlefield, max rows = 5
 let enemyArmies = [
 	{rows: 1, dranc: 20,  army: {kop: 1,    luk: 0,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 1, dranc: 50,  army: {kop: 5,    luk: 1,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 1, dranc: 150, army: {kop: 20,   luk: 5,    hop: 3,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 2, dranc: 500, army: {kop: 50,   luk: 30,   hop: 10,   sln: 1,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 2, dranc: 1e3, army: {kop: 100,  luk: 60,   hop: 50,   sln: 4,   trj: 1,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 3, dranc: 2e3, army: {kop: 200,  luk: 120,  hop: 100,  sln: 10,  trj: 3,   obr: 0,   baz: 10,  bal: 0,   gyr: 0}},
-	{rows: 3, dranc: 5e3, army: {kop: 350,  luk: 240,  hop: 200,  sln: 30,  trj: 10,  obr: 0,   baz: 50,  bal: 5,   gyr: 0}},
-	{rows: 4, dranc: 1e4, army: {kop: 500,  luk: 420,  hop: 400,  sln: 60,  trj: 50,  obr: 0,   baz: 100, bal: 50,  gyr: 10}},
-	{rows: 4, dranc: 2e4, army: {kop: 1000, luk: 750,  hop: 800,  sln: 120, trj: 100, obr: 10,  baz: 200, bal: 80,  gyr: 60}},
-	{rows: 5, dranc: 5e4, army: {kop: 1500, luk: 1050, hop: 1500, sln: 250, trj: 200, obr: 100, baz: 400, bal: 150, gyr: 150}},
-	{rows: 5, dranc: 5e4, army: {kop: 1500, luk: 1050, hop: 1500, sln: 250, trj: 200, obr: 100, baz: 400, bal: 150, gyr: 150}}
-	//max rows = 5
+	{rows: 1, dranc: 80,  army: {kop: 5,    luk: 1,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{rows: 1, dranc: 150, army: {kop: 12,   luk: 4,    hop: 2,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{rows: 2, dranc: 300, army: {kop: 25,   luk: 15,   hop: 5,    sln: 1,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{rows: 2, dranc: 600, army: {kop: 50,   luk: 30,   hop: 10,   sln: 2,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{rows: 2, dranc: 2e3, army: {kop: 100,  luk: 60,   hop: 30,   sln: 5,   trj: 1,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{rows: 3, dranc: 3e3, army: {kop: 150,  luk: 90,   hop: 50,   sln: 10,  trj: 3,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{rows: 3, dranc: 5e3, army: {kop: 200,  luk: 150,  hop: 100,  sln: 15,  trj: 6,   obr: 0,   baz: 1,   bal: 0,   gyr: 0}},
+	{rows: 3, dranc: 1e4, army: {kop: 300,  luk: 240,  hop: 200,  sln: 30,  trj: 10,  obr: 0,   baz: 5,   bal: 0,   gyr: 0}},
+	{rows: 4, dranc: 2e4, army: {kop: 450,  luk: 360,  hop: 350,  sln: 60,  trj: 30,  obr: 1,   baz: 10,  bal: 0,   gyr: 0}},
+	{rows: 4, dranc: 3e4, army: {kop: 650,  luk: 480,  hop: 600,  sln: 90,  trj: 60,  obr: 4,   baz: 30,  bal: 1,   gyr: 0}},
+	{rows: 4, dranc: 5e4, army: {kop: 900,  luk: 720,  hop: 900,  sln: 120, trj: 100, obr: 10,  baz: 90,  bal: 10,  gyr: 1}},
+	{rows: 5, dranc: 1e5, army: {kop: 1250, luk: 900,  hop: 1250, sln: 180, trj: 160, obr: 40,  baz: 200, bal: 100, gyr: 20}},
+	{rows: 5, dranc: 2e5, army: {kop: 2000, luk: 1500, hop: 2500, sln: 400, trj: 380, obr: 120, baz: 450, bal: 400, gyr: 200}},
+	{rows: 5, dranc: 4e5, army: {kop: 3000, luk: 2400, hop: 4000, sln: 700, trj: 700, obr: 250, baz: 900, bal: 800, gyr: 600}},
+	{rows: 5, dranc: 8e5, army: {kop: 5000, luk: 3600, hop: 6000, sln: 1000,trj: 1000,obr: 500, baz: 1500,bal: 1500,gyr: 1200}}
 ];
 
 //description is a function of kostel lvl
@@ -224,7 +228,7 @@ const achievements = {
 	muzeum: {name: 'Ukončete výstup a nástup, dveře se zavírají', description: 'postavit muzeum',
 		flavor: 'Příští stanice Můstek, přestup na linku B.'},
 //ENDGAME
-	carnage: {name: 'Blood for the Blood God', description: 'vést bitvu ' + consts.carnageAchieve + ' kol v kuse',
+	carnage: {name: 'Blood for the Blood God', description: 'porazit Polis úrovně 16',
 		flavor: 'Půda je nyní promáčená krví synů Řecka, kteří zcela zbytečně položili životy na poli válečném. Historie nikdy nezapomene na tato jatka.'},
 	nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
 		flavor: 'Novoroční ohňostroje mění svět v kouřící ruiny. A taky plaší domácí mazlíčky!!!'},

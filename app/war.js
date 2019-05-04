@@ -7,6 +7,7 @@ let War = () => ({
 		if(this.armySum(s.army) === 0) {s.messages.push('Nemáme žádnou dostupnou armádu');return;}
 		//create the battlefield object, P = player related, E = enemy related
 		let rows = enemyArmies[s.enemyLevel].rows + 1; //total number of rows on battlefield
+		rows = (rows <= 6) ? rows : 5;
 		s.battlefield = {
 			stroke: 0,
 			cycles: 0,
@@ -78,6 +79,7 @@ let War = () => ({
 
 			//increment or regenerate enemy
 			if(!bf.last) {s.enemyLevel++;}
+			else {game.achieve('carnage');}
 			s.armyE = angular.copy(enemyArmies[s.enemyLevel].army);
 		}
 		else {
@@ -172,7 +174,6 @@ let War = () => ({
 		bf.stroke++;
 
 		bf.cycles = Math.ceil(bf.stroke/3); //just an informative value
-		(Math.ceil(bf.stroke/3) > consts.carnageAchieve) && game.achieve('carnage');
 		
 		bf.nukeDuration -= (bf.nukeDuration > 0) ? 1 : 0;
 		if(bf.scheduledNuke) {this.nukeExec();}
@@ -229,9 +230,6 @@ let War = () => ({
 				}
 			}
 		}
-
-		//if it's the last enemy army, it will get replenished
-		if(bf.last) {bf.reserveE = angular.copy(enemyArmies[s.enemyLevel].army);}
 
 		//control for end - whoever loses all ground units is defeated
 		let BFsum = this.getBFsum(); //has to be called again!

@@ -100,7 +100,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [0, 2, 5],
+	version: [1, 0, 0],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -132,7 +132,7 @@ let game = {
 				s.sur[j] = storage;
 				overflow[j] = true;
 				//relieve workers. In case of beer, keep as many workers as it takes to keep a constant supply of beer, otherwise relieve all workers
-				let newWorkers = (o === 'pivo') ? Math.ceil(beerConsumption/eff[o]) : 0;
+				let newWorkers = (o === 'pivo') ? Math.min(s.pop[4], Math.ceil(beerConsumption/eff[o])) : 0;
 				s.pop[0] += s.pop[j] - newWorkers;
 				s.pop[j] = newWorkers;
 			}
@@ -153,6 +153,9 @@ let game = {
 
 	//POP
 		this.population();
+
+	//bailout in insolvency
+		this.bailout();
 
 	//MIRACLE & NUKE
 		s.nukeCooldown = (--s.nukeCooldown).positify();
@@ -391,6 +394,15 @@ let game = {
 		}
 		else {
 			s.messages.push('Nemáme dostatek surovin, a taková velkolepá pyrotechnická sestava přijde hodně draho!');
+		}
+	},
+
+	//check for insolvency and grant a bailout
+	bailout: function() {
+		if(this.popTotal() <= 0 && this.popGrowth() <= 0 && s.sur[4] <= 0 && s.sur[0] <= 0 && s.miracle !== 'helma') {
+			s.sur[4] = 100; //give beer to enable population growth
+			if(s.sur[1] <= 0 && this.getBlvl('hospoda') === 0) {s.sur[1] = 100;} //give wood for hospoda construction
+			s.messages.push('Naše říše je v totálním krachu. Abychom se z krize vyhrabali, dala nám Helénská Unie půjčku s dlouhodobou splatností.');
 		}
 	},
 

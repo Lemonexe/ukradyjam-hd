@@ -85,7 +85,7 @@
 		<p>Tento seznam pouze shrnuje nejvýznamější změny v důležitých verzích. Pokud Vás zajímá zdrojový kód aplikace včetně jeho vývoje,
 			navštivte GitHub <a href="https://github.com/Lemonexe/ukradyjam-hd" target="_blank">repozitář</a>.</p>
 		<ul>
-			<!--<li><b>1.0.0</b> (??.04.2019) oficiální release</li>-->
+			<li><b>1.0.0</b> (04.05.2019) oficiální release</li>
 			<li><b>0.2.5</b> (03.05.2019) manuální ukládání hry</li>
 			<li><b>0.2.4</b> (28.04.2019) přidány zbraně hromadného ničení</li>
 			<li><b>0.2.0</b> (21.04.2019) přidána válka</li>
@@ -219,8 +219,8 @@
 							<td><img ng-src="res\unit\{{units[i].img}}"></td>
 							<td><p>
 								<b>{{units[i].name}} ({{n}} ks)</b><br>
-								{{units[i].flavor}}<br>
-								velikost skupiny: {{units[i].group}} ks
+								{{units[i].flavor}}.
+								Útok: {{units[i].apparentAtt || units[i].att}}, výdrž: {{units[i].hp}}
 							</p></td>
 						</tr>
 					</table>
@@ -447,8 +447,14 @@
 				<p>Nepřátelská vesnice, která jistě skrývá ohromné bohatství zralé k uloupení!</p>
 				<div ng-if="!s.battlefield">
 					<p class="strong" ng-click="game.war.initBattle()">⚔️ <a class="fakeLink">Zaútočit</a> (úroveň {{s.enemyLevel+1}})</p>
+					<p class="fakeLink tip" ng-click="tab('battleTutorial')" style="font-size: 13px;">Jak bojovat?</p>
 				</div>
 				<battle-management></battle-management>
+			</div>
+
+			<div ng-switch-when="battleTutorial" ng-style="screenStyle()">
+				<escape></escape>
+				<div ng-include="'app/ng/battleTutorial.html'"></div>
 			</div>
 
 		</div>

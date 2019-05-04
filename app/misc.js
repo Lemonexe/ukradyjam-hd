@@ -87,6 +87,7 @@ let saveService = {
 
 	//delete local save
 	purge: function() {
+		s = S();
 		window.onbeforeunload = null;
 		localStorage.removeItem('savegame');
 		location.reload();
