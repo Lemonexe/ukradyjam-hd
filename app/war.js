@@ -182,15 +182,16 @@ let War = () => ({
 	//1st stroke: units advance on the map
 	stroke1: function() {
 		let bf = s.battlefield;
-
 		//iterate every row
 		for(let y = 0; y < bf.rows; y++) {
 			let iterationOrder = [2, 3, 1, 4, 0, 5];
+			//iterate every column, but ordered by iterationOrder
 			for(let i = 0; i < 6; i++) {
 				let x = iterationOrder[i];
 				let left = x < 3; //is on the left side of battlefield?
 				let spawn = left ? 0 : 5; //x coordinate of spawn cells
 				let dir = left ? 1 : -1; //x direction of travel
+				
 				//try to move inward (if not already on frontline cells)
 				if((x < 2 || x > 3) && bf.map[y][x] && !bf.map[y][x+dir]) {
 					bf.map[y][x+dir] = bf.map[y][x];
@@ -215,6 +216,7 @@ let War = () => ({
 					bf.map[y-1][x] = bf.map[y][x];
 					bf.map[y][x] = false;
 				}
+
 				//try to spawn a new group on outer cells
 				if(!bf.map[y][x] && x === spawn) {
 					//sky units spawn on the other side and move the other way
@@ -227,6 +229,20 @@ let War = () => ({
 						unitSet = unitSet.filter(item => units[item].class !== 'antibomber');
 					}
 					bf.map[y][x] = this.createGroup(unitSet, own);
+				}
+				//try to replenish an incomplete group on an outer cell
+				else if(bf.map[y][x] && x === spawn) {
+					let cell = bf.map[y][x];
+					let diff = units[cell.key].group - cell.n;
+					let res = cell.own ? 'reserveP' : 'reserveE'; //reserve pointer
+					if(diff > 0 && bf[res][cell.key] > diff) {
+						bf.map[y][x].n += diff;
+						bf[res][cell.key] -= diff;
+					}
+					else if(diff > 0 && bf[res][cell.key] > 0) {
+						bf.map[y][x].n += bf[res][cell.key];
+						bf[res][cell.key] = 0;
+					}
 				}
 			}
 		}

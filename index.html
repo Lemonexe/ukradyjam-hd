@@ -69,13 +69,16 @@
 		<h1>Nastavení 🔧</h1>
 		<p>Velikost okna <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
 		<p>Zobrazit mřížku bitevního pole <input type="checkbox" ng-model="ctrl.drawBattleGrid"></p>
-		<p>Manuální save
-			<span onclick="saveService.manualSave()" class="fakeButton" download="Ukradyjam.json">Uložit</span>
+		<p>Manuální save do souboru
+			<span onclick="saveService.manualSave()" class="fakeButton" download="Ukradyjam.json"
+				title="stáhnout soubor s daty Vaší říše">Uložit</span>
 			<input type="file" id="fileUpload" file-upload class="hidden">
-			<label for="fileUpload" class="fakeButton">Načíst</label>
+			<label for="fileUpload" class="fakeButton"
+				title="nahrát soubor s daty Vaší říše">Načíst</label>
 		</p>
 		<p>Automatický save
-			<span class="fakeButton" onclick="confirm('Opravdu chcete smazat veškerá vaše data v této hře?') && saveService.purge()">Smazat</span>
+			<span class="fakeButton" onclick="confirm('Opravdu chcete smazat veškerá vaše data v této hře?') && saveService.purge()"
+				title="resetovat hru">Smazat</span>
 		</p>
 	</div>
 

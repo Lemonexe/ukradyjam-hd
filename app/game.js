@@ -100,7 +100,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 0, 0],
+	version: [1, 0, 1],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
