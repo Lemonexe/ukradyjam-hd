@@ -35,49 +35,49 @@ const research = [
 	reqs: ['EcoA2', 'EcoB2'], f: function() {
 		s.p.unlockBuild.push('hospoda');
 	}},
-{id: 'EcoA4', class: 'Eco', name: 'Logistika', cost: 700,
+{id: 'EcoA4', class: 'Eco', name: 'Logistika', cost: 1000,
 	teaser: 'Ve velkých polisech prý mají jakýsi "logistický systém", což znamená, že staví obrovské sklady surovin. Takové chci mít taky!',
 	result: 'To bude určitě dobrý nápad, zkuste jeden postavit. Snad lidem nebudou vadit hovna od povozů a nevzhledné krabice.',
 	effect: 'odemknut sklad',
 	reqs: ['EcoA3'], f: function() {
 		s.p.unlockBuild.push('sklad');
 	}},
-{id: 'EcoA5', class: 'Eco', name: 'Železná sekera', cost: 4000,
+{id: 'EcoA5', class: 'Eco', name: 'Železná sekera', cost: 4500,
 	teaser: 'Nová železná sekera je hezčí, ostřejší a vydrží mnohem déle, proto ji doporučuje 9 z 10 dřevorubců. Nyní i s dvouletou zárukou. Úžasné!',
 	result: 'Nechali jsme se přesvědčit reklamou z amfiteátru a koupili jsme výhodný balíček 10 seker + 1 zdarma, tak snad je prodejce brzo doručí.',
 	effect: 'těžba dřeva +20%',
 	reqs: ['EcoA4'], f: function() {
 		s.p.drevo += 0.20;
 	}},
-{id: 'EcoA6a', class: 'Eco', name: 'Vozíky na kamení', cost: 2000,
+{id: 'EcoA6a', class: 'Eco', name: 'Vozíky na kamení', cost: 2500,
 	teaser: 'Dělníci dosud táhli kameny ručně a to moc efektivní není.',
 	result: 'Dělníci šutry stále nosí po jednom, ale jedou přitom ve vozíku a jde to tedy rychleji.',
 	effect: 'těžba kamení +20%',
 	reqs: ['EcoA4'], f: function() {
 		s.p.kamen += 0.20;
 	}},
-{id: 'EcoA6b', class: 'Eco', name: 'Morálka na moři', cost: 2000,
+{id: 'EcoA6b', class: 'Eco', name: 'Morálka na moři', cost: 2500,
 	teaser: 'Na pivní plošině furt všichni jen chlastají! Je třeba zavést disciplínu a omezit tak ztráty piva.',
 	result: 'Uzavřel se přístup k hlavní nádrži. Většina dělníků tedy chlastá u ventilu, ale aspoň ti blbí už nepijou a ztráty piva byly omezeny.',
 	effect: 'těžba piva +20%',
 	reqs: ['EcoA6a'], f: function() {
 		s.p.pivo += 0.20;
 	}},
-{id: 'EcoA6c', class: 'Eco', name: 'Kýbly na mléko', cost: 2000,
+{id: 'EcoA6c', class: 'Eco', name: 'Kýbly na mléko', cost: 2500,
 	teaser: 'Mléko pracovníci dosud nosili v dlaních. S kýblem to určitě půjde rychleji!',
 	result: 'Dělníci nechápou, proč nemají mléko nosit ve dlaních, to se nezměnilo, ale dali si kýbly na hlavu a snížila se tak úrazovost následkem pokopání krávou, takže efektivita práce se zvedla.',
 	effect: 'těžba sýry +20%',
 	reqs: ['EcoA6b'], f: function() {
 		s.p.syra += 0.20;
 	}},
-{id: 'EcoA7', class: 'Eco', name: 'Splachovadlo', cost: 10000,
+{id: 'EcoA7', class: 'Eco', name: 'Splachovadlo', cost: 14000,
 	teaser: 'A potom že se prý nezajímáme o komfort obyčejných lidi! Moderní a čistý záchod ubytuje i početnou rodinu.',
 	result: 'No to je ale luxus! Naše překrásná toaletní zařízení nyní přitáhnou více lidí.',
 	effect: 'kapacita veřejných záchodů +10%',
 	reqs: ['EcoA5'], f: function() {
 		s.p.WC += 0.10;
 	}},
-{id: 'EcoA8', class: 'Eco', name: 'Oblouková pila', cost: 25000,
+{id: 'EcoA8', class: 'Eco', name: 'Oblouková pila', cost: 26000,
 	teaser: 'To bude druhá revoluce v dřevorubectví! Budeme stromy moci i řezat, nejen do nich sekat!',
 	result: 'Excelentní! Teď budeme mít dostatek dřeva na stavbu velkolepé megalopole!',
 	effect: 'těžba dřeva +10%',
@@ -106,7 +106,7 @@ const research = [
 	reqs: ['EcoB2', 'EcoA3'], f: function() {
 		s.p.obchod += 0.10;
 	}},
-{id: 'EcoB4', class: 'Eco', name: 'Chodníkový zákon', cost: 5000,
+{id: 'EcoB4', class: 'Eco', name: 'Chodníkový zákon', cost: 8000,
 	teaser: 'Každej na svůj chodník jenom sere a město pak musí platit údržbu. Od nynějška bude majitel zasraného chodníku pokutován, což zvýší incentivu k uklízení.',
 	result: 'Konečně ty prasata zametaj aspoň ty největší hovna! Bohužel se jim to moc nelíbí, ale alespoň konečně to tu nevypadá jako ve chlévě.',
 	effect: 'údržba města -10%, vygebenost -60',
@@ -122,14 +122,14 @@ const research = [
 		s.p.prachy += 0.10;
 		s.p.happy += 60;
 	}},
-{id: 'EcoB6', class: 'Eco', name: 'Eurozóna', cost: 18000,
+{id: 'EcoB6', class: 'Eco', name: 'Eurozóna', cost: 38000,
 	teaser: 'Zavedeme jednotnou měnu pro meziostrovní obchod, to bude pokrokové a vyplatí se to skutečně VŠEM!',
 	result: 'Ano! To je rozumné a dobré. Kdo bude tuto univerzální měnu razit? No přece my, samozřejmě. Ostatním se to už tolik nevyplatí...',
 	effect: 'účinnost obchodu +10%',
 	reqs: ['EcoB5'], f: function() {
 		s.p.obchod += 0.10;
 	}},
-{id: 'EcoB7', class: 'Eco', name: 'Stravenky', cost: 35000,
+{id: 'EcoB7', class: 'Eco', name: 'Stravenky', cost: 55000,
 	teaser: 'Zlatá kolečka hladový krk nezasytí, dělný lid chce poukaz na jídlo a pití!',
 	result: 'Výborně, snížili jsme platy a ta šlichta, co dáváme v kantýně, nás stojí jen zlomek ušetřených peněz. Všichni jsou spokojení.',
 	effect: 'platy dělníků -10%',
@@ -180,21 +180,21 @@ const research = [
 		s.p.happy += 350;
 		s.p.obchod -= 0.10;
 	}},
-{id: 'PolA5', class: 'Pol', name: 'Státní náboženství', cost: 7999,
+{id: 'PolA5', class: 'Pol', name: 'Státní náboženství', cost: 8999,
 	teaser: 'To by nešlo, aby lidi jen tak v něco věřili a jen tak se někde modlili jak se jim zachce. Vytvoříme pořádně zregulovanou oficiální církev, která bude kázat submisivitu vůči posvěcené státní vrchnosti!',
 	result: 'Úžasné, naše nová církev je organizace tak neschopná a zkorumpovaná, že se nám o tom ani nesnilo! Nyní můžeme postavit svatý chrám a nahnat do něj věřící, ať už je to zajímá nebo ne.',
 	effect: 'odemknut kostel',
 	reqs: ['PolA4'], f: function() {
 		s.p.unlockBuild.push('kostel');
 	}},
-{id: 'PolA6', class: 'Pol', name: 'Honosný palác', cost: 16999,
+{id: 'PolA6', class: 'Pol', name: 'Honosný palác', cost: 27999,
 	teaser: 'Vládce musí být přece důstojný a reprezentovat naší zem svou vznešeností. Velkolepé vládní sídlo bude chloubou naší země, a občané to svému milovanému oligarchovi jistě rádi zacálují.',
 	result: 'Paráda, můžeme zahájit stavbu! Lidé se asi rozhořčí nad vysáváním státního rozpočtu na stavbu Holubího Hnízda, ale tak už to holt chodí. Všichni jsou si rovni, ale někteří jsou si rovnější.',
 	effect: 'odemknut palác',
 	reqs: ['PolA5'], f: function() {
 		s.p.unlockBuild.push('palac');
 	}},
-{id: 'PolA7', class: 'Pol', name: 'Populismus', cost: 28999,
+{id: 'PolA7', class: 'Pol', name: 'Populismus', cost: 44999,
 	teaser: 'Převratný traktát v oboru politické filozofie, který má prý v praxi přinést harmonizaci vztahů mezi plebsem a oligarchií, jakož i pozvednout politickou kulturu v zemi.',
 	result: 'Portrét vypaseného vládce visí na všech rozích a lidé přikyvují: no ano, chceme lepší budoucnost! Rozhazovat peníze je spravedlivé, úspory jsou stejně jenom výmysl nějakých ročíldů z volstrýtu.',
 	effect: 'vygebenost +700, platy dělníků +10%, daňový výběr -10%',
@@ -317,7 +317,7 @@ const research = [
 	reqs: ['ArmA1'], f: function() {
 		s.p.dranc += 0.40;
 	}},
-{id: 'ArmC2', class: 'Arm', name: 'Káry na brakování', cost: 3000,
+{id: 'ArmC2', class: 'Arm', name: 'Káry na brakování', cost: 4000,
 	teaser: 'Drancování je ta nejdůležitější část boje, proto musíme zajistit funkční logistiku vyplundrovaných surovin!',
 	result: 'Skvělé! Intenzita loupení a vykrádání se zlepšila a do našeho města může proudit tučná kořist. Alespoň NĚCO v tomhle státě funguje přesně podle očekávání.',
 	effect: 'účinnost drancování +30%',
@@ -331,28 +331,28 @@ const research = [
 	reqs: ['ArmA3', 'ArmB4'], f: function() {
 		s.p.dranc += 0.30;
 	}},
-{id: 'ArmB1', class: 'Arm', name: 'Luk', cost: 250,
+{id: 'ArmB1', class: 'Arm', name: 'Luk', cost: 350,
 	teaser: 'Jiná města umí házet nože pomocí klacku! To zní velice nebezpečně, tak proč to nezkusit?',
 	result: 'Vrhače nožů se v rukou těch trotlů chovají víceméně náhodně. Někdy je zasažen nepřítel, někdy spolubojovník. Válka je holt krutá a z krvavého pekla není úniku žádným směrem...',
 	effect: 'odemknut lučištník (kasárna)',
 	reqs: ['ArmA1'], f: function() {
 		s.p.unlockUnit.push('luk');
 	}},
-{id: 'ArmB2', class: 'Arm', name: 'Zoo', cost: 1300,
+{id: 'ArmB2', class: 'Arm', name: 'Zoo', cost: 1700,
 	teaser: 'Vědci by rádi zřídili ohrádku s cizokrajnými zvířaty, aby je mohli zevrubně studovat. Prý by to bylo i velice poučné a zábavné pro měšťany. Co je to za blbost, to jim nestačí ovce a krávy?',
 	result: 'Ztřeštěného nápadu vědců se chytli naši vojenští inženýři a zoo přestavěli na velkochov bitevních příšer. Pět tun masa s ohromnými kly se řítí po bojišti vražednou rychlostí – paráda!',
 	effect: 'odemknut slon (kasárna)',
 	reqs: ['ArmB1'], f: function() {
 		s.p.unlockUnit.push('sln');
 	}},
-{id: 'ArmB3', class: 'Arm', name: 'Hopliti', cost: 2400,
+{id: 'ArmB3', class: 'Arm', name: 'Hopliti', cost: 3000,
 	teaser: 'Nový kopiníci budou větší, lepší, hezčí, delší a když se tito tvrdí hoši postaví do hrozivě vypadající formace, určitě hluboce penetrují nepřátelské linie.',
 	result: 'Tyto elitní jednotky s nablýskanou zbrojí jsou zlatým hřebem každé vojenské přehlídky!',
 	effect: 'odemknut hoplit (kasárna)',
 	reqs: ['ArmB2'], f: function() {
 		s.p.unlockUnit.push('hop');
 	}},
-{id: 'ArmB4', class: 'Arm', name: 'Sochařství', cost: 5500,
+{id: 'ArmB4', class: 'Arm', name: 'Sochařství', cost: 6500,
 	teaser: 'Sochy jsou krásné a vznešené, měli bychom jimi zvelebit naši armádu. Třeba tak usmíříme své sveřepé soky!',
 	result: 'Dřevěné koně lze vydávat za umělecké dílo, takže můžeme část výdajů na armádu zahrnout pod kulturu a náš rozpočet hned vypadá přívětivěji! V útrobách koní zatím čekají chrabří bratři ve zbrani.',
 	effect: 'odemknuta dílna a v ní trojský kůň',
@@ -360,7 +360,7 @@ const research = [
 		s.p.unlockBuild.push('dilna');
 		s.p.unlockUnit.push('trj');
 	}},
-{id: 'ArmB5', class: 'Arm', name: 'Zkušebna ohňostrojů', cost: 13500,
+{id: 'ArmB5', class: 'Arm', name: 'Zkušebna ohňostrojů', cost: 18500,
 	teaser: 'BUM PRÁSK! Vědci s výbušnou povahou mohou být zapojeni přímo do vojensko-průmyslového komplexu a rozflákat tak všechno, na co přijdou!',
 	result: 'FIASKO! Budova byla při uvítacím ohňostroji srovnána se zemí, budeme muset postavit novou! A jestli jí ti vědci zase vyhodí do povětří, vyženeme je s jejich třaskavými experimenty přímo na bitevní pole.',
 	effect: 'odemknuta zkušebna ohňostrojů a v ní ohňostrojčík',
@@ -368,21 +368,21 @@ const research = [
 		s.p.unlockBuild.push('zkusebna');
 		s.p.unlockUnit.push('baz');
 	}},
-{id: 'ArmB6', class: 'Arm', name: 'Měchy na vzduch', cost: 22500,
+{id: 'ArmB6', class: 'Arm', name: 'Měchy na vzduch', cost: 27500,
 	teaser: 'To je ale šílený nápad – měchy na vzduch prý umožní potápěčům setrvat pod vodou a dobýt tak mořské hlubiny. Kdyby se to však povedlo, znamenalo by to převrat v námořním boji.',
 	result: 'Dostavil se nečekaný výsledek, měchy sice nelze využít na potápění, ale zase se umí VZNÁŠET! Dílna může tedy začít chrlit létající válečné stroje. Zmizte, ptáci – vzdušný prostor je náš!',
 	effect: 'odemknut balón (dílna)',
 	reqs: ['ArmB5'], f: function() {
 		s.p.unlockUnit.push('bal');
 	}},
-{id: 'ArmB7', class: 'Arm', name: 'Létající řeznictví', cost: 34000,
+{id: 'ArmB7', class: 'Arm', name: 'Létající řeznictví', cost: 46000,
 	teaser: 'Gyros je tradiční řecká pochoutka z masa. Dává proto smysl opatřit řezníky létajícím vrtulovým strojem, aby mohli ze vzduchu sytit hladové krky našich vojáků lahodným kafilerním odpadem.',
 	result: 'Letecké zásobování se ukázalo být neekonomické, ale když už jsme kvůli tomu vynalezli létající stroj pobitý ostrými čepelemi, můžeme jej nasadit do boje! Gyrosáři budou postrachem nebe!',
 	effect: 'odemknut gyrosář (dílna)',
 	reqs: ['ArmB6'], f: function() {
 		s.p.unlockUnit.push('gyr');
 	}},
-{id: 'ArmD1', class: 'Arm', name: 'Povinná vojna', cost: 44000,
+{id: 'ArmD1', class: 'Arm', name: 'Povinná vojna', cost: 72000,
 	teaser: 'Další buzerace občanů, tentokrát pro vojenské účely! Nevím, jestli budou rekruti bojeschopní, ale to je jedno – kvantita nad kvalitou, vždy a všude!',
 	result: 'Každý dospělý občan je zbuzerován a vycvičen, aby uměl salutovat, obléct si uniformu a vypotácet se ze stanu na ranní nástup. To značně pomůže produkci kanonenfutru v případě války.',
 	effect: 'cena jednotek -12%, síla jednotek -10%',

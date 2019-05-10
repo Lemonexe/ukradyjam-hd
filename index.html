@@ -23,6 +23,9 @@
 		<link rel="stylesheet" href="app/style.css">
 	</head>
 	<body ng-keyup="listen4Esc($event)" ng-mousemove="mouseMove($event)" ng-mouseup="mouseUp($event)">
+
+<div id="tooltip" ng-if="s.tooltip.visible" ng-style="s.tooltip.style">{{s.tooltip.message}}</div>
+
 <div id="header">
 	<a class="fakeLink" ng-click="window('intro2')">Úvod</a>
 	<a class="fakeLink" ng-click="window('achievements')">Achievmenty</a>
@@ -32,7 +35,7 @@
 
 <div ng-repeat="m in s.messages track by $index" class="popup" ng-style="getPopupStyle($index)">
 	<p ng-repeat="l in parseMessage(m)">{{l}}</p>
-	<p style="text-align: center;"><input type="button" ng-click="s.messages.splice($index, 1)" value="OK" title="Esc"></p>
+	<p style="text-align: center;"><input type="button" ng-click="s.messages.splice($index, 1)" value="OK" tooltip="Esc"></p>
 </div>
 
 <!-- GAME BOX -->
@@ -71,14 +74,14 @@
 		<p>Zobrazit mřížku bitevního pole <input type="checkbox" ng-model="ctrl.drawBattleGrid"></p>
 		<p>Manuální save do souboru
 			<span onclick="saveService.manualSave()" class="fakeButton" download="Ukradyjam.json"
-				title="stáhnout soubor s daty Vaší říše">Uložit</span>
+				tooltip="stáhnout soubor s daty Vaší říše">Uložit</span>
 			<input type="file" id="fileUpload" file-upload class="hidden">
 			<label for="fileUpload" class="fakeButton"
-				title="nahrát soubor s daty Vaší říše">Načíst</label>
+				tooltip="nahrát soubor s daty Vaší říše">Načíst</label>
 		</p>
 		<p>Automatický save
 			<span class="fakeButton" onclick="confirm('Opravdu chcete smazat veškerá vaše data v této hře?') && saveService.purge()"
-				title="resetovat hru">Smazat</span>
+				tooltip="resetovat hru">Smazat</span>
 		</p>
 	</div>
 
@@ -99,14 +102,14 @@
 		<div id="topBar" ng-style="style.gameWidth">
 			<div id="suroviny" ng-style="style.suroviny">
 				<div ng-repeat="i in icons" ng-class="{thisIsBad: isOverflow($index)}" ng-click="accessMine(mineNames[$index])"
-					title="{{(isOverflow($index) ? 'Je třeba dostavět sklad, kapacita je zcela naplněna!' : '')}}">
-					<img ng-src="res/GUI/icon_{{i}}.png">{{s.sur[$index].toFixed(0)}}&nbsp;
+					tooltip="{{(isOverflow($index) ? 'Je třeba dostavět sklad, kapacita je zcela naplněna!' : '')}}">
+					<img ng-src="res/GUI/icon_{{i}}.png">{{s.sur[$index].addk(1e4)}}&nbsp;
 				</div>
 			</div>
 			<div id="assistents">
-				<img src="res/GUI/head_starosta.png" ng-click="tab('advisorEco')" class="clickImg" title="Starosta">
-				<img src="res/GUI/head_vojak.png" ng-click="tab('advisorArmy')" class="clickImg" title="Generál">
-				<img src="res/GUI/head_vedec.png" ng-click="tab('advisorScience')" class="clickImg" title="Výzkumník">
+				<img src="res/GUI/head_starosta.png" ng-click="tab('advisorEco')" class="clickImg" tooltip="Starosta">
+				<img src="res/GUI/head_vojak.png" ng-click="tab('advisorArmy')" class="clickImg" tooltip="Generál">
+				<img src="res/GUI/head_vedec.png" ng-click="tab('advisorScience')" class="clickImg" tooltip="Výzkumník">
 			</div>
 		</div>
 
@@ -114,11 +117,11 @@
 
 		<!-- CITY -->
 			<div ng-switch-when="city" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'city'])">
-				<img src="res/GUI/icon_island.png" class="switch clickImg" ng-click="tab('island')" title="Ostrov">
+				<img src="res/GUI/icon_island.png" class="switch clickImg" ng-click="tab('island')" tooltip="Ostrov">
 				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl.showBuildingList = !ctrl.showBuildingList" class="clickImg">
 
 				<!-- existing buildings-->
-				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-style="getBuildingStyle(b)" title="{{buildings[b.id].name + ' (' + b.lvl + ')'}}"
+				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-style="getBuildingStyle(b)" tooltip="{{buildings[b.id].name + ' (' + b.lvl + ')'}}"
 					ng-mousedown="buildingMouseDown($event, b)" ng-class="{building: b.draggable, clickImg: !b.draggable}">
 
 				<!-- construction interface -->
@@ -142,16 +145,16 @@
 
 		<!-- ISLAND -->
 			<div ng-switch-when="island" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'island'])">
-				<img src="res/GUI/icon_city.png" class="switch clickImg" ng-click="tab('city')" title="Město">
+				<img src="res/GUI/icon_city.png" class="switch clickImg" ng-click="tab('city')" tooltip="Město">
 
-				<img src="res/env/prod_pila.png" ng-style="styleislandPila()" ng-click="accessMine('islandPila')" title="Pila" class="clickImg">
-				<img src="res/env/prod_kamen.png" ng-style="islandPos('plaz')" ng-click="accessMine('islandKamen')" title="Kamenitá pláž" class="clickImg">
-				<img src="res/env/prod_syra.png" ng-style="islandPos('syra')" ng-click="accessMine('islandSyra')" title="Krávy" class="clickImg">
-				<img src="res/env/prod_pivo.png" ng-style="islandPos('pivo')" ng-click="accessMine('islandPivo')" title="Pivní plošina" class="clickImg">
+				<img src="res/env/prod_pila.png" ng-style="styleislandPila()" ng-click="accessMine('islandPila')" tooltip="Pila" class="clickImg">
+				<img src="res/env/prod_kamen.png" ng-style="islandPos('plaz')" ng-click="accessMine('islandKamen')" tooltip="Kamenitá pláž" class="clickImg">
+				<img src="res/env/prod_syra.png" ng-style="islandPos('syra')" ng-click="accessMine('islandSyra')" tooltip="Krávy" class="clickImg">
+				<img src="res/env/prod_pivo.png" ng-style="islandPos('pivo')" ng-click="accessMine('islandPivo')" tooltip="Pivní plošina" class="clickImg">
 
-				<img ng-src="res/env/polis_{{polisIcon()}}.png" ng-style="islandPos('myPolis')" ng-click="tab('city')" class="clickImg">
+				<img ng-src="res/env/polis_{{polisIcon()}}.png" ng-style="islandPos('myPolis')" ng-click="tab('city')" tooltip="Naše město" class="clickImg">
 				<span ng-style="islandPos('myPolisName')" class="strong clickImg" ng-click="tab('city')">{{s.name}}</span>
-				<img src="res/env/polis_E.png" ng-style="islandPos('enemyPolis')" ng-click="tab('islandPolis')" class="clickImg">
+				<img src="res/env/polis_E.png" ng-style="islandPos('enemyPolis')" ng-click="tab('islandPolis')" tooltip="Nepřátelská vesnice" class="clickImg">
 				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">{{s.battlefield ? '🔥' : '&nbsp;'}}Polis</span>
 			</div>
 
@@ -167,40 +170,45 @@
 				<escape></escape><!--directive for escape button-->
 				<h2>Ekonomický přehled</h2>
 				<p>Starosta ti pomůže s vyděláváním prachů a managementem špinavého plebsu.</p>
-				<p><b>Finance</b></p>
 				<table class="numTable">
-					<tr class="tip" title="daňoví poplatníci · 3 · účinnost výběru"><td>Daňový výběr:</td>
+					<tr><th colspan="2">Finance</th></tr>
+					<tr class="tip" tooltip="daňoví poplatníci · 3 · účinnost výběru">
+						<td>Daňový výběr:</td>
 						<td>{{demMulti([s.pop[0], consts.tax], [game.eff().prachy])}}</td>
 					</tr>
-					<tr class="tip" title="dělníci · 3 · výše platů"><td>Platy dělníků:</td>
+					<tr class="tip" tooltip="dělníci · 3 · výše platů">
+						<td>Platy dělníků:</td>
 						<td>{{demMulti([(game.popTotal() - s.pop[0]), -consts.wage], [game.eff().plat])}}</td>
 					</tr>
-					<tr class="tip" title="za všechny budovy, roste exponenciálně s úrovní"><td>Údržba města:</td>
+					<tr class="tip" tooltip="za všechny budovy, roste exponenciálně s úrovní">
+						<td>Údržba města:</td>
 						<td>{{demMulti([-game.moneyMaintenance()/game.eff().udrzba], [game.eff().udrzba])}}</td>
 					</tr>
-					<tr class="tip" title="celková finanční bilance za jeden cyklus"><td>&sum;</td><td>{{game.moneyTotal().withSign()}}</td></tr>
+					<tr class="tip" tooltip="celková finanční bilance za jeden cyklus"><td>&sum;</td><td>{{game.moneyTotal().withSign()}}</td></tr>
 				</table>
-				<hr>
-				<p><b>Těžba</b></p>
-				<table class="numTable tip" title="dělníci · účinnost">
+				<table class="numTable tip" tooltip="dělníci · účinnost">
+					<tr><th colspan="2">Těžba</th></tr>
 					<tr><td>Dřevo:</td>  <td>{{demMulti([s.pop[1]], [game.eff().drevo])}}</tr>
 					<tr><td>Kamení:</td> <td>{{demMulti([s.pop[2]], [game.eff().kamen])}}</tr>
 					<tr><td>Sýra:</td>   <td>{{demMulti([s.pop[3]], [game.eff().syra])}}</tr>
 					<tr><td>Pivo:</td>   <td>{{demMulti([s.pop[4]], [game.eff().pivo])}}</tr>
 				</table>
-				<hr>
-				<p><b>Průzkum veřejného vygebení</b></p>
 				<table class="numTable">
+					<tr><th colspan="2">Průzkum veřejného vygebení</th></tr>
 					<tr><td>základ:  </td><td> {{game.happyBase().withSign()}}</td></tr>
 					<tr><td>populace:</td><td> {{(-game.popTotal()).withSign()}}</td></tr>
 					<tr ng-if="game.happyHospoda() > 0"> <td>pivo:</td>   <td>{{game.happyHospoda().withSign()}}</td></tr>
 					<tr ng-if="game.happyMuzeum() > 0">  <td>muzeum:</td> <td>{{game.happyMuzeum().withSign()}}</td></tr>
 					<tr ng-if="game.happySklad() < 0">   <td>sklad:</td>  <td>{{game.happySklad().withSign()}}</td></tr>
 					<tr ng-if="game.happyPalac() < 0">   <td>palác:</td>  <td>{{game.happyPalac().withSign()}}</td></tr>
-					<tr><td>&sum;</td><td class="tip">
-						<span title="součet všech příspěvků vygebenosti">{{game.realHappiness().withSign()}}</span>
-						<span title="růst populace za jeden cyklus, počítá se jako vygebenost/50">(růst populace {{game.popGrowth().withSign()}})</span>
-					</td></tr>
+					<tr class="tip" tooltip="celková vygebenost">
+						<td>&sum;</td>
+						<td>{{game.realHappiness().withSign()}}</td>
+					</tr>
+					<tr class="tip" tooltip="růst populace za jeden cyklus, počítá se jako vygebenost/50">
+						<td>🙂</td>
+						<td>{{game.popGrowth().withSign()}}</td>
+					</tr>
 				</table>
 			</div>
 
@@ -213,8 +221,8 @@
 				<div ng-show="!generalView">
 					<p><span class="strong">Přehled armády ve městě</span> <a class="fakeLink" ng-click="generalView = true">zobrazit záznamy bitev</a></p>
 					<p>
-						<span class="tip" title="násobí útok všech jednotek">Účinnost armády: {{game.eff().power.toPercent()}}</span>,
-						<span class="tip" title="násobí vydrancované suroviny">účinnost drancování: {{game.eff().dranc.toPercent()}}</span>
+						<span class="tip" tooltip="násobí útok všech našich jednotek">Účinnost armády: {{game.eff().power.toPercent()}}</span>,
+						<span class="tip" tooltip="násobí vydrancované suroviny">účinnost drancování: {{game.eff().dranc.toPercent()}}</span>
 					</p>
 					<p></p>
 					<table>
@@ -240,12 +248,12 @@
 				<p>Vědec ti vynalezne nejrůznější technologie - užitečná hnojiva i šílené rovnice!</p>
 				<p>
 					Počet výzkumných bodů: 💡{{s.WP}}<br>
-					<span class="tip" title="počet výzkumných bodů za jeden cyklus">Rychlost výzkumu: {{game.rateWP()}}</span>
+					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost výzkumu: {{game.rateWP()}}</span>
 				</p>
 				<div ng-repeat="g in WPgroups">
 					<p><b>{{WPgroupNames[$index]}}</b></p>
 					<div ng-repeat="w in getAvailableWis(g)" style="padding-left: 20px;">
-						<p><a class="fakeLink" ng-click="game.buyResearch(w)">{{w.name}}</a> ({{w.cost}})<br>
+						<p><a class="fakeLink" ng-click="game.buyResearch(w)">{{w.name}}</a> 💡{{w.cost}}<br>
 						{{w.teaser}}</p>
 					</div>
 				</div>
@@ -258,18 +266,18 @@
 				<hr>
 				<p><b>Přehled města {{s.name}}:</b> <a ng-click="renameCity()" class="fakeLink">přejmenovat</a></p>
 				<p>
-					<p class="tip" title="celková populace včetně dělníků">
+					<p><span class="tip" tooltip="celková populace včetně dělníků">
 						Populace: {{game.popTotal()}}
-					</p>
-					<p class="tip" title="volná místa na záchodech radnice" ng-class="{thisIsBad: game.popLimit() === game.popTotal()}">
+					</span></p>
+					<p><span class="tip" tooltip="volná místa na záchodech radnice" ng-class="{thisIsBad: game.popLimit() === game.popTotal()}">
 						Populační limit: {{game.popLimit()}}
-					</p>
-					<p class="tip" title="míra vytlemenosti obyvatel, určuje růst populace">
+					</span></p>
+					<p><span class="tip" tooltip="míra vytlemenosti obyvatel, určuje růst populace">
 						Vygebenost: {{game.realHappiness()}}
-					</p>
-					<p class="tip" title="růst populace za jeden cyklus, počítá se jako vygebenost/50" ng-class="{thisIsBad: game.popGrowth() < 0}">
+					</span></p>
+					<p><span class="tip" tooltip="růst populace za jeden cyklus, počítá se jako vygebenost/50" ng-class="{thisIsBad: game.popGrowth() < 0}">
 						Růst populace: {{game.popGrowth().withSign()}}
-					</p>
+					</span></p>
 					<p>Město založeno: před {{s.iteration}} cykly.</p>
 				</p>
 			</div>
@@ -281,7 +289,7 @@
 				<p>
 					Škola vytváří výzkumné body, výzkumy se pak kupují v okně vědce<br>
 					Počet výzkumných bodů: 💡{{s.WP}}<br>
-					<span class="tip" title="počet výzkumných bodů za jeden cyklus">Rychlost získávání bodů:
+					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost získávání bodů:
 					{{demMulti([game.rateWP()/game.eff().skola], [game.eff().skola]) }}</span>
 				</p>
 			</div>

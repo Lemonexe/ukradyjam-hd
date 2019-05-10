@@ -1,7 +1,7 @@
 <h2>{{buildings[key].name}}</h2>
 <p ng-if="level < buildings[key].maxLvl" style="text-align: center;">
-	<span title="maximální úroveň {{buildings[key].maxLvl}}">úroveň <b>{{level}}</b></span>, lze
-	<a class="fakeLink" ng-click="upgrade(key)">vylepšit</a>:
+	<span tooltip="maximální úroveň {{buildings[key].maxLvl}}">úroveň <b>{{level}}</b></span>, lze
+	<a class="fakeLink" ng-click="upgradeBuilding(key)">vylepšit</a>:
 	<span ng-repeat="i in icons" ng-if="price[$index] > 0">
 		<img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">
 		{{price[$index].toFixed(0)}}

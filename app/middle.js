@@ -168,7 +168,10 @@ app.controller('middle', function($scope, $interval) {
 		let comp = (a,b) => Math.abs(a-b) < 10;
 		if(Date.now() - drag.clickStart < 300 &&
 			comp(drag.startX, event.clientX) && comp(drag.startY, event.clientY)
-		) {$scope.tab(drag.b.id);}
+		) {
+			$scope.tab(drag.b.id);
+			s.hasOwnProperty('tooltip') && (s.tooltip.visible = false);
+		}
 		//finish dragging
 		drag.b = false;
 		game.checkAchievement.multi();
@@ -226,9 +229,17 @@ app.controller('middle', function($scope, $interval) {
 	//event listener for 'Esc' key press on the entire body
 	$scope.listen4Esc = function(event) {
 		if(event.keyCode === 27 || event.key === 'Escape') {
-			if(s.messages.length > 0) {s.messages.pop();return;}
+			//close popup
+			if(s.messages.length > 0) {
+				s.messages.pop();
+				s.hasOwnProperty('tooltip') && (s.tooltip.visible = false);
+				return;
+			}
+			//prevent if still in first intro
 			if($scope.ctrl.window === 'intro') {return;}
+			//switch window if in another window
 			if($scope.ctrl.window !== 'game') {$scope.ctrl.window = 'game'; return;}
+			//default behavior - switch tab
 			$scope.tab();
 			$scope.ctrl.showBuildingList = false;
 		}

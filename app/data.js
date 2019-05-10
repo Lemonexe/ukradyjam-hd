@@ -7,7 +7,7 @@ const consts = {
 	tax: 3, //base money gain per taxpayer
 	wage: 3, //base money loss per worker
 	goldValue: 6, //exchange rate of resources to gold
-	baseSklad: 1e3,
+	baseSklad: 2000,
 
 	mirCountdown: 8, //duration of miracle
 	mirCooldown: 16, //base value of waiting time for new miracle
@@ -51,7 +51,7 @@ const buildings = {
 	sklad: {
 		name: 'Sklad', img: 'sklad.png',
 		maxLvl: 16, price: l => [0, expF(l,75,1.6), expF(l,40,1.65,-67), 0, 0],
-		f: l => expF(l,677.0845,1.6), //storage capacity
+		f: l => expF(l,665.6894,1.62), //storage capacity
 		flavor: 'Tyhle ohyzdné šedé krabice jsou podle expertů důležité pro ekonomiku, takže se s tím lidé budou muset nějak smířit.'
 	},
 	hospoda: {
@@ -219,21 +219,21 @@ const achievements = {
 	pivo: {name: 'Orosená dvanáctka', description: 'narazit pívo na pípu',
 		flavor: 'Zlatavé dědictví řeckých těžařů je nejlepší si vychutnat na prosluněné pláži.'},
 //MIDGAME
-	trojan: {name: 'Inspirováno Odysseem', description: 'postavit trojského koně',
-		flavor: 'Bohyně jiskrnooká, ctná Pallas, moudře poradila chrabrým synům achajským z žírných lánů Ithaky.'},
-	palac: {name: 'Řekněte čapíčapíčapíčapíčapí hnízdo', description: 'postavit palác',
-		flavor: 'Je to jen kampaň a účelovka. Nic jsem nezpronevěřil a ta částka taky nesouhlasí.'},
-	zazrak: {name: 'Řecký panthenol', description: 'aktivovat zázrak',
-		flavor: 'Který z nevyzpytatelných olympských bohů nás bude obtěžovat dnes?'},
 	muzeum: {name: 'Ukončete výstup a nástup, dveře se zavírají', description: 'postavit muzeum',
 		flavor: 'Příští stanice Můstek, přestup na linku B.'},
+	trojan: {name: 'Inspirováno Odysseem', description: 'postavit trojského koně',
+		flavor: 'Bohyně jiskrnooká, ctná Pallas, moudře poradila chrabrým synům achajským z žírných lánů Ithaky.'},
+	zazrak: {name: 'Řecký panthenol', description: 'aktivovat zázrak',
+		flavor: 'Který z nevyzpytatelných olympských bohů nás bude obtěžovat dnes?'},
+	palac: {name: 'Řekněte čapíčapíčapíčapíčapí hnízdo', description: 'postavit palác',
+		flavor: 'Je to jen kampaň a účelovka. Nic jsem nezpronevěřil a ta částka taky nesouhlasí.'},
 //ENDGAME
-	carnage: {name: 'Blood for the Blood God', description: 'porazit Polis úrovně 16',
-		flavor: 'Půda je nyní promáčená krví synů Řecka, kteří zcela zbytečně položili životy na poli válečném. Historie nikdy nezapomene na tato jatka.'},
 	nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
 		flavor: 'Novoroční ohňostroje mění svět v kouřící ruiny. A taky plaší domácí mazlíčky!!!'},
 	budoucnost: {name: 'My žijeme v roce ' + (new Date().getFullYear() + 1000).toFixed(0), description: 'vynalézt všechny výzkumy',
 		flavor: 'Tak dlouho jsme se snažili dosáhnout utopických vizí zářných zítřků, a teď v té neuskutečnitelné budoucnosti konečně žijeme!'},
+	carnage: {name: 'Blood for the Blood God', description: 'porazit Polis úrovně 16',
+		flavor: 'Půda je nyní promáčená krví synů Řecka, kteří zcela zbytečně položili životy na poli válečném. Historie nikdy nezapomene na tato jatka.'},
 	maxed: {name: 'Nepodceňujte online závislost', description: 'vylepšit všechny budovy na maximum',
 		flavor: 'Tohle není normální.'},
 //SECRET - nezobrazují se vůbec, než je hráč odemkne

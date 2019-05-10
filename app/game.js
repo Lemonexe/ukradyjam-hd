@@ -15,6 +15,13 @@ let S = () => ({
 		drawBattleGrid: false
 	},
 
+	//current state of tooltip
+	tooltip: {
+		visible: false,
+		style: {'top': '0px', 'left': '0px'}, //numeric values are just placeholders
+		message: ''
+	},
+
 	//initial tick, last tick, tick count
 	timestampInit: 0,
 	timestamp: 0,
@@ -100,7 +107,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 0, 1],
+	version: [1, 0, 2],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory

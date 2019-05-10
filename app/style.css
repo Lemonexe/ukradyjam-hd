@@ -39,12 +39,12 @@ p {
 ul {
 	margin-top: 10px;
 	margin-bottom: 10px;
-    padding-left: 30px;
+	padding-left: 30px;
 }
 li {margin-bottom: 10px;}
 input[type = "button"] {cursor: pointer;}
 input[type = "range"] {
-    height: 24px;
+	height: 24px;
 }
 input[type = "range"]::-webkit-slider-runnable-track {
 	height: 3px;
@@ -83,8 +83,8 @@ td {
 }
 .fakeLink {
 	color: #551a8b;
-    cursor: pointer;
-    text-decoration: underline;
+	cursor: pointer;
+	text-decoration: underline;
 }
 .fakeButton {
 	-webkit-appearance: button;
@@ -109,7 +109,7 @@ td {
 	font-weight: bold;
 	font-size: 20px;
 }
-.numTable {margin-left: 30px;}
+.numTable {margin: 20px;}
 .numTable td:first-child {
 	text-align: right;
 	padding-right: 10px;
@@ -118,9 +118,6 @@ td {
 	font-weight: bold;
 	color: #880000;
 	animation: blinker 1s linear infinite;
-}
-@keyframes blinker {
-	50% {opacity: 0;}
 }
 .clickImg {cursor: pointer;}
 .building {cursor: move;}
@@ -136,6 +133,17 @@ td {
 }
 
 /* ID */
+#tooltip {
+	position: absolute;
+	z-index: 4;
+	background-color: #ffeedd;
+	border: 1px solid #998855;
+	padding: 1px 4px 1px 4px;
+	box-shadow: 1px 1px 3px black;
+	font-size: 13px;
+	color: #333333;
+	animation: appear 0.3s linear forwards;
+}
 #header {
 	position: absolute;
 	top: 0px;
@@ -210,6 +218,14 @@ td {
 	top: 0px; left: 0px;
 	background-color: white;
 	animation: whiteflash 4s linear forwards;
+}
+@keyframes blinker {
+	50% {opacity: 0;}
+}
+@keyframes appear {
+	0%   {opacity: 0;}
+	50%  {opacity: 0;}
+	100% {opacity: 1;}
 }
 @keyframes shiver {
 	20% {transform: translate(1px, 1px);}

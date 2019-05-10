@@ -8,11 +8,11 @@
 			<img ng-src="res\unit\{{unit.img}}">
 		</td>
 		<td style="padding: 0px;">
-			<p><b>{{unit.name}}</b> <span class="tip" title="v naší armádě">({{army[id]}})</span><br>{{unit.flavor}}<br>
+			<p><b>{{unit.name}}</b> <span class="tip" tooltip="v naší armádě">({{army[id]}})</span><br>{{unit.flavor}}<br>
 				<input type="range" class="distributeSlider" step="1" min="0" max="{{getBuyLimit(id)}}" ng-model="ranges[id]">
-				<span class="strong tip" title="koupit">{{ranges[id]}}</span><br>
+				<span class="strong tip" tooltip="koupit">{{ranges[id]}}</span><br>
 
-				<span class="tip" title="vojáci se rekrutují pouze z volných obyvatel (pokud jich je málo, stáhněte dělníky z dolů)">
+				<span class="tip" tooltip="vojáci se rekrutují pouze z volných obyvatel (pokud jich je málo, stáhněte dělníky z dolů)">
 					🙂 {{popPrice(id, atLeast1(ranges[id])).toFixed(0)}}
 				</span>
 				<span ng-repeat="i in icons" ng-if="surPrice(id, $index, atLeast1(ranges[id])) > 0">
@@ -21,7 +21,7 @@
 				</span>
 
 				<input type="button" ng-click="buy(id)" value="Koupit">
-				<span class="tip" title="nejvíce, co lze koupit">(max {{getBuyLimit(id)}})</span>
+				<span class="tip" tooltip="nejvíce, co lze koupit">(max {{getBuyLimit(id)}})</span>
 			</p>
 		</td>
 	</tr>

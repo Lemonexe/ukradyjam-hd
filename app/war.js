@@ -464,8 +464,6 @@ let War = () => ({
 
 	//draw a side unit(context, unit ID, number of reserves & dead, whether the label shall be on the right, coords)
 	drawSideUnit: function(ctx, key, reserve, dead, right, x, y) {
-		//output style for number (add 'k' at the end)
-		addk = (num) => num > 1e3 ? Math.floor(num/1e3)+'k' : num.toFixed(0);
 		//image of the unit
 		if(right) {
 			ctx.drawImage(imgs[key], x, y, 64, 64);
@@ -483,9 +481,9 @@ let War = () => ({
 		ctx.fillStyle = right ? '#aaaceebf' : '#eeaaaabf'; ctx.fill();
 		//write numbers
 		ctx.textAlign = 'center'; ctx.fillStyle = 'black';
-			ctx.font = 'normal 20px Arial'; ctx.fillText(addk(reserve),  x0+w/2, y+31, w-2);
+			ctx.font = 'normal 20px Arial'; ctx.fillText(reserve.addk(),  x0+w/2, y+31, w-2);
 		if(dead > 0) {
-			ctx.font = 'italic 16px Arial'; ctx.fillText('-'+addk(dead), x0+w/2, y+48, w-2);
+			ctx.font = 'italic 16px Arial'; ctx.fillText('-'+dead.addk(), x0+w/2, y+48, w-2);
 		}
 	},
 

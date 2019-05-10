@@ -1,7 +1,7 @@
 //button to close a screen, and thus return to city or island
-app.directive('escape',    () => ({restrict: 'E', template: '<div class="escape" ng-click="tab()" title="Esc">&times;</div>'}));
+app.directive('escape',    () => ({restrict: 'E', template: '<div class="escape" ng-click="tab()" tooltip="Esc">&times;</div>'}));
 //same, but for window
-app.directive('escapeWin', () => ({restrict: 'E', template: '<div class="escape" ng-click="window(\'game\')" title="Esc">&times;</div>'}));
+app.directive('escapeWin', () => ({restrict: 'E', template: '<div class="escape" ng-click="window(\'game\')" tooltip="Esc">&times;</div>'}));
 
 //directive for battle management options
 app.directive('battleManagement', () => ({restrict: 'E', templateUrl: 'app/ng/battleManagement.html'}));
@@ -10,6 +10,35 @@ app.directive('battleManagement', () => ({restrict: 'E', templateUrl: 'app/ng/ba
 app.directive('fileUpload', () => ({restrict: 'A', link: function(scope, elem) {
 	elem.on('change', () => saveService.manualLoad(elem[0].files[0]));
 }}));
+
+//custom title
+app.directive('tooltip', () => ({
+	restrict: 'A',
+	link: function(scope, elem, attrs) {
+		//compatibility fix :-/
+		if(!s.hasOwnProperty('tooltip')) {
+			s.tooltip = S().tooltip;
+		}
+
+		//create tooltip when you move mouse over the element
+		function create(event) {
+			if(!attrs.tooltip) {return;}
+			s.tooltip.visible = true;
+			s.tooltip.style = {
+				'top': (event.pageY + 25) + 'px',
+				'left': event.pageX + 'px'
+			};
+			s.tooltip.message = attrs.tooltip;
+		}
+
+		//remove tooltip when no longer relevant
+		let rem = () => (s.tooltip.visible = false);
+
+		elem.on('mousemove', create);
+		elem.on('mouseout', rem);
+		elem.on('click', rem);
+	}
+}));
 
 //directive for generic (not type specific) content on a building detail page
 app.directive('buildingDetails', function() {
@@ -27,7 +56,7 @@ app.directive('buildingDetails', function() {
 			}
 			update();
 
-			$scope.upgrade = function(key) {
+			$scope.upgradeBuilding = function(key) {
 				game.upgradeBuilding(key);
 				update();
 			};
