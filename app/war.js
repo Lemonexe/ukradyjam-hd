@@ -4,7 +4,7 @@
 let War = () => ({
 	//initiate a battle by creating the battle object (state of battlefield)
 	initBattle: function() {
-		if(this.armySum(s.army) === 0) {s.messages.push('Nemáme žádnou dostupnou armádu');return;}
+		if(this.armySum(s.army) === 0) {game.msg('Nemáme žádnou dostupnou armádu');return;}
 		//create the battlefield object, P = player related, E = enemy related
 		let rows = enemyArmies[s.enemyLevel].rows + 1; //total number of rows on battlefield
 		rows = (rows <= 6) ? rows : 5;
@@ -39,11 +39,11 @@ let War = () => ({
 
 	//move all units from town to battle reserves
 	reinforceBattle: function() {
-		if(this.armySum(s.army) === 0) {s.messages.push('Nemáme žádnou dostupnou armádu');return;}
+		if(this.armySum(s.army) === 0) {game.msg('Nemáme žádnou dostupnou armádu');return;}
 		if(!s.battlefield) {return;} //this shouldn't happen
 		this.logArmyObj(s.army, s.battlefield.logP);
 		this.migrateArmyObj(s.army, s.battlefield.reserveP);
-		s.messages.push('Všechny jednotky ve městě se připojily do bitvy');
+		game.msg('Všechny jednotky ve městě se připojily do bitvy');
 	},
 
 	//terminate battle, either as a victory (true) or defeat (false)
@@ -72,7 +72,7 @@ let War = () => ({
 			let d = enemyArmies[s.enemyLevel].dranc * game.eff().dranc;
 			let dranc = new Array(5).fill(0).map(s => d * (0.5 + 0.5*Math.random()));
 			dranc[0] = dranc[0]*consts.goldValue; //more gold than other resources according to a fixed ratio
-			s.messages.push(['VÍTĚZSTVÍ!', `Rozdrtili jsme armádu Polisu (úroveň ${s.enemyLevel+1}) za ${bf.cycles} kol`,
+			game.msg(['VÍTĚZSTVÍ!', `Rozdrtili jsme armádu Polisu (úroveň ${s.enemyLevel+1}) za ${bf.cycles} kol`,
 				`Vydrancováno ${dranc[0].toFixed(0)} zlata, ${dranc[1].toFixed(0)} dřeva, ${dranc[2].toFixed(0)} kamení, ${dranc[3].toFixed(0)} sýry a ${dranc[4].toFixed(0)} piva`]);
 			s.sur = s.sur.map((s,i) => s + dranc[i]);
 			report.dranc = dranc;
@@ -84,7 +84,7 @@ let War = () => ({
 		}
 		else {
 			(this.armySum(bf.logP) === bf.logP.hop) && game.achieve('sparta');
-			s.messages.push(['PORÁŽKA!', `Polis lvl ${s.enemyLevel+1} zničil naši armádu za ${bf.cycles} kol`]);
+			game.msg(['PORÁŽKA!', `Polis lvl ${s.enemyLevel+1} zničil naši armádu za ${bf.cycles} kol`]);
 		}
 		s.battlefield = false;
 		s.battleReports.unshift(report);

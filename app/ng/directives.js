@@ -202,11 +202,11 @@ app.directive('training', function() {
 			$scope.buy = function(id) {
 				let n = $scope.ranges[id];
 				if($scope.getBuyLimit(id) <= 0) {
-					s.messages.push(`Na stavbu jednotky ${units[id].name} není dost surovin.`);
+					game.msg(`Na stavbu jednotky ${units[id].name} není dost surovin.`);
 					return;
 				}
 				else if(n === 0) {
-					s.messages.push('Je nutno zvolit počet jednotek k nákupu.');
+					game.msg('Je nutno zvolit počet jednotek k nákupu.');
 					return;
 				}
 				s.army[id] += n;

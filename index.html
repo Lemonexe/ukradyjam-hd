@@ -34,7 +34,7 @@
 </div>
 
 <div ng-repeat="m in s.messages track by $index" class="popup" ng-style="getPopupStyle($index)">
-	<p ng-repeat="l in parseMessage(m)">{{l}}</p>
+	<p ng-repeat="l in m track by $index">{{l}}</p>
 	<p style="text-align: center;"><input type="button" ng-click="s.messages.splice($index, 1)" value="OK" tooltip="Esc"></p>
 </div>
 
@@ -91,6 +91,7 @@
 		<p>Tento seznam pouze shrnuje nejvýznamější změny v důležitých verzích. Pokud Vás zajímá zdrojový kód aplikace včetně jeho vývoje,
 			navštivte GitHub <a href="https://github.com/Lemonexe/ukradyjam-hd" target="_blank">repozitář</a>.</p>
 		<ul>
+			<li><b>1.0.3</b> (14.05.2019) poslední výzkum</li>
 			<li><b>1.0.0</b> (04.05.2019) oficiální release</li>
 			<li><b>0.2.5</b> (03.05.2019) manuální ukládání hry</li>
 			<li><b>0.2.4</b> (28.04.2019) přidány zbraně hromadného ničení</li>
@@ -246,16 +247,19 @@
 				<escape></escape>
 				<h2>Výzkumný přehled</h2>
 				<p>Vědec ti vynalezne nejrůznější technologie - užitečná hnojiva i šílené rovnice!</p>
-				<p>
+				<p ng-if="!s.p.unlockDoge">
 					Počet výzkumných bodů: 💡{{s.WP}}<br>
 					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost výzkumu: {{game.rateWP()}}</span>
 				</p>
-				<div ng-repeat="g in WPgroups">
+				<div ng-repeat="g in WPgroups" ng-if="!s.p.unlockDoge">
 					<p><b>{{WPgroupNames[$index]}}</b></p>
 					<div ng-repeat="w in getAvailableWis(g)" style="padding-left: 20px;">
 						<p><a class="fakeLink" ng-click="game.buyResearch(w)">{{w.name}}</a> 💡{{w.cost}}<br>
 						{{w.teaser}}</p>
 					</div>
+				</div>
+				<div ng-if="s.p.unlockDoge" style="padding-left: 5px">
+					<img src="res/GUI/doge.jpg">
 				</div>
 			</div>
 

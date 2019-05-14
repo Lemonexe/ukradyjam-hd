@@ -214,7 +214,7 @@ const research = [
 	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně a sviňárny nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
 	effect: 'vygebenost +1600, platy dělníků -20%',
-	reqs: ['PolA7'], f: function() {
+	reqs: ['PolA7', 'PolC1'], f: function() {
 		s.p.happy += 1600;
 		s.p.plat -= 0.20;
 	}},
@@ -283,7 +283,7 @@ const research = [
 	teaser: 'Dovedete si vůbec představit, že žáci rádi chodí do školy a pilně se učí? To je naše budoucnost!',
 	result: 'Kvalitní výuka a motivovaní studenti. Čeká nás technický pokrok a zářná budoucnost!',
 	effect: 'účinnost školství +60%',
-	reqs: ['WisA5', 'WisB2'], f: function() {
+	reqs: ['WisA5', 'WisB2', 'WisC1'], f: function() {
 		s.p.skola += 0.60;
 	}},
 
@@ -396,5 +396,15 @@ const research = [
 	effect: 'síla jednotek +20%',
 	reqs: ['ArmD1'], f: function() {
 		s.p.power += 0.20;
+	}},
+
+
+
+{id: 'doge', class: 'Eco', name: 'Poslední výzkum', cost: 999999,
+	teaser: 'Vědci slibují, že tento ultra-ultimátní megavýzkum™ 3000 přinese zlepšení života úplně ve všech oblastech. Občané už se nemůžou dočkat!',
+	result: 'Tento výzkumný grant byl naprostým mrháním času. Místo utopické sci-fi vize jsme dostali jen vyčpelý meme. Už raději nikdy nebudeme nic zkoumat!',
+	effect: 'vůbec nic',
+	reqs: ['EcoGrand', 'PolGrand', 'WisGrand', 'ArmGrand'], f: function() {
+		s.p.unlockDoge = true;
 	}}
 ];

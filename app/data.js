@@ -97,55 +97,55 @@ const units = {
 	kop: {class:'infantry', img: 'kopinik.png', train: 'kasarna',
 		name: 'Kopiník', flavor: 'Tupý branec z venkova ozbrojený klackem, vhodný jako kanonenfutr',
 		price: [10, 10, 0, 0, 0], pop: 1,
-		group: 50, att: 2, hp: 10,
+		group: 50, att: 2, hp: 11,
 		bonus: {}
 	},
 	luk: {class: 'ranged', img: 'archys.png', train: 'kasarna',
 		name: 'Lučištník', flavor: 'Pidlooký branec z venkova, který se občas i trefí do nepřátelské armády',
 		price: [20, 15, 0, 0, 0], pop: 1,
-		group: 30, att: 3, hp: 8,
-		bonus: {kop: 0.2, hop: 0.4, trj: -0.2}
+		group: 30, att: 3, hp: 9,
+		bonus: {kop: 0.4, luk: 0.2, hop: 0.6, sln: 0.3, trj: -0.2}
 	},
 	hop: {class: 'infantry', img: 'hoplit.png', train: 'kasarna',
 		name: 'Hoplit', flavor: 'Disciplinovaný voják v naleštěné uniformě je chloubou přehlídek',
 		price: [60, 25, 0, 10, 0], pop: 1,
-		group: 50, att: 5, hp: 18,
+		group: 50, att: 5, hp: 20,
 		bonus: {}
 	},
 	sln: {class: 'infantry', img: 'slon.png', train: 'kasarna',
 		name: 'Slon', flavor: 'Tato obluda se sice nevrhá do bitevní vřavy, funguje však jako živý štít',
 		price: [450, 120, 0, 80, 0], pop: 3,
-		group: 10, att: 9, hp: 120,
-		bonus: {sln: 0.5}
+		group: 10, att: 9, hp: 140,
+		bonus: {sln: 0.7}
 	},
 	trj: {class: 'infantry', img: 'trojan.png', train: 'dilna',
 		name: 'Trojský kůň', flavor: 'Navenek vkusné umělecké dílo, uvnitř však číhají ozbrojení záškodníci',
 		price: [600, 200, 0, 130, 0], pop: 4,
-		group: 10, att: 16, hp: 70,
+		group: 10, att: 16, hp: 85,
 		bonus: {hop: 0.3}
 	},
 	obr: {class: 'infantry', img: 'steam.png', train: 'dilna',
 		name: 'Parní kolos', flavor: 'Hromada pístů, pružin a čepelí s řachotem rozdupe všechno před sebou',
 		price: [1200, 400, 0, 350, 0], pop: 5,
-		group: 10, att: 20, hp: 100,
+		group: 10, att: 25, hp: 120,
 		bonus: {}
 	},
 	baz: {class: 'ranged', img: 'ohnostrojcik.png', train: 'zkusebna',
 		name: 'Ohňostrojčík', flavor: 'Šílený vědec, co se vydal experimentovat s výbušninami přímo do bitvy',
-		price: [200, 10, 0, 90, 0], pop: 1,
-		group: 10, att: 20, hp: 7,
+		price: [250, 10, 0, 100, 0], pop: 1,
+		group: 10, att: 22, hp: 9,
 		bonus: {sln: -0.2, trj: 0.3, obr: 0.4}
 	},
 	bal: {class: 'bomber', img: 'balon.png', train: 'dilna',
 		name: 'Balón', flavor: 'Plně naložen naplněnými nočníky, které neváhá vylít na hlavy nepřátel',
 		price: [900, 40, 5, 150, 0], pop: 2,
 		group: 10, att: 5, hp: 15, apparentAtt: 25,
-		bonus: {kop: 3, luk: 2.5, hop: 5, sln: 2, trj: 4, obr: 5, baz: 0.2, bal: 0.5}
+		bonus: {kop: 3, luk: 2.5, hop: 5, sln: 2, trj: 4, obr: 5, baz: 0.5, bal: 0.5}
 	},
 	gyr: {class: 'antibomber', img: 'gyrokoptera.png', train: 'dilna',
 		name: 'Gyrosář', flavor: 'Létající stánek s gyrosem je hrozivý vzdušný stroj obsypaný ostrými noži',
 		price: [400, 50, 0, 80, 0], pop: 1,
-		group: 10, att: 20, hp: 30,
+		group: 10, att: 15, hp: 30,
 		bonus: {}
 	}
 };
@@ -230,7 +230,7 @@ const achievements = {
 //ENDGAME
 	nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
 		flavor: 'Novoroční ohňostroje mění svět v kouřící ruiny. A taky plaší domácí mazlíčky!!!'},
-	budoucnost: {name: 'My žijeme v roce ' + (new Date().getFullYear() + 1000).toFixed(0), description: 'vynalézt všechny výzkumy',
+	budoucnost: {name: 'My žijeme v roce ' + (new Date().getFullYear() + 1000).toFixed(0), description: 'vynalézt všechny výzkumy budoucnosti',
 		flavor: 'Tak dlouho jsme se snažili dosáhnout utopických vizí zářných zítřků, a teď v té neuskutečnitelné budoucnosti konečně žijeme!'},
 	carnage: {name: 'Blood for the Blood God', description: 'porazit Polis úrovně 16',
 		flavor: 'Půda je nyní promáčená krví synů Řecka, kteří zcela zbytečně položili životy na poli válečném. Historie nikdy nezapomene na tato jatka.'},

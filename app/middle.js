@@ -24,7 +24,7 @@ app.controller('middle', function($scope, $interval) {
 	//switch window, switch tab
 	$scope.window = function(arg) {
 		if($scope.ctrl.window === 'intro') {
-			s.messages.push('Nejprve si přečtěte tutoriál a klikněte na tlačítko pokračovat.');return;
+			game.msg('Nejprve si přečtěte tutoriál a klikněte na tlačítko pokračovat.');return;
 		}
 		$scope.ctrl.window = arg;
 		if($scope.ctrl.tab === 'battle') {$scope.ctrl.tab = 'islandPolis';}
@@ -221,10 +221,7 @@ app.controller('middle', function($scope, $interval) {
 		let fixdStr = fixd.map(item => item.toFixed(0));
 		let percStr = perc.map(item => item.toPercent());
 		return fixdStr.concat(percStr).join(' · ') + ' = ' +  fixd.concat(perc).reduce((prod, i) => prod*i).withSign();
-	}
-
-	//allow multiline messages - a message is either a string, or an array, so parseMessage turns strings to arrays
-	$scope.parseMessage = m => (typeof m === 'string' ? [m] : m);
+	};
 
 	//event listener for 'Esc' key press on the entire body
 	$scope.listen4Esc = function(event) {
@@ -295,7 +292,7 @@ app.controller('middle', function($scope, $interval) {
 			$scope.tab(arg);
 		}
 		else if(s.p.unlockLuxus) {$scope.tab(arg);}
-		else{s.messages.push('Nejprve bude nutné tyto prapodivné věci vědecky popsat, než je budeme moci využít!');}
+		else{game.msg('Nejprve bude nutné tyto prapodivné věci vědecky popsat, než je budeme moci využít!');}
 	};
 
 	//substract owned buildings from available = what can be built
@@ -345,8 +342,8 @@ app.controller('middle', function($scope, $interval) {
 		if(!newName || !newName.trim()) {return;}
 		newName = newName.trim();
 		if(newName.length > 16) {
-			s.messages.push('Název nesmí být delší než 16 znaků, jinak bychom utratili majlant za nové cedule!');
-			return;
+			game.msg('Název nesmí být delší než 16 znaků, jinak bychom utratili majlant za nové cedule!');
+			newName = newName.slice(0, 16);
 		}
 		s.name = newName;
 	};

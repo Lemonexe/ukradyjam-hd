@@ -30,7 +30,7 @@ let S = () => ({
 	//display name of town, purely cosmetic
 	name: 'Polis',
 
-	//current popups, displayed from last to first
+	//current popups, displayed from last to first. Each message is an array of strings, with each string representing one line
 	messages: [],
 
 	// prachy, dřevo, kameny, sýra, pivo
@@ -72,7 +72,8 @@ let S = () => ({
 		unlockLuxus: false,
 		unlockBuild: ['skola', 'pristav', 'kasarna'],
 		unlockUnit: ['kop'],
-		unlockNuke: false
+		unlockNuke: false,
+		unlockDoge: false
 	},
 
 	WP: 0, //výzkumné body
@@ -107,11 +108,19 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 0, 2],
+	version: [1, 0, 3],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
 	war: War(),
+
+	//add a new alert-style message
+	//multi-line message is an array of strings; one-line message is a string (but will be converted to array anyway)
+	msg: function(m) {
+		m = (typeof m === 'string') ? [m] : m;
+		m = m.filter(item => item.trim());
+		(m.length > 0) && s.messages.push(m);
+	},
 
 	//the central function of this discrete model
 	tick: function() {
@@ -155,7 +164,7 @@ let game = {
 		}
 		else {
 			s.hospoda = 0;
-			s.messages.push(['Pivo došlo a štamgasti museli hospodu opustit!', 'To se jim nebude líbit...']);
+			this.msg(['Pivo došlo a štamgasti museli hospodu opustit!', 'To se jim nebude líbit...']);
 		}
 
 	//POP
@@ -214,7 +223,7 @@ let game = {
 		};
 		if(!s.singleUse[which]) {
 			s.singleUse[which] = true;
-			s.messages.push(warnings[which]);
+			this.msg(warnings[which]);
 		}
 	},
 
@@ -222,7 +231,7 @@ let game = {
 	achieve: function(id) {
 		if(s.achievements.indexOf(id) > -1) {return;}
 		s.achievements.push(id);
-		s.messages.push(['Achievement unlocked:', achievements[id].name]);
+		this.msg(['Achievement unlocked:', achievements[id].name]);
 		//Achievement whore
 		if(s.achievements.length === Object.keys(achievements).length - 1) {this.achieve('ALL');}
 	},
@@ -288,7 +297,7 @@ let game = {
 			});
 			this.checkAchievement.buildings(key);
 		} else {
-			s.messages.push(`Na stavbu budovy ${buildings[key].name} není dostatek surovin.`);
+			this.msg(`Na stavbu budovy ${buildings[key].name} není dostatek surovin.`);
 		}
 	},
 
@@ -302,7 +311,7 @@ let game = {
 			existing.lvl++;
 			this.checkAchievement.maxed();
 		} else{
-			s.messages.push(`Na vylepšení budovy ${buildings[key].name} na úroveň ${(existing.lvl + 1)} bohužel není dostatek surovin.`);
+			this.msg(`Na vylepšení budovy ${buildings[key].name} na úroveň ${(existing.lvl + 1)} bohužel není dostatek surovin.`);
 		}
 	},
 
@@ -313,9 +322,9 @@ let game = {
 			s.research.push(r.id)
 			r.f();
 			this.checkAchievement.researches();
-			s.messages.push([r.name + ':', r.result , '→ ' + r.effect]);
+			this.msg([r.name + ':', r.result , '→ ' + r.effect]);
 		} else {
-			s.messages.push(`Na provedení výzkumu ${r.name} bohužel není dostatek výzkumných bodů.`)
+			this.msg(`Na provedení výzkumu ${r.name} bohužel není dostatek výzkumných bodů.`)
 		}
 	},
 
@@ -390,7 +399,7 @@ let game = {
 			(s.mirsReceived.length === mirs.length) && this.achieve('gambler');
 		}
 		else {
-			s.messages.push('Nemáme dostatek surovin na obětování, a olympští bohové jsou velmi hákliví na objem oběti.');
+			this.msg('Nemáme dostatek surovin na obětování, a olympští bohové jsou velmi hákliví na objem oběti.');
 		}
 	},
 
@@ -400,7 +409,7 @@ let game = {
 			s.ownNuke = true;
 		}
 		else {
-			s.messages.push('Nemáme dostatek surovin, a taková velkolepá pyrotechnická sestava přijde hodně draho!');
+			this.msg('Nemáme dostatek surovin, a taková velkolepá pyrotechnická sestava přijde hodně draho!');
 		}
 	},
 
@@ -409,7 +418,7 @@ let game = {
 		if(this.popTotal() <= 0 && this.popGrowth() <= 0 && s.sur[4] <= 0 && s.sur[0] <= 0 && s.miracle !== 'helma') {
 			s.sur[4] = 100; //give beer to enable population growth
 			if(s.sur[1] <= 0 && this.getBlvl('hospoda') === 0) {s.sur[1] = 100;} //give wood for hospoda construction
-			s.messages.push('Naše říše je v totálním krachu. Abychom se z krize vyhrabali, dala nám Helénská Unie půjčku s dlouhodobou splatností.');
+			this.msg('Naše říše je v totálním krachu. Abychom se z krize vyhrabali, dala nám Helénská Unie půjčku s dlouhodobou splatností.');
 		}
 	},
 
@@ -417,7 +426,9 @@ let game = {
 	checkAchievement: {
 		researches: function() {
 			if(s.research.length === 1) {game.achieve('IFLS');}
-			else if(s.research.length === Object.keys(research).length) {game.achieve('budoucnost');}
+			let grandTechs = ['EcoGrand', 'PolGrand', 'WisGrand', 'ArmGrand'];
+			let callback = (sum,r) => sum && s.research.indexOf(r) > -1;
+			if(grandTechs.reduce(callback, true)) {game.achieve('budoucnost');}
 		},
 		buildings: function(key) {
 			if(s.build.length === 2) {game.achieve('budovani');}
@@ -435,7 +446,7 @@ let game = {
 			let comp = (a,b) => Math.abs(a-b) <= 32; //whether coordinates  match
 			if(s.build.length >= 4 &&
 				s.build.reduce((sum, b) => (sum && comp(b.pos[0], s.build[0].pos[0]) && comp(b.pos[1], s.build[0].pos[1])), true)
-			){game.achieve('multi');}
+			) {game.achieve('multi');}
 		}
 	},
 

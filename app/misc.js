@@ -47,7 +47,7 @@ let saveService = {
 		//emit a warning if this is the 2nd time it clashed (thus ignore clash from loading a save)
 		let data = localStorage.getItem('savegame');
 		data && JSON.parse(data).timestampInit !== s.timestampInit && (saveService.clash++) &&
-			(saveService.clash >= 2) && s.messages.push(['Ukradyjam:HD je otevřen ve více než jednom panelu.',
+			(saveService.clash >= 2) && game.msg(['Ukradyjam:HD je otevřen ve více než jednom panelu.',
 				'To vám rozhodně nezvýší těžbu surovin, proto raději zavřete všechny kromě toho, který plánujete hrát ;-)']);
 		localStorage.setItem('savegame', JSON.stringify(s));
 	},
@@ -61,7 +61,7 @@ let saveService = {
 			//check version of the game against version of save, and if save is no longer supported, ignore & delete it mercilessly
 			let ver2num = ver => ver[0]*1e4 + ver[1]*1e2 + ver[2];
 			if(ver2num(data.version) < ver2num(game.support)) {
-				s.messages.push('Bohužel, vaše uložená data byla ztracena, protože novější verze hry už neposkytuje zpětnou kompatibilitu.');
+				game.msg('Bohužel, vaše uložená data byla ztracena, protože novější verze hry už neposkytuje zpětnou kompatibilitu.');
 				localStorage.removeItem('savegame');
 				return false;
 			}
@@ -79,7 +79,7 @@ let saveService = {
 				game.tick();
 			}
 
-			s.messages.push([`Zatímco byl vládce na dovolené, proběhlo ${cycles} cyklů.`,
+			game.msg([`Zatímco byl vládce na dovolené, proběhlo ${cycles} cyklů.`,
 				`Raději zkontrolujte, zda-li je ${s.name} v pořádku.`,
 				'Řím možná nebyl postaven za den, ale naši občané by ho za den zvládli zcela vybydlet.']);
 			return true;
@@ -113,7 +113,8 @@ let saveService = {
 		let url = (window.URL || window.webkitURL).createObjectURL(blob);
 		let elem = document.createElement('a');
 		elem.setAttribute('href', url);
-		elem.setAttribute('download', 'Ukradyjam.json');
+		let filename = s.name.replace(/[<>:"/\|?*]/g, '') + '.json';
+		elem.setAttribute('download', filename);
 		elem.style.display = 'none';
 		document.body.appendChild(elem);
 		elem.click();
