@@ -230,6 +230,7 @@ let War = () => ({
 					}
 					bf.map[y][x] = this.createGroup(unitSet, own);
 				}
+				/*
 				//try to replenish an incomplete group on an outer cell
 				else if(bf.map[y][x] && x === spawn) {
 					let cell = bf.map[y][x];
@@ -244,6 +245,7 @@ let War = () => ({
 						bf[res][cell.key] = 0;
 					}
 				}
+				*/
 			}
 		}
 

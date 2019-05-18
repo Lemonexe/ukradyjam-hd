@@ -11,7 +11,19 @@ const consts = {
 
 	mirCountdown: 8, //duration of miracle
 	mirCooldown: 16, //base value of waiting time for new miracle
-	mirPrice: {pop: 13, zlato: 666},
+	mirPrice: {pop: 13, zlato: 666}, //price of a dark ritual
+	mir: { //miracle effects to be used in game.eff() and miracle description functions
+		faust1: 0.15,  //+power
+		faust2: 0.10,  //-dranc
+		delfin: 0.05,  //+obchod
+		obr:    0.125, //+all suroviny
+		antena: 0.30,  //+skola
+		dmnt1:  0.15,  //+happy
+		dmnt2:  0.125, //-skola
+		apollo: 0.125, //-prachy
+		had:    0.125, //-all suroviny
+		helma:  0.20   //-happy
+	},
 
 	nukeCooldown: 16, //base value of waiting time for new nuke
 	nukePrice: [5e3, 0, 0, 5e3, 0], //as sur
@@ -176,35 +188,35 @@ let enemyArmies = [
 const miracles = {
 	faust: {name: 'Faust, bůh kovárny',
 		flavor: 'Olympský ocelář nám naostří zbraně, ačkoliv si za to nárokuje trochu kořisti.',
-		description: l => `síla jednotek +${(l*0.10).toPercent()}, účinnost drancování -${(l*0.05).toPercent()}`
+		description: l => `síla jednotek +${(l*consts.mir.faust1).toPercent()}, účinnost drancování -${(l*consts.mir.faust2).toPercent()}`
 	},
 	delfin: {name: 'Delfín, bůh koupání',
 		flavor: 'Vládce všech rybníků pomáhá námořníkům v nesnázích a usnadňuje tak logistiku.',
-		description: l => `účinnost obchodu +${(l*0.05).toPercent()}`
+		description: l => `účinnost obchodu +${(l*consts.mir.delfin).toPercent()}`
 	},
 	obr: {name: 'Obr, kolosální gigant',
 		flavor: 'Tenhle velkej hoch celý dny jenom maká, nikdo neudělá tolik práce jako on.',
-		description: l => `těžba všech surovin +${(l*0.10).toPercent()}`
+		description: l => `těžba všech surovin +${(l*consts.mir.obr).toPercent()}`
 	},
 	antena: {name: 'Palác Anténa, bohyně radiokomunikace',
 		flavor: 'Moudrá ajťačka olympská má vždy skvělé vynálezy pro naše vědecké bádání.',
-		description: l => `účinnost školství +${(l*0.20).toPercent()}`
+		description: l => `účinnost školství +${(l*consts.mir.antena).toPercent()}`
 	},
 	dmnt: {name: 'Dementér, bohyně hlupáků',
 		flavor: 'Tato bohyně nadá naše obyvatele otupující demencí, takže jsou o něco blaženější.',
-		description: l => `základ vygebenosti +${(l*0.10).toPercent()}, učinnost školství -${(l*0.10).toPercent()}`
+		description: l => `základ vygebenosti +${(l*consts.mir.dmnt1).toPercent()}, učinnost školství -${(l*consts.mir.dmnt2).toPercent()}`
 	},
 	apollo: {name: 'Apollo 11, bůh astrálních poutníků',
 		flavor: 'Hvězdné putování je sice k ničemu, ale státní rozpočet dokáže vyluxovat až do dna.',
-		description: l => `daňový výběr -${(l*0.10).toPercent()}`
+		description: l => `daňový výběr -${(l*consts.mir.apollo).toPercent()}`
 	},
 	had: {name: 'Had, bůh hrobníků',
 		flavor: 'Dělníci se flákají a vymlouvají se, že musí pořád chodit na různé pohřby.',
-		description: l => `těžba všech surovin -${(l*0.10).toPercent()}`
+		description: l => `těžba všech surovin -${(l*consts.mir.had).toPercent()}`
 	},
 	helma: {name: 'pan Helma, bůh bez portfeje',
 		flavor: 'Zcela neužitečný bůh, který svou naprostou zbytečností obyvatele akorát naštve.',
-		description: l => `základ vygebenosti -${(l*0.20).toPercent()}`
+		description: l => `základ vygebenosti -${(l*consts.mir.helma).toPercent()}`
 	}
 };
 

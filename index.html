@@ -104,7 +104,7 @@
 			<div id="suroviny" ng-style="style.suroviny">
 				<div ng-repeat="i in icons" ng-class="{thisIsBad: isOverflow($index)}" ng-click="accessMine(mineNames[$index])"
 					tooltip="{{(isOverflow($index) ? 'Je třeba dostavět sklad, kapacita je zcela naplněna!' : '')}}">
-					<img ng-src="res/GUI/icon_{{i}}.png">{{s.sur[$index].addk(1e4)}}&nbsp;
+					<img ng-src="res/GUI/icon_{{i}}.png">{{s.sur[$index].addk(1e4, 1e7)}}&nbsp;
 				</div>
 			</div>
 			<div id="assistents">
@@ -462,6 +462,7 @@
 				<p>Nepřátelská vesnice, která jistě skrývá ohromné bohatství zralé k uloupení!</p>
 				<div ng-if="!s.battlefield">
 					<p class="strong" ng-click="game.war.initBattle()">⚔️ <a class="fakeLink">Zaútočit</a> (úroveň {{s.enemyLevel+1}})</p>
+					<p></p>
 					<p class="fakeLink tip" ng-click="tab('battleTutorial')" style="font-size: 13px;">Jak bojovat?</p>
 				</div>
 				<battle-management></battle-management>

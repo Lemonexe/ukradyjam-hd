@@ -1,3 +1,8 @@
+předělat battle reports aby neměly nulové properties
+? umožnit více jednotek ?
+	Odysseia
+	barbaři
+
 TODO ASSETS:
 	favicon
 	? REMAKE slon

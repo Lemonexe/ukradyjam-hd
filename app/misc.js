@@ -30,8 +30,13 @@ function expF(x, a, b, c) {
 Number.prototype.toPercent = function(d) {return (this.valueOf()*100).toFixed(d ? d : 0) + '%';};
 //return number only when > 0, otherwise return 0
 Number.prototype.positify = function() {return this.valueOf() > 0 ? this.valueOf() : 0;};
-//write number using 'k' to denote thousands, but only if number exceeds threshold t
-Number.prototype.addk = function(t) {return this.valueOf() > (t ? t : 1e3) ? Math.floor(this.valueOf()/1e3)+'k' : this.valueOf().toFixed(0);};
+//write number using 'k' or 'M' to denote thousands or millions, but only if number exceeds threshold t or M
+Number.prototype.addk = function(t, M) {
+	let val = this.valueOf();
+	if(val > (M ? M : 1e6)) {return Math.floor(val/1e6) + 'M';}
+	if(val > (t ? t : 1e3)) {return Math.floor(val/1e3) + 'k';}
+	return val.toFixed(0);
+};
 //return number as fixed(0) with sign always displayed if not (rounded to) zero
 Number.prototype.withSign = function() {
 	let n = Math.round(this.valueOf());

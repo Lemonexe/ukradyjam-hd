@@ -108,7 +108,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 0, 3],
+	version: [1, 0, 4],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -241,19 +241,19 @@ let game = {
 	eff: function() {
 		let palac = this.getBlvl('palac');
 		let docks = this.getBlvl('pristav');
-		let surMiracle = this.mir('obr', 0.10) + this.mir('had', -0.10);
+		let surMiracle = this.mir('obr', consts.mir.obr) + this.mir('had', -consts.mir.had);
 		return {
-			skola:  s.p.skola  + this.mir('antena', 0.20) + this.mir('dmnt', -0.10),
-			prachy: s.p.prachy + 0.10*palac + this.mir('apollo', -0.10),
+			skola:  s.p.skola  + this.mir('antena', consts.mir.antena) + this.mir('dmnt', -consts.mir.dmnt2),
+			prachy: s.p.prachy + 0.10*palac + this.mir('apollo', -consts.mir.apollo),
 			drevo:  s.p.drevo  + 0.10*palac + surMiracle,
 			kamen:  s.p.kamen  + 0.05*palac + surMiracle,
 			syra:   s.p.syra   + 0.05*palac + surMiracle,
 			pivo:   s.p.pivo   + 0.05*palac + surMiracle,
 			udrzba: s.p.udrzba - 0.05*palac,
 			plat:   s.p.plat   - 0.05*palac,
-			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', 0.05),
-			power:  s.p.power               + this.mir('faust', 0.10),
-			dranc:  s.p.dranc               - this.mir('faust', -0.05),
+			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', consts.mir.delfin),
+			power:  s.p.power               + this.mir('faust', consts.mir.faust1),
+			dranc:  s.p.dranc               + this.mir('faust', -consts.mir.faust2),
 			WC:     s.p.WC
 		};
 	},
@@ -333,7 +333,7 @@ let game = {
 	realHappiness: function() {
 		return Math.round(this.happyBase() - this.popTotal() + this.happyHospoda() + this.happyMuzeum() + this.happySklad() + this.happyPalac());
 	},
-	happyBase: function() {return s.p.happy * (1 + this.mir('dmnt', 0.10) + this.mir('helma', -0.20));},
+	happyBase: function() {return s.p.happy * (1 + this.mir('dmnt', consts.mir.dmnt1) + this.mir('helma', -consts.mir.helma));},
 	happyHospoda: function() {return s.hospoda * 150;},
 	pridelHospoda: function() {return s.hospoda > 0 ? Math.round(buildings.hospoda.f(s.hospoda)) : 0;},
 	happyMuzeum: function() {return this.getBlvl('muzeum') * 100;},
