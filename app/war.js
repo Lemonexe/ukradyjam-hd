@@ -5,9 +5,15 @@ let War = () => ({
 	//initiate a battle by creating the battle object (state of battlefield)
 	initBattle: function() {
 		if(this.armySum(s.army) === 0) {game.msg('Nemáme žádnou dostupnou armádu');return;}
+		
+		//number of rows and their constraints
+		let ground = enemyArmies[s.enemyLevel].ground
+		ground = (ground <= 6) ? ground : 6;
+		let air = enemyArmies[s.enemyLevel].air
+		air = (air <= 2) ? air : 2;
+		let rows = ground + air;
+
 		//create the battlefield object, P = player related, E = enemy related
-		let rows = enemyArmies[s.enemyLevel].rows + 1; //total number of rows on battlefield
-		rows = (rows <= 6) ? rows : 5;
 		s.battlefield = {
 			stroke: 0,
 			cycles: 0,
@@ -21,11 +27,13 @@ let War = () => ({
 			deadP: this.newArmyObj(),
 			deadE: this.newArmyObj(),
 
-			/*MAP OF BATTLEFIELD as array of rows, first row means the sky
+			/*MAP OF BATTLEFIELD as array of rows, first air rows, then ground rows
 				each cell is a group of units on the field. Example:
 				{key: 'kop', n: 42, hp: 4, own: true}
 				n: remaining units in the group, hp: remaining hp, own: is owned by Player*/
-			rows: rows,
+			rows: rows, //total number of rows on battlefield
+			ground: ground, //ground rows
+			air: air, //air rows
 			map: new Array(rows).fill(false).map((item) => new Array(6).fill(false)),
 			//special graphical effects
 			effects: [],
@@ -63,7 +71,7 @@ let War = () => ({
 		}
 
 		//finish
-		let report = {victory: victory, lvl: s.enemyLevel+1, cycles: bf.cycles, deadP: bf.deadP, deadE: bf.deadE};
+		let report = {victory: victory, lvl: s.enemyLevel+1, cycles: bf.cycles, deadP: this.filterArmyObj(bf.deadP), deadE: this.filterArmyObj(bf.deadE)};
 		if(victory) {
 			game.achieve('GG');
 			(this.armySum(bf.logP) === bf.logP.trj + bf.logP.obr + bf.logP.bal + bf.logP.gyr) && game.achieve('blitz');
@@ -95,6 +103,14 @@ let War = () => ({
 
 	//generate an empty army object
 	newArmyObj: () => ({kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0}),
+
+	//filter an army obj so only non-zero properties remain
+	filterArmyObj: function(obj) {
+		for(let i in obj) {
+			if(obj.hasOwnProperty(i) && obj[i] <= 0) {delete obj[i];}
+		}
+		return obj;
+	},
 
 	//move all units from obj1 to obj2 (or a new obj if undefined)
 	migrateArmyObj: function(obj1, obj2) {
@@ -150,18 +166,25 @@ let War = () => ({
 		return {key: key, n: n, hp: units[key].hp, own: own};
 	},
 
-	//get sum of units on left sky and right sky
+	//get various sum of units
 	getBFsum: function() {
 		let bf = s.battlefield;
-		//let reduceRow = (sum, i) => sum + (bf.map[y][i] ? bf.map[y][i].n : 0);
+
+		//iterators for each side of the battlefield
 		let L = [0,1,2]; R = [3,4,5];
-		let Lsums = new Array(bf.map.length).fill(0).map((row, y) => L.reduce((sum, i) => sum + (bf.map[y][i] ? bf.map[y][i].n : 0), 0));
-		let Rsums = new Array(bf.map.length).fill(0).map((row, y) => R.reduce((sum, i) => sum + (bf.map[y][i] ? bf.map[y][i].n : 0), 0));
+		let reduceRow = (iterators, y) => iterators.reduce((sum, i) => sum + (bf.map[y][i] ? bf.map[y][i].n : 0), 0);
+		let Lsums = new Array(bf.map.length).fill(0).map((row, y) => reduceRow(L, y));
+		let Rsums = new Array(bf.map.length).fill(0).map((row, y) => reduceRow(R, y));
+
+		let resAirCount = (obj) => Object.keys(obj).reduce((sum, i) => sum + obj[i] * (['bomber', 'antibomber'].indexOf(units[i].class) > -1), 0);
+		let f = (sum, i) => sum + i;
 		return {
-			skyL:   Lsums[0],
-			skyR:   Rsums[0],
-			groundL: Lsums.slice(1).reduce((sum, i) => sum + i),
-			groundR: Rsums.slice(1).reduce((sum, i) => sum + i)
+			//sum of air units on field and in reserves
+			airL: Lsums.slice(0, bf.air).reduce(f) + resAirCount(bf.reserveE),
+			airR: Rsums.slice(0, bf.air).reduce(f) + resAirCount(bf.reserveP),
+			//sum of ground units on field only
+			groundL: Lsums.slice(bf.air).reduce(f),
+			groundR: Rsums.slice(bf.air).reduce(f)
 		};
 	},
 
@@ -211,8 +234,12 @@ let War = () => ({
 						bf.map[y][x].n -= diff;
 					}
 				}
-				//try to move upward to 1st ground row (if not in sky row or 1st ground row)
-				else if(y > 1 && bf.map[y][x] && !bf.map[y-1][x]) {
+				//try to move upward to 1st ground row (if not in 1st air row or 1st ground row)
+				else if(
+					y !== 0 && //first air row
+					y !== bf.air && //first ground row
+					bf.map[y][x] && !bf.map[y-1][x]
+				) {
 					bf.map[y-1][x] = bf.map[y][x];
 					bf.map[y][x] = false;
 				}
@@ -220,32 +247,16 @@ let War = () => ({
 				//try to spawn a new group on outer cells
 				if(!bf.map[y][x] && x === spawn) {
 					//sky units spawn on the other side and move the other way
-					let own = y === 0 ? !left : left;
+					let own = (y < bf.air) ? !left : left;
 					//which units can be spawned on this cell
-					let unitSet = (y === 0) ? consts.skyUnits : consts.groundUnits;
+					let unitSet = (y < bf.air) ? consts.skyUnits : consts.groundUnits;
 					//don't spawn antibombers if they wouldn't have anything to fight against
 					let BFsum = this.getBFsum();
-					if(BFsum.skyL === 0 && own || BFsum.skyR === 0 && !own) {
+					if(BFsum.airL === 0 && own || BFsum.airR === 0 && !own) {
 						unitSet = unitSet.filter(item => units[item].class !== 'antibomber');
 					}
 					bf.map[y][x] = this.createGroup(unitSet, own);
 				}
-				/*
-				//try to replenish an incomplete group on an outer cell
-				else if(bf.map[y][x] && x === spawn) {
-					let cell = bf.map[y][x];
-					let diff = units[cell.key].group - cell.n;
-					let res = cell.own ? 'reserveP' : 'reserveE'; //reserve pointer
-					if(diff > 0 && bf[res][cell.key] > diff) {
-						bf.map[y][x].n += diff;
-						bf[res][cell.key] -= diff;
-					}
-					else if(diff > 0 && bf[res][cell.key] > 0) {
-						bf.map[y][x].n += bf[res][cell.key];
-						bf[res][cell.key] = 0;
-					}
-				}
-				*/
 			}
 		}
 
@@ -344,19 +355,21 @@ let War = () => ({
 			if     (bf.map[y][4] && bf.map[y][2] && isRanged(bf.map[y][4])) {damage1way(4,y,2,y);}
 		}
 
-		//balloons - iterate all x fields at constant y = 0
+		//balloons - iterate all x fields for each air row
 		for(let x = 0; x < 6; x++) {
-			if(!bf.map[0][x] || //aircraft doesn't exist
-				units[bf.map[0][x].key].class !== 'bomber' || //is not a balloon
-				((x === 2 || x === 3) && bf.map[0][2] && bf.map[0][3])//aircraft currently engaged with each other
-			) {continue;}
-			let viableTargets = [];
-			for(let y = 1; y < bf.rows; y++) {
-				bf.map[y][x] && viableTargets.push(y);
+			for(let y = 0; y < bf.air; y++) {
+				if(!bf.map[y][x] || //aircraft doesn't exist
+					units[bf.map[y][x].key].class !== 'bomber' || //is not a balloon
+					((x === 2 || x === 3) && bf.map[y][2] && bf.map[y][3]) //aircraft currently engaged with each other
+				) {continue;}
+				let targets = []; //viable targets to shit on
+				for(let y2 = bf.air; y2 < bf.rows; y2++) {
+					bf.map[y2][x] && targets.push(y2);
+				}
+				if(targets.length === 0) {continue;}
+				let yTarget = targets[Math.floor(Math.random() * targets.length)];
+				damage1way(x,y,x,yTarget);
 			}
-			if(viableTargets.length === 0) {continue;}
-			let yTarget = viableTargets[Math.floor(Math.random() * viableTargets.length)];
-			damage1way(x,0,x,yTarget);
 		}
 	},
 
@@ -368,15 +381,18 @@ let War = () => ({
 		for(let x = 0; x < 6; x++) {for(let y = 0; y < bf.rows; y++) {
 				if(bf.map[y][x] && bf.map[y][x].n <= 0) {bf.map[y][x] = false;}
 		}}
+
 		//withdraw antibombers if they don't have anything to fight against
 		let BFsum = this.getBFsum();
-		bf.map[0] = bf.map[0].map(function(cell, i) {
-			if(cell && units[cell.key].class === 'antibomber' && (BFsum.skyL === 0 && i >= 3 || BFsum.skyR === 0 && i <= 2)) {
-				bf[cell.own ? 'reserveP' : 'reserveE'][cell.key] += cell.n;
-				return false;
-			}
-			return cell;
-		});
+		for(let y = 0; y < bf.air; y++) {
+			bf.map[y] = bf.map[y].map(function(cell, i) {
+				if(cell && units[cell.key].class === 'antibomber' && (BFsum.airL === 0 && i >= 3 || BFsum.airR === 0 && i <= 2)) {
+					bf[cell.own ? 'reserveP' : 'reserveE'][cell.key] += cell.n;
+					return false;
+				}
+				return cell;
+			});
+		}
 	},
 
 	//schedule a nuke of all enemy ground units
@@ -397,7 +413,7 @@ let War = () => ({
 		bf.scheduledNuke = false;
 		//burn them all. BURN THEM ALL!
 		for(let x = 0; x < 6; x++) {for(let y = 0; y < bf.rows; y++) {
-			if(x >= 3 && y >= 1) {
+			if(!bf.map[y][x].own) {
 				//destroy a group of units while logging casualties
 				bf[bf.map[y][x].own ? 'deadP' : 'deadE'][bf.map[y][x].key] += bf.map[y][x].n;
 				bf.map[y][x] = false;
@@ -410,6 +426,15 @@ let War = () => ({
 
 
 /*CANVAS RENDERING (executed from directive)*/
+	//constants for rendering (in pixels)
+	positionConsts: {
+		X0: 108,
+		airY0: 20,
+		gndY0: 208,
+		sideXP: 0,
+		sideXE: 536
+	},
+
 	//central function to draw the battlefield
 	render: function(ctx) {
 		//clear & draw background image
@@ -428,20 +453,21 @@ let War = () => ({
 
 	//draw the battlefield grid
 	drawGrid: function(ctx) {
+		const pc = this.positionConsts;
 		let bf = s.battlefield;
 		ctx.lineWidth = 1; ctx.strokeStyle = '#998855';
 		for(let x = 0; x < 6; x++) {
-			//sky
-				ctx.beginPath(); ctx.rect(108+64*x, 32, 64, 64); ctx.stroke();
-			//ground
-			for(let y = 1; y < bf.rows; y++) {
-				ctx.beginPath(); ctx.rect(108+64*x, 216+64*(y-1), 64, 64); ctx.stroke();
+			for(let y = 0; y < bf.rows; y++) {
+				//if sky, else ground
+				if(y < bf.air) {ctx.beginPath(); ctx.rect(pc.X0+64*x, pc.airY0+64*y, 64, 64); ctx.stroke();}
+				else {ctx.beginPath(); ctx.rect(pc.X0+64*x, pc.gndY0+64*(y-bf.air), 64, 64); ctx.stroke();}
 			}
 		}
 	},
 
 	//draw side panels for player and enemy
 	drawSide: function(ctx) {
+		const pc = this.positionConsts;
 		let bf = s.battlefield;
 		//define which units are rendered where
 		let sky = consts.skyUnits;
@@ -452,15 +478,15 @@ let War = () => ({
 		//draw sky units on sides
 		for(let i = 0; i < sky.length; i++) {
 			k = sky[i];
-			if(bf.reserveP[k] > 0 || bf.logP[k] > 0 || bf.deadP[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveP[k], bf.deadP[k], true,  0,   p*64); p++;}
-			if(bf.reserveE[k] > 0 || bf.logE[k] > 0 || bf.deadE[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveE[k], bf.deadE[k], false, 536, e*64); e++;}
+			if(bf.reserveP[k] > 0 || bf.logP[k] > 0 || bf.deadP[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveP[k], bf.deadP[k], true,  pc.sideXP, p*64); p++;}
+			if(bf.reserveE[k] > 0 || bf.logE[k] > 0 || bf.deadE[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveE[k], bf.deadE[k], false, pc.sideXE, e*64); e++;}
 		}
 		//reset counters and draw ground units on sides
 		e = p = 0;
 		for(let i = 0; i < ground.length; i++) {
 			k = ground[i];
-			if(bf.reserveP[k] > 0 || bf.logP[k] > 0 || bf.deadP[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveP[k], bf.deadP[k], true,  0  , 152+p*64); p++;}
-			if(bf.reserveE[k] > 0 || bf.logE[k] > 0 || bf.deadE[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveE[k], bf.deadE[k], false, 536, 152+e*64); e++;}
+			if(bf.reserveP[k] > 0 || bf.logP[k] > 0 || bf.deadP[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveP[k], bf.deadP[k], true,  pc.sideXP, 152+p*64); p++;}
+			if(bf.reserveE[k] > 0 || bf.logE[k] > 0 || bf.deadE[k] > 0) {this.drawSideUnit(ctx, k, bf.reserveE[k], bf.deadE[k], false, pc.sideXE, 152+e*64); e++;}
 		}
 	},
 
@@ -491,13 +517,14 @@ let War = () => ({
 
 	//draw the battlefield itself
 	drawMap: function(ctx) {
+		const pc = this.positionConsts;
 		let bf = s.battlefield;
 		for(let x = 0; x < 6; x++) {
-			//sky
-				bf.map[0][x] && this.drawMapUnit(ctx, bf.map[0][x].key, bf.map[0][x].n, x<3, bf.map[0][x].own, 108+64*x, 32);
-			//ground
-			for(let y = 1; y < bf.rows; y++) {
-				bf.map[y][x] && this.drawMapUnit(ctx, bf.map[y][x].key, bf.map[y][x].n, x<3, bf.map[y][x].own, 108+64*x, 216+64*(y-1));
+			for(let y = 0; y < bf.rows; y++) {
+				//sky
+				(y <  bf.air) && bf.map[y][x] && this.drawMapUnit(ctx, bf.map[y][x].key, bf.map[y][x].n, x<3, bf.map[y][x].own, pc.X0+64*x, pc.airY0+64*y);
+				//ground
+				(y >= bf.air) && bf.map[y][x] && this.drawMapUnit(ctx, bf.map[y][x].key, bf.map[y][x].n, x<3, bf.map[y][x].own, pc.X0+64*x, pc.gndY0+64*(y-bf.air));
 			}
 		}
 	},
@@ -529,11 +556,13 @@ let War = () => ({
 
 	//draw special graphical effects
 	drawEffects: function(ctx) {
+		const pc = this.positionConsts;
+		let bf = s.battlefield;
 		//get coordinates from map indices
-		let coordX = (x) => 140+64*x;
-		let coordY = (y) => y > 0 ? 248+64*(y-1): 64;
+		let coordX = x => pc.X0+32+64*x;
+		let coordY = y => y < bf.air ? pc.airY0+32+64*y : pc.gndY0+32+64*(y-bf.air);
 		//iterate through all effects, logic is divided by their shape
-		for(let e of s.battlefield.effects) {
+		for(let e of bf.effects) {
 			//splatter (dots randomly placed in circular area)
 			if(['bloodSplatter', 'shitSplatter', 'explosion'].indexOf(e.type) > -1) {
 				let drops = (e.type === 'shitSplatter') ? 80 : 50;

@@ -15,11 +15,6 @@ app.directive('fileUpload', () => ({restrict: 'A', link: function(scope, elem) {
 app.directive('tooltip', () => ({
 	restrict: 'A',
 	link: function(scope, elem, attrs) {
-		//compatibility fix :-/
-		if(!s.hasOwnProperty('tooltip')) {
-			s.tooltip = S().tooltip;
-		}
-
 		//create tooltip when you move mouse over the element
 		function create(event) {
 			if(!attrs.tooltip) {return;}
@@ -228,6 +223,7 @@ app.directive('battleReports', () => ({
 		$scope.battleReports = s.battleReports;
 		$scope.icons = consts.surAliases;
 		$scope.units = units;
+		$scope.blankObj = game.war.newArmyObj();
 		//which report should have details displayed
 		$scope.detailView = -1;
 		$scope.viewSwitch = (i) => ($scope.detailView = ($scope.detailView === i) ? -1 : i);

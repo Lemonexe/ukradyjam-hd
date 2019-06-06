@@ -71,6 +71,10 @@ let saveService = {
 				return false;
 			}
 
+			//see definition of 'compatiblity'
+			//function 'f' is fired if save version is lower than 'v' version
+			compatibility.forEach(c => (ver2num(data.version) < ver2num(c.v)) && c.f(data))
+
 			//actually load the data
 			s = data;
 
@@ -129,6 +133,23 @@ let saveService = {
 	//number of application instance ID clashes, see save
 	clash: 0,
 };
+
+//functions to perform actions for compatibility purposes. v = version, f = function that takes state object as an argument and returns nothing
+const compatibility = [
+	//delete empty fields in battle casualty reports
+	{v: [1, 1, 0], f: function(s) {
+		for(let r of s.battleReports) {
+			r.deadP = game.war.filterArmyObj(r.deadP);
+			r.deadE = game.war.filterArmyObj(r.deadE);
+		}
+	}},
+	//add missing property
+	{v: [1, 0, 2], f: function(s) {
+		if(!s.hasOwnProperty('tooltip')) {
+			s.tooltip = S().tooltip;
+		}
+	}}
+];
 
 //these images will be used in canvas, and therefore need to be preloaded
 let imgs = {battle: 'res/env/BATTLE.png'};

@@ -1,7 +1,7 @@
-předělat battle reports aby neměly nulové properties
-? umožnit více jednotek ?
-	Odysseia
-	barbaři
+při každém timeoutu dopočítat kola!
+	actually teda počítat bitvu offline
+	obojí sjednotit...
+	- timing tweaked and fixed	
 
 TODO ASSETS:
 	favicon

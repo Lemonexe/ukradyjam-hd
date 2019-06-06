@@ -116,7 +116,7 @@ const units = {
 		name: 'Lučištník', flavor: 'Pidlooký branec z venkova, který se občas i trefí do nepřátelské armády',
 		price: [20, 15, 0, 0, 0], pop: 1,
 		group: 30, att: 3, hp: 9,
-		bonus: {kop: 0.4, luk: 0.2, hop: 0.6, sln: 0.3, trj: -0.2}
+		bonus: {kop: 0.5, luk: 0.2, hop: 0.7, sln: 0.3, trj: -0.2}
 	},
 	hop: {class: 'infantry', img: 'hoplit.png', train: 'kasarna',
 		name: 'Hoplit', flavor: 'Disciplinovaný voják v naleštěné uniformě je chloubou přehlídek',
@@ -134,7 +134,7 @@ const units = {
 		name: 'Trojský kůň', flavor: 'Navenek vkusné umělecké dílo, uvnitř však číhají ozbrojení záškodníci',
 		price: [600, 200, 0, 130, 0], pop: 4,
 		group: 10, att: 16, hp: 85,
-		bonus: {hop: 0.3}
+		bonus: {hop: 0.5}
 	},
 	obr: {class: 'infantry', img: 'steam.png', train: 'dilna',
 		name: 'Parní kolos', flavor: 'Hromada pístů, pružin a čepelí s řachotem rozdupe všechno před sebou',
@@ -164,24 +164,24 @@ const units = {
 
 //table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army is loaded
 //the last army will simply get regenerated after defeat
-//rows means size of battlefield, max rows = 5
+//'ground' and 'air' means size of battlefield as number of rows for ground units and air units. MAX ground:6, air:2
 let enemyArmies = [
-	{rows: 1, dranc: 20,  army: {kop: 1,    luk: 0,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 1, dranc: 80,  army: {kop: 5,    luk: 1,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 1, dranc: 150, army: {kop: 12,   luk: 4,    hop: 2,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 2, dranc: 300, army: {kop: 25,   luk: 15,   hop: 5,    sln: 1,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 2, dranc: 600, army: {kop: 50,   luk: 30,   hop: 10,   sln: 2,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 2, dranc: 2e3, army: {kop: 100,  luk: 60,   hop: 30,   sln: 5,   trj: 1,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 3, dranc: 3e3, army: {kop: 150,  luk: 90,   hop: 50,   sln: 10,  trj: 3,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
-	{rows: 3, dranc: 5e3, army: {kop: 200,  luk: 150,  hop: 100,  sln: 15,  trj: 6,   obr: 0,   baz: 1,   bal: 0,   gyr: 0}},
-	{rows: 3, dranc: 1e4, army: {kop: 300,  luk: 240,  hop: 200,  sln: 30,  trj: 10,  obr: 0,   baz: 5,   bal: 0,   gyr: 0}},
-	{rows: 4, dranc: 2e4, army: {kop: 450,  luk: 360,  hop: 350,  sln: 60,  trj: 30,  obr: 1,   baz: 10,  bal: 0,   gyr: 0}},
-	{rows: 4, dranc: 3e4, army: {kop: 650,  luk: 480,  hop: 600,  sln: 90,  trj: 60,  obr: 4,   baz: 30,  bal: 1,   gyr: 0}},
-	{rows: 4, dranc: 5e4, army: {kop: 900,  luk: 720,  hop: 900,  sln: 120, trj: 100, obr: 10,  baz: 90,  bal: 10,  gyr: 1}},
-	{rows: 5, dranc: 1e5, army: {kop: 1250, luk: 900,  hop: 1250, sln: 180, trj: 160, obr: 40,  baz: 200, bal: 100, gyr: 20}},
-	{rows: 5, dranc: 2e5, army: {kop: 2000, luk: 1500, hop: 2500, sln: 400, trj: 380, obr: 120, baz: 450, bal: 400, gyr: 200}},
-	{rows: 5, dranc: 4e5, army: {kop: 3000, luk: 2400, hop: 4000, sln: 700, trj: 700, obr: 250, baz: 900, bal: 800, gyr: 600}},
-	{rows: 5, dranc: 8e5, army: {kop: 5000, luk: 3600, hop: 6000, sln: 1000,trj: 1000,obr: 500, baz: 1500,bal: 1500,gyr: 1200}}
+	{ground: 1, air: 1, dranc: 20,   army: {kop: 1,    luk: 0,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{ground: 1, air: 1, dranc: 90,   army: {kop: 4,    luk: 1,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{ground: 1, air: 1, dranc: 200,  army: {kop: 12,   luk: 4,    hop: 2,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{ground: 2, air: 1, dranc: 400,  army: {kop: 25,   luk: 15,   hop: 5,    sln: 1,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{ground: 2, air: 1, dranc: 800,  army: {kop: 50,   luk: 30,   hop: 10,   sln: 2,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{ground: 2, air: 1, dranc: 1500, army: {kop: 100,  luk: 60,   hop: 30,   sln: 5,   trj: 1,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{ground: 3, air: 1, dranc: 2500, army: {kop: 150,  luk: 90,   hop: 50,   sln: 10,  trj: 3,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
+	{ground: 3, air: 1, dranc: 5000, army: {kop: 200,  luk: 150,  hop: 100,  sln: 15,  trj: 6,   obr: 0,   baz: 1,   bal: 0,   gyr: 0}},
+	{ground: 3, air: 1, dranc: 1e4,  army: {kop: 300,  luk: 240,  hop: 200,  sln: 30,  trj: 10,  obr: 0,   baz: 5,   bal: 0,   gyr: 0}},
+	{ground: 4, air: 1, dranc: 2e4,  army: {kop: 450,  luk: 360,  hop: 350,  sln: 60,  trj: 30,  obr: 1,   baz: 10,  bal: 0,   gyr: 0}},
+	{ground: 4, air: 1, dranc: 4e4,  army: {kop: 650,  luk: 480,  hop: 600,  sln: 90,  trj: 60,  obr: 4,   baz: 30,  bal: 1,   gyr: 0}},
+	{ground: 4, air: 1, dranc: 6e4,  army: {kop: 900,  luk: 720,  hop: 900,  sln: 120, trj: 100, obr: 10,  baz: 90,  bal: 10,  gyr: 1}},
+	{ground: 5, air: 1, dranc: 12e4, army: {kop: 1200, luk: 900,  hop: 1200, sln: 160, trj: 140, obr: 30,  baz: 180, bal: 100, gyr: 30}},
+	{ground: 5, air: 1, dranc: 25e4, army: {kop: 1500, luk: 1200, hop: 1600, sln: 300, trj: 250, obr: 100, baz: 400, bal: 300, gyr: 200}},
+	{ground: 5, air: 1, dranc: 5e5,  army: {kop: 2000, luk: 2100, hop: 2500, sln: 600, trj: 550, obr: 200, baz: 800, bal: 700, gyr: 500}},
+	{ground: 6, air: 2, dranc: 1e6,  army: {kop: 5000, luk: 3600, hop: 6000, sln: 1000,trj: 1000,obr: 500, baz: 1500,bal: 1500,gyr: 1200}}
 ];
 
 //description is a function of kostel lvl
@@ -259,7 +259,7 @@ const achievements = {
 		flavor: 'runtime error: out of memory'},
 	exodus: {secret: true, name: 'Půlnoční království', description: 'vyvolat exodus obyvatel', //(obyvatelstvo <=0, vygebenost <= 0)
 		flavor: 'Asociální politika dokázala z naší říše vystrnadit i ty nejservilnější občany.'},
-	multi: {secret: true, name: 'Multifunkční středisko', description: 'nacpat všechny budovy na jedno místo', //(všechny budovy, co mám (ale alespoň 3), dát na radnici, aby ji překryly)
+	multi: {secret: true, name: 'Multifunkční středisko', description: 'nacpat čtyři budovy na jedno místo', //(na radnici dát tři ostatní budovy, aby ji překryly)
 		flavor: 'Kdo vyhraje: pečlivě promyšlený urbanistický plán, nebo drag & drop?'},
 	exec: {secret: true, name: 'Exekučně zabaveno', description: 'přivést stát ke krachu',
 		flavor: 'Národní rozpočet je úplně rozkradený a ubozí občané jsou utiskováni exekuční mafií. Zlatý komunisti ciwe, tohle tenkrát nebylo!'},

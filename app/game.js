@@ -108,7 +108,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 0, 4],
+	version: [1, 1, 0],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -144,8 +144,10 @@ let game = {
 			let j = i+1;
 			s.sur[j] += s.pop[j] * eff[o];
 			//if storage is full
-			if(s.sur[j] >= storage) {
-				s.sur[j] = storage;
+			let diff = s.sur[j] - storage;
+			if(diff >= 0) {
+				s.sur[0] += diff*eff.obchod*consts.goldValue;
+				s.sur[j] -= diff;
 				overflow[j] = true;
 				//relieve workers. In case of beer, keep as many workers as it takes to keep a constant supply of beer, otherwise relieve all workers
 				let newWorkers = (o === 'pivo') ? Math.min(s.pop[4], Math.ceil(beerConsumption/eff[o])) : 0;
@@ -426,6 +428,7 @@ let game = {
 	checkAchievement: {
 		researches: function() {
 			if(s.research.length === 1) {game.achieve('IFLS');}
+
 			let grandTechs = ['EcoGrand', 'PolGrand', 'WisGrand', 'ArmGrand'];
 			let callback = (sum,r) => sum && s.research.indexOf(r) > -1;
 			if(grandTechs.reduce(callback, true)) {game.achieve('budoucnost');}
@@ -443,9 +446,10 @@ let game = {
 		},
 		//achieve if there are at least 4 buildings and all are stacked on one position
 		multi: function() {
-			let comp = (a,b) => Math.abs(a-b) <= 32; //whether coordinates  match
-			if(s.build.length >= 4 &&
-				s.build.reduce((sum, b) => (sum && comp(b.pos[0], s.build[0].pos[0]) && comp(b.pos[1], s.build[0].pos[1])), true)
+			let comp = (a,b) => Math.abs(a-b) <= 40; //whether coordinates  match
+			let r = s.build[0]; //town hall
+			if(
+				s.build.reduce((sum, b) => (sum += comp(b.pos[0], r.pos[0]) && comp(b.pos[1], r.pos[1])), 0) >= 4
 			) {game.achieve('multi');}
 		}
 	},

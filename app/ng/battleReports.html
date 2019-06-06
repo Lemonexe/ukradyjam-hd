@@ -14,10 +14,10 @@
 		<div ng-show="detailView === $index">
 			<table>
 				<tr>
-					<td ng-repeat="(i,n) in report.deadP" ng-if="report.deadP[i] > 0 || report.deadE[i] > 0" style="text-align: center">
+					<td ng-repeat="(i,n) in blankObj" ng-if="report.deadP[i] > 0 || report.deadE[i] > 0" style="text-align: center">
 						<img ng-src="res\unit\{{units[i].img}}" width="56" height="56"><br>
-						<span style="color: #0000bb;">-{{report.deadP[i]}}</span><br>
-						<span style="color: #bb0000;">-{{report.deadE[i]}}</span>
+						<span style="color: #0000bb;">-{{report.deadP[i] ? report.deadP[i] : 0}}</span><br>
+						<span style="color: #bb0000;">-{{report.deadE[i] ? report.deadE[i] : 0}}</span>
 					</td>
 				</tr>
 			</table>
