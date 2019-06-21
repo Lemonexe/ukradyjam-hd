@@ -22,10 +22,11 @@ let S = () => ({
 		message: ''
 	},
 
-	//initial tick, last tick, tick count
-	timestampInit: 0,
-	timestamp: 0,
-	iteration: 0,
+	
+	timestampInit: 0, //initial tick
+	timestamp: 0,     //last game cycle
+	warstamp: 0,      //last war stroke
+	iteration: 0,     //game cycle count
 
 	//display name of town, purely cosmetic
 	name: 'Polis',
@@ -108,7 +109,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 0],
+	version: [1, 1, 1],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -120,6 +121,25 @@ let game = {
 		m = (typeof m === 'string') ? [m] : m;
 		m = m.filter(item => item.trim());
 		(m.length > 0) && s.messages.push(m);
+	},
+
+	//callback for $interval in angular controller - manages timers
+	cycleManage: function() {
+		let tol = 100; // tolerance to determine whether it's already time to perform a cycle [ms]
+		//number of cycles to do: n = game cycle, nw = war stroke
+		let n  = Math.floor((Date.now() - s.timestamp + tol) / consts.dt);
+		let nw = Math.floor((Date.now() - s.warstamp + tol) / consts.dtw);
+		(n >= consts.backAchieve / consts.dt) && game.achieve('back');
+
+		//retrospectively do all the game cycles and strokes
+		for(let i = 0; i < n; i++) {
+			game.tick();
+		}
+		for(let i = 0; i < nw; i++) {
+			game.war.stroke();
+		}
+
+		return n;
 	},
 
 	//the central function of this discrete model

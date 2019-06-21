@@ -190,7 +190,11 @@ let War = () => ({
 
 	//each stroke something different will be done. 3 strokes = full cycle
 	stroke: function() {
+		s.warstamp = Date.now();
+
 		let bf = s.battlefield;
+		if(!bf) {return;}
+		
 		if(bf.stroke % 3 === 0) {this.stroke1();}
 		else if(bf.stroke % 3 === 1) {this.stroke2();}
 		else {this.stroke3();}
@@ -611,8 +615,10 @@ app.directive('battleCanvas', () => ({
 			let ctx = element[0].getContext('2d');
 			game.war.render(ctx);
 		}
+
 		//set listener, which will be called via a $broadcast by an $interval from main controller
 		scope.$on('renderWar', render);
+
 		//first-time render upon opening battle tab
 		render();
 	}

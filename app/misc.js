@@ -71,24 +71,20 @@ let saveService = {
 				return false;
 			}
 
-			//see definition of 'compatiblity'
+			//however, there is a better approach than obliterating a thriving city in every new version of game
+
+			//see definition of 'compatibility'
 			//function 'f' is fired if save version is lower than 'v' version
-			compatibility.forEach(c => (ver2num(data.version) < ver2num(c.v)) && c.f(data))
+			compatibility.forEach(c => (ver2num(data.version) < ver2num(c.v)) && c.f(data));
+			data.version = game.version;
 
 			//actually load the data
 			s = data;
 
-			//and retrospectively perform ticks
-			let diff = Date.now() - data.timestamp;
-			let cycles = Math.floor(diff / consts.dt);
-			if(cycles <= 0) {return true;}
-			cycles >= consts.backAchieve/consts.dt && game.achieve('back');
+			//and retrospectively perform all cycles
+			let cycles = game.cycleManage();
 
-			for(let i = 0; i < cycles; i++) {
-				game.tick();
-			}
-
-			game.msg([`Zatímco byl vládce na dovolené, proběhlo ${cycles} cyklů.`,
+			cycles > 0 && game.msg([`Zatímco byl vládce na dovolené, proběhlo ${cycles} cyklů.`,
 				`Raději zkontrolujte, zda-li je ${s.name} v pořádku.`,
 				'Řím možná nebyl postaven za den, ale naši občané by ho za den zvládli zcela vybydlet.']);
 			return true;
@@ -136,6 +132,12 @@ let saveService = {
 
 //functions to perform actions for compatibility purposes. v = version, f = function that takes state object as an argument and returns nothing
 const compatibility = [
+	//add missing property
+	{v: [1, 0, 2], f: function(s) {
+		if(!s.hasOwnProperty('tooltip')) {
+			s.tooltip = S().tooltip;
+		}
+	}},
 	//delete empty fields in battle casualty reports
 	{v: [1, 1, 0], f: function(s) {
 		for(let r of s.battleReports) {
@@ -143,11 +145,9 @@ const compatibility = [
 			r.deadE = game.war.filterArmyObj(r.deadE);
 		}
 	}},
-	//add missing property
-	{v: [1, 0, 2], f: function(s) {
-		if(!s.hasOwnProperty('tooltip')) {
-			s.tooltip = S().tooltip;
-		}
+	//add warstamp and set it as timestamp, which should actually be close enough
+	{v: [1, 1, 1], f: function(s) {
+		s.warstamp = s.timestamp;
 	}}
 ];
 

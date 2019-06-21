@@ -1,6 +1,7 @@
-// generické kostnaty
+// generic constants
 const consts = {
-	dt: 1e4, //duration of one cycle [ms]
+	dtm: 1e3, //duration of $interval to govern game cycle && battle stroke [ms]
+	dt: 1e4,  //duration of one game cycle [ms]
 	dtw: 1e3, //duration of one battle stroke [ms]
 	surAliases: ['zlato', 'drevo', 'kamen', 'syra', 'pivo'], //aliases for resources
 	baseRateWP: 4, //základní rychlost výzkumu, škola posiluje
@@ -69,7 +70,7 @@ const buildings = {
 	hospoda: {
 		name: 'Hospoda', img: 'hospoda.png',
 		maxLvl: 16, price: l => [0, expF(l,50,1.85,-21), expF(l,20,1.9,-39), 0, 0],
-		f: l => expF(l,1.328,1.5,8), //max pivní výdej
+		f: l => expF(l,1.328,1.5,8), //max beer handout
 		flavor: 'V podstatě státní výdejna piva, tedy budova zcela stěžejní pro správné fungování občanů v našem demokratickém státě.'
 	},
 	dilna: {
@@ -238,7 +239,7 @@ const achievements = {
 	zazrak: {name: 'Řecký panthenol', description: 'aktivovat zázrak',
 		flavor: 'Který z nevyzpytatelných olympských bohů nás bude obtěžovat dnes?'},
 	palac: {name: 'Řekněte čapíčapíčapíčapíčapí hnízdo', description: 'postavit palác',
-		flavor: 'Je to jen kampaň a účelovka. Nic jsem nezpronevěřil a ta částka taky nesouhlasí.'},
+		flavor: 'Je to kampaň a účelovka. Nic jsem nezpronevěřil, a ta částka taky nesouhlasí.'},
 //ENDGAME
 	nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
 		flavor: 'Novoroční ohňostroje mění svět v kouřící ruiny. A taky plaší domácí mazlíčky!!!'},
@@ -264,7 +265,7 @@ const achievements = {
 	exec: {secret: true, name: 'Exekučně zabaveno', description: 'přivést stát ke krachu',
 		flavor: 'Národní rozpočet je úplně rozkradený a ubozí občané jsou utiskováni exekuční mafií. Zlatý komunisti ciwe, tohle tenkrát nebylo!'},
 	gambler: {secret: true, name: 'Gambler', description: 'aktivovat všechny bohy',
-		flavor: 'Kámo vole puč mi love na bedny! Jenom jednu otočku - tentokrát to určitě klapne!'},
+		flavor: 'Kámo vole puč mi love na bedny! Jenom jednu otočku, tentokrát to určitě klapne!'},
 	hacker: {secret: true, name: 'H A C K E R M A N', description: 'get_HACKER_achievement()',
 		flavor: 'We are an anonymous function. We do not forgive invalid arguments. We do forget our scope. Expect our return value!'},
 	ecozmrd: {secret: true, name: 'Ekonomičtí zmrdi', description: 'obchodovat při účinnosti větší než 100%',

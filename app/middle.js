@@ -247,27 +247,19 @@ app.controller('middle', function($scope, $interval) {
 
 
 /*GAME RELEATED CODE*/
-	//this will be executed every cycle
-	function tick() {
-		game.tick();
-		saveService.save();
-	}
-
-	//this will be executed every war stroke - calls link function in war directive
-	function tickWar() {
-		if(!s.battlefield) {return;}
-		game.war.stroke();
-		$scope.$broadcast('renderWar');
-	}
-
 	//the game will start after pressing a button in intro screen or when a savegame is loaded
 	$scope.initGame = function() {
 		s.running = true;
 		s.timestampInit = s.timestamp = Date.now();
 		$scope.ctrl.window = 'game';
 		if($scope.ctrl.tab === 'battle') {$scope.ctrl.tab = 'islandPolis';}
-		$scope.intervalHandle = $interval(tick, consts.dt);
-		$scope.intervalHandleWar = $interval(tickWar, consts.dtw);
+
+		//one master interval to manage them all
+		$scope.intervalHandle = $interval(function() {
+			game.cycleManage();
+			saveService.save();
+			s.battlefield && $scope.$broadcast('renderWar');
+		}, consts.dtm);
 	};
 
 	//this function will be fired at the end of controller - try to load a local save and initialize game
