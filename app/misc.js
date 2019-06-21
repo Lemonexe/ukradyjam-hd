@@ -81,8 +81,8 @@ let saveService = {
 			//actually load the data
 			s = data;
 
-			//and retrospectively perform all cycles
-			let cycles = game.cycleManage();
+			//and retrospectively perform all ticks
+			let cycles = game.retrospecticks();
 
 			cycles > 0 && game.msg([`Zatímco byl vládce na dovolené, proběhlo ${cycles} cyklů.`,
 				`Raději zkontrolujte, zda-li je ${s.name} v pořádku.`,

@@ -1,6 +1,5 @@
 // generic constants
 const consts = {
-	dtm: 1e3, //duration of $interval to govern game cycle && battle stroke [ms]
 	dt: 1e4,  //duration of one game cycle [ms]
 	dtw: 1e3, //duration of one battle stroke [ms]
 	surAliases: ['zlato', 'drevo', 'kamen', 'syra', 'pivo'], //aliases for resources

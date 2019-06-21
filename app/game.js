@@ -123,12 +123,11 @@ let game = {
 		(m.length > 0) && s.messages.push(m);
 	},
 
-	//callback for $interval in angular controller - manages timers
-	cycleManage: function() {
-		let tol = 100; // tolerance to determine whether it's already time to perform a cycle [ms]
+	//perform ticks retrospectively while loading a game
+	retrospecticks: function() {
 		//number of cycles to do: n = game cycle, nw = war stroke
-		let n  = Math.floor((Date.now() - s.timestamp + tol) / consts.dt);
-		let nw = Math.floor((Date.now() - s.warstamp + tol) / consts.dtw);
+		let n  = Math.floor((Date.now() - s.timestamp) / consts.dt);
+		let nw = Math.floor((Date.now() - s.warstamp) / consts.dtw);
 		(n >= consts.backAchieve / consts.dt) && game.achieve('back');
 
 		//retrospectively do all the game cycles and strokes
