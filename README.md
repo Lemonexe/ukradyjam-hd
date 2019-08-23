@@ -10,6 +10,8 @@ Děkuji [@M4ch](https://github.com/M4ch) za vytvoření grafiky!
 
 ## Struktura aplikace
 
+:grey_exclamation: _POZOR: za žádných okolností ve hře nevolejte funkci_ `get_HACKER_achievement()`, _aby nebyl Ukradyjam nahackován_ :grey_exclamation:
+
 Téměř veškeré HTML je v **index.html**, veškeré statické CSS je v **app/style.css** (dynamické je pak nastaveno v příslušných Angular controllerech)
 
 ### Javascript
@@ -36,11 +38,11 @@ Též se zde nachází direktiva `battleCanvas`, která propojuje view funkce *w
 
 **app/dataWis.js** data týkající se výzkumů jsou pro svůj značný objem vyčleněna z *data.js* právě sem
 
-**app/ng/directives.js** zde jsou definovány různé direktivy, ty jsou vytvářeny buďto z důvodu jejich opakovaného použití, nebo jen vyčleněny z hlavního controlleru pro jeho zmenšení.
+**app/directives.js** zde jsou definovány různé direktivy, ty jsou vytvářeny buďto z důvodu jejich opakovaného použití, nebo jen vyčleněny z hlavního controlleru pro jeho zmenšení.
 Pouze následující direktivy obsahují složitější logiku v controlleru:
 `buildingDetails` obecné informace o budově a možnosti jejího vylepšování, vyskytuje se v každém okně budovy  
 `resourceSlider` posuvník na rozdělení daňových poplatníků a dělníků, vystkytuje se v každém dole  
 `tradeSlider` rozhraní na obchod, vyskytuje se pouze v přístavu  
 `training` rozhraní na trénink příslušných jednotek podle typu bodovy, vyskytuje se v kasárně, dílně a zkušebně
 
-**app/ng/ \* .html** všechny HTML soubory v tomto adresáři jsou templates pro ng-include nebo pro direktivy definované v *directives.js*
+**app/ng/ \* .html** HTML soubory v tomto adresáři jsou templates pro ng-include nebo pro direktivy definované v *directives.js*

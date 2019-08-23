@@ -100,6 +100,7 @@ let S = () => ({
 	//'false' variables that are set to 'true' once, at some point during game as a warning / tutorial
 	singleUse: {
 		visitedPila: false, //visit islandPila for the 1st time. Until then it will blink to attract player's attention
+		visitedRadnice: false, //visit Radnice for the 1st time to display popup
 		warnPopLimit: false, //population has reached limit
 		warnOverflow: false, //storage capacity overflown
 		warnUnhappy: false //negative happiness
@@ -109,7 +110,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 1],
+	version: [1, 1, 2],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory

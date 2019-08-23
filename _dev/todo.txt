@@ -1,8 +1,2 @@
-TODO ASSETS:
-	favicon
-	? REMAKE slon
-	? REMAKE Palác
-	? REMAKE Kostel
-	? REMAKE battle background
-	předělat obra aby držel ceduli rukama
-	? draggable stromy a ovce jako budovy
+v1.2.0
+- lots of new images

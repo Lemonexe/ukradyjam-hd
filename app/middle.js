@@ -171,6 +171,12 @@ app.controller('middle', function($scope, $interval) {
 		) {
 			$scope.tab(drag.b.id);
 			s.hasOwnProperty('tooltip') && (s.tooltip.visible = false);
+			if(drag.b.id === 'radnice' && !s.singleUse.visitedRadnice) {
+				s.singleUse.visitedRadnice = true;
+				let msg = ['Toto je vaše první budova!', 'Radnice určuje maximální populaci města, jejím vylepšením populaci zvýšíte.'];
+				(s.build.length === 1) && msg.push('Ve městě pak můžete pomocí tlačítka BUDOVAT postavit další budovy s rozličnými funkcemi.');
+				game.msg(msg);
+			}
 		}
 		//finish dragging
 		drag.b = false;
@@ -369,6 +375,8 @@ app.controller('middle', function($scope, $interval) {
 			.filter(item => s.achievements.indexOf(item) === -1)
 			.map(item => achievements[item].description);
 	}
+
+	$scope.dogeSRC = () => s.p.unlockDoge ? 'res/GUI/doge.jpg' : ''; //poor smol doge must be well hidden from evil robots!
 
 
 
