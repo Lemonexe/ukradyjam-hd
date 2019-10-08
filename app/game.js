@@ -22,11 +22,12 @@ let S = () => ({
 		message: ''
 	},
 
-	
-	timestampInit: 0, //initial tick
-	timestamp: 0,     //last game cycle
-	warstamp: 0,      //last war stroke
+
+	timestampInit: Date.now(), //start of application
+	timestamp: Date.now(),     //last game cycle
+	warstamp: Date.now(),      //last war stroke
 	iteration: 0,     //game cycle count
+	timestampFounded: Date.now(), //when was the town founded
 
 	//display name of town, purely cosmetic
 	name: 'Polis',
@@ -110,7 +111,7 @@ let S = () => ({
 //game object
 let game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 2],
+	version: [1, 1, 3],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -131,11 +132,14 @@ let game = {
 		let nw = Math.floor((Date.now() - s.warstamp) / consts.dtw);
 		(n >= consts.backAchieve / consts.dt) && game.achieve('back');
 
+		(n > 1e5) && alert('VAROVÁNÍ\n\nKe hře jste se vrátili po dlouhé době a je třeba dopočítat, co se stalo, což může trvat docela dlouho!\nZavřete toto okno pro zahájení.');
+
 		//retrospectively do all the game cycles and strokes
 		for(let i = 0; i < n; i++) {
 			game.tick();
 		}
 		for(let i = 0; i < nw; i++) {
+			if(!s.battlefield) {break;}
 			game.war.stroke();
 		}
 
@@ -145,7 +149,6 @@ let game = {
 	//the central function of this discrete model
 	tick: function() {
 		while(s.messages.length > consts.maxMessages) {s.messages.shift();}
-		s.timestamp = Date.now();
 		s.iteration++;
 	//WP
 		s.WP += this.rateWP();

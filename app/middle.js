@@ -173,7 +173,7 @@ app.controller('middle', function($scope, $interval) {
 			s.hasOwnProperty('tooltip') && (s.tooltip.visible = false);
 			if(drag.b.id === 'radnice' && !s.singleUse.visitedRadnice) {
 				s.singleUse.visitedRadnice = true;
-				let msg = ['Toto je vaše první budova!', 'Radnice určuje maximální populaci města, jejím vylepšením populaci zvýšíte.'];
+				let msg = ['Toto je vaše první budova!', 'Radnice určuje maximální populaci města, jejím vylepšením populační limit zvýšíte.'];
 				(s.build.length === 1) && msg.push('Ve městě pak můžete pomocí tlačítka BUDOVAT postavit další budovy s rozličnými funkcemi.');
 				game.msg(msg);
 			}
@@ -255,15 +255,36 @@ app.controller('middle', function($scope, $interval) {
 /*GAME RELEATED CODE*/
 	//this will be executed every cycle
 	function tick() {
+		//increment timestamp and do tick
+		s.timestamp += consts.dt;
 		game.tick();
+
+		//account for lags
+		let n  = Math.floor((Date.now() - s.timestamp) / consts.dt);
+		for(let i = 0; i < n; i++) {
+			s.timestamp += consts.dt;
+			game.tick();
+		}
+
+		//finish
 		saveService.save();
 	}
 
 	//this will be executed every war stroke - calls link function in war directive
 	function tickWar() {
-		if(!s.battlefield) {return;}
-		game.war.stroke();
-		$scope.$broadcast('renderWar');
+		//increment timestamp and do tick
+		s.warstamp += consts.dtw;
+		s.battlefield && game.war.stroke();
+
+		//account for lags
+		let nw = Math.floor((Date.now() - s.warstamp) / consts.dtw);
+		for(let i = 0; i < nw; i++) {
+			s.warstamp += consts.dtw;
+			s.battlefield && game.war.stroke();
+		}
+
+		//finish
+		s.battlefield && $scope.$broadcast('renderWar');
 	}
 
 	//the game will start after pressing a button in intro screen or when a savegame is loaded
@@ -375,6 +396,18 @@ app.controller('middle', function($scope, $interval) {
 			.filter(item => s.achievements.indexOf(item) === -1)
 			.map(item => achievements[item].description);
 	}
+
+	$scope.getFoundationDate = function() {
+		let d = new Date(s.timestampFounded);
+
+		//add leading zero to the number
+		function f(num) {
+			let str = String(num);
+			return str.length < 2 ? '0' + str : str;
+		}
+
+		return f(d.getDate()) + '.' + f(d.getMonth()+1) + '.' + f(d.getFullYear());
+	};
 
 	$scope.dogeSRC = () => s.p.unlockDoge ? 'res/GUI/doge.jpg' : ''; //poor smol doge must be well hidden from evil robots!
 

@@ -190,8 +190,6 @@ let War = () => ({
 
 	//each stroke something different will be done. 3 strokes = full cycle
 	stroke: function() {
-		s.warstamp = Date.now();
-
 		let bf = s.battlefield;
 		if(!bf) {return;}
 		
@@ -218,6 +216,7 @@ let War = () => ({
 				let left = x < 3; //is on the left side of battlefield?
 				let spawn = left ? 0 : 5; //x coordinate of spawn cells
 				let dir = left ? 1 : -1; //x direction of travel
+				let own = (y < bf.air) ? !left : left; //sky units spawn on the other side and move the other way
 				
 				//try to move inward (if not already on frontline cells)
 				if((x < 2 || x > 3) && bf.map[y][x] && !bf.map[y][x+dir]) {
@@ -248,18 +247,31 @@ let War = () => ({
 					bf.map[y][x] = false;
 				}
 
+				let BFsum = this.getBFsum();
+				let airDominance = BFsum.airL === 0 && own || BFsum.airR === 0 && !own; //whether the oponent's air space is empty
+
 				//try to spawn a new group on outer cells
 				if(!bf.map[y][x] && x === spawn) {
-					//sky units spawn on the other side and move the other way
-					let own = (y < bf.air) ? !left : left;
 					//which units can be spawned on this cell
 					let unitSet = (y < bf.air) ? consts.skyUnits : consts.groundUnits;
 					//don't spawn antibombers if they wouldn't have anything to fight against
-					let BFsum = this.getBFsum();
-					if(BFsum.airL === 0 && own || BFsum.airR === 0 && !own) {
-						unitSet = unitSet.filter(item => units[item].class !== 'antibomber');
-					}
+					airDominance && (unitSet = unitSet.filter(item => units[item].class !== 'antibomber'));
+					
 					bf.map[y][x] = this.createGroup(unitSet, own);
+				}
+				//replenish outer balloons, but only if antibombers are gone
+				else if(bf.map[y][x] && x === spawn && y < bf.air && airDominance) {
+					let cell = bf.map[y][x];
+					let diff = units[cell.key].group - cell.n;
+					let res = cell.own ? 'reserveP' : 'reserveE'; //reserve pointer
+					if(diff > 0 && bf[res][cell.key] > diff) {
+						bf.map[y][x].n += diff;
+						bf[res][cell.key] -= diff;
+					}
+					else if(diff > 0 && bf[res][cell.key] > 0) {
+						bf.map[y][x].n += bf[res][cell.key];
+						bf[res][cell.key] = 0;
+					}
 				}
 			}
 		}
@@ -565,43 +577,57 @@ let War = () => ({
 		//get coordinates from map indices
 		let coordX = x => pc.X0+32+64*x;
 		let coordY = y => y < bf.air ? pc.airY0+32+64*y : pc.gndY0+32+64*(y-bf.air);
-		//iterate through all effects, logic is divided by their shape
-		for(let e of bf.effects) {
+
+		//functions for effect rendering
+		let effectF = {
 			//splatter (dots randomly placed in circular area)
-			if(['bloodSplatter', 'shitSplatter', 'explosion'].indexOf(e.type) > -1) {
-				let drops = (e.type === 'shitSplatter') ? 80 : 50;
+			splatter: function(e, color, drops, radius, size) {
 				for(let i = 0; i < drops; i++) {
-					let x = coordX(e.x) + Math.sin(Math.random()*Math.PI*2) * 18 * Math.random();
-					let y = coordY(e.y) + Math.cos(Math.random()*Math.PI*2) * 18 * Math.random();
+					let x = coordX(e.x) + Math.sin(Math.random()*Math.PI*2) * radius * Math.random();
+					let y = coordY(e.y) + Math.cos(Math.random()*Math.PI*2) * radius * Math.random();
 					ctx.beginPath();
-					ctx.arc(x, y, 1.5, 0, 2*Math.PI);
-					if(e.type === 'shitSplatter') {ctx.fillStyle = '#c05f00';}
-					else if(e.type === 'explosion') {ctx.fillStyle = '#e2e41c';}
-					else {ctx.fillStyle = '#c00000';}
+					ctx.arc(x, y, size, 0, 2*Math.PI);
+					ctx.fillStyle = color;
 					ctx.fill();
 				}
-			}
+			},
+
 			//straight line
-			else if(['grayLine', 'shitLine'].indexOf(e.type) > -1) {
+			line: function(e, color, dash) {
 				ctx.beginPath();
 				ctx.moveTo(coordX(e.x1), coordY(e.y1));
 				ctx.lineTo(coordX(e.x2), coordY(e.y2));
-				ctx.strokeStyle = (e.type === 'grayLine') ? '#808080' : '#c05f00';
-				ctx.setLineDash((e.type === 'grayLine') ? [] : [5, 10]);
+				ctx.strokeStyle = color;
+				ctx.setLineDash(dash);
 				ctx.lineWidth = 3;
 				ctx.stroke();
-			}
+				ctx.setLineDash([]);
+			},
+
 			//balistic arc. It is assumed that y1 = y2
-			else if(['yellowArc', 'grayArc'].indexOf(e.type) > -1) {
+			arc: function(e, color) {
 				ctx.beginPath();
 				ctx.arc(coordX(0.5*(e.x1+e.x2)), coordY(e.y1)+64, Math.SQRT2*64, 1.25*Math.PI, 1.75*Math.PI);
-				ctx.strokeStyle = (e.type === 'grayArc') ? '#c0c0c0' : '#e2e41c';
+				ctx.strokeStyle = color;
 				ctx.setLineDash([]);
 				ctx.lineWidth = 2;
 				ctx.stroke();
 			}
-		}
-		ctx.setLineDash([]);
+		};
+
+		//effectF calling sequences for each effect type
+		let effectCalls = {
+			bloodSplatter: e => effectF.splatter(e, '#c00000', 50 , 18, 1.5),
+			shitSplatter:  e => effectF.splatter(e, '#c05f00', 100, 22, 2),
+			explosion:     e => effectF.splatter(e, '#e2e41c', 80 , 25, 1.5),
+			grayLine:      e => effectF.line    (e, '#808080', []),
+			shitLine:      e => effectF.line    (e, '#c05f00', [5, 10]),
+			yellowArc:     e => effectF.arc     (e, '#e2e41c'),
+			grayArc:       e => effectF.arc     (e, '#c0c0c0')
+		};
+
+		//iterate through all effects to draw them
+		bf.effects.forEach(e => effectCalls[e.type](e));
 	}
 });
 

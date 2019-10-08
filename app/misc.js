@@ -50,16 +50,24 @@ let saveService = {
 		if(!s.running) {return;}
 		//check if the last save is from the a different application instance = if initial timestamps clash (they're basically instance ID)
 		//emit a warning if this is the 2nd time it clashed (thus ignore clash from loading a save)
-		let data = localStorage.getItem('savegame');
-		data && JSON.parse(data).timestampInit !== s.timestampInit && (saveService.clash++) &&
-			(saveService.clash >= 2) && game.msg(['Ukradyjam:HD je otevřen ve více než jednom panelu.',
-				'To vám rozhodně nezvýší těžbu surovin, proto raději zavřete všechny kromě toho, který plánujete hrát ;-)']);
-		localStorage.setItem('savegame', JSON.stringify(s));
+		let data = localStorage.getItem('UKHDsavegame');
+		data && JSON.parse(data).timestampInit !== s.timestampInit && (saveService.clash++) && (saveService.clash >= 2) &&
+			game.msg(['Ukradyjam:HD je otevřen ve více než jednom panelu.', 'To vám rozhodně nezvýší těžbu surovin, proto raději zavřete všechny kromě toho, který plánujete hrát ;-)']);
+		localStorage.setItem('UKHDsavegame', JSON.stringify(s));
 	},
 
 	//load game from local storage and perform iterations. Return true or false = whether there was a savegame a successfully loaded
 	load: function() {
-		let data = localStorage.getItem('savegame');
+		let data = localStorage.getItem('UKHDsavegame');
+		
+		//try to load the old savegame location
+		let dataOld = localStorage.getItem('savegame');
+		if(dataOld) {
+			data = dataOld;
+			localStorage.setItem('UKHDsavegame', data);
+			localStorage.removeItem('savegame');
+		}
+
 		if(data) {
 			data = JSON.parse(data);
 
@@ -67,7 +75,7 @@ let saveService = {
 			let ver2num = ver => ver[0]*1e4 + ver[1]*1e2 + ver[2];
 			if(ver2num(data.version) < ver2num(game.support)) {
 				game.msg('Bohužel, vaše uložená data byla ztracena, protože novější verze hry už neposkytuje zpětnou kompatibilitu.');
-				localStorage.removeItem('savegame');
+				localStorage.removeItem('UKHDsavegame');
 				return false;
 			}
 
@@ -96,7 +104,7 @@ let saveService = {
 	purge: function() {
 		s = S();
 		window.onbeforeunload = null;
-		localStorage.removeItem('savegame');
+		localStorage.removeItem('UKHDsavegame');
 		location.reload();
 	},
 
@@ -106,7 +114,7 @@ let saveService = {
 		let reader = new FileReader();
 		reader.onload = function() {
 			window.onbeforeunload = null;
-			localStorage.setItem('savegame', reader.result);
+			localStorage.setItem('UKHDsavegame', reader.result);
 			location.reload();
 		};
 		reader.readAsText(file);
@@ -148,6 +156,10 @@ const compatibility = [
 	//add warstamp and set it as timestamp, which should actually be close enough
 	{v: [1, 1, 1], f: function(s) {
 		s.warstamp = s.timestamp;
+	}},
+	//extrapolate the actual date of founding
+	{v: [1, 1, 3], f: function(s) {
+		s.timestampFounded = Date.now() - s.iteration*consts.dt;
 	}}
 ];
 

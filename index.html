@@ -10,6 +10,7 @@
 			var get_HACKER_achievement = function() {
 				game.achieve('hacker');
 				forceDigest();
+				return '*hacker voice* I\'m in.';
 			};
 		</script>
 		<script src="libs/angular.min.js"></script>
@@ -284,7 +285,7 @@
 					<p><span class="tip" tooltip="růst populace za jeden cyklus, počítá se jako vygebenost/50" ng-class="{thisIsBad: game.popGrowth() < 0}">
 						Růst populace: {{game.popGrowth().withSign()}}
 					</span></p>
-					<p>Město založeno: před {{s.iteration}} cykly.</p>
+					<p>Od založení města dne {{getFoundationDate()}} uplynulo {{s.iteration}} cyklů.</p>
 				</p>
 			</div>
 
@@ -362,7 +363,7 @@
 
 					<div ng-if="!s.ownNuke  && s.nukeCooldown > 0">
 						<p>Ohňostroj byl nedávno využit a než budeme moci koupit další, bude třeba uklidit všechny ty sýrou smrdící doutnající odpadky.</p>
-						<p>Úklid bude trvat ještě {{s.nukeCooldown}} cyklů.</p>
+						<p>Úklid bude trvat ještě {{s.nukeCooldown}} cyklů (vylepšením zkušebny se čekací doba zkrátí).</p>
 					</div>
 
 					<div ng-if="!s.ownNuke && s.nukeCooldown === 0">
