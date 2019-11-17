@@ -12,7 +12,7 @@ This is a separate file because of the sheer size. Example of a research object:
 
 const research = [
 {id: 'EcoA1', class: 'Eco', name: 'Pazourková sekera', cost: 20,
-	teaser: 'To bude naprostá revoluce v dobývání rostlinného materiálů, už nebudeme muset lámat jednotlivé větvičky, budeme moci kácet celé stromy!',
+	teaser: 'To bude naprostá revoluce v dobývání rostlinných materiálů, už nebudeme muset lámat jednotlivé větvičky, budeme moci kácet celé stromy!',
 	result: 'Geniální, těžba stromů je nyní opravdu efektivní.',
 	effect: 'těžba dřeva +20%',
 	reqs: [], f: function() {
@@ -77,7 +77,7 @@ const research = [
 	reqs: ['EcoA5'], f: function() {
 		s.p.WC += 0.10;
 	}},
-{id: 'EcoA8', class: 'Eco', name: 'Oblouková pila', cost: 26000,
+{id: 'EcoA8', class: 'Eco', name: 'Oblouková pila', cost: 36000,
 	teaser: 'To bude druhá revoluce v dřevorubectví! Budeme stromy moci i řezat, nejen do nich sekat!',
 	result: 'Excelentní! Teď budeme mít dostatek dřeva na stavbu velkolepé megalopole!',
 	effect: 'těžba dřeva +10%',
@@ -114,7 +114,7 @@ const research = [
 		s.p.udrzba -= 0.10;
 		s.p.happy -= 60;
 	}},
-{id: 'EcoB5', class: 'Eco', name: 'Novela zákonu o daních', cost: 12000,
+{id: 'EcoB5', class: 'Eco', name: 'Novela zákonu o daních', cost: 18000,
 	teaser: 'Zrušíme velice nepopulární daň z příjmu, zato zavedeme spoustu menších daní a správních poplatků za všechno možné.',
 	result: 'Ach, to kouzlo byrokracie! Obíráme lid ještě více a oni si přitom myslí pravý opak!',
 	effect: 'daňový výběr +10%, vygebenost +60',
@@ -129,14 +129,14 @@ const research = [
 	reqs: ['EcoB5'], f: function() {
 		s.p.obchod += 0.10;
 	}},
-{id: 'EcoB7', class: 'Eco', name: 'Stravenky', cost: 55000,
+{id: 'EcoB7', class: 'Eco', name: 'Stravenky', cost: 75000,
 	teaser: 'Zlatá kolečka hladový krk nezasytí, dělný lid chce poukaz na jídlo a pití!',
 	result: 'Výborně, snížili jsme platy a ta šlichta, co dáváme v kantýně, nás stojí jen zlomek ušetřených peněz. Všichni jsou spokojení.',
 	effect: 'platy dělníků -10%',
 	reqs: ['EcoB6'], f: function() {
 		s.p.plat -= 0.10;
 	}},
-{id: 'EcoGrand', class: 'Eco', name: 'Budoucnost ekonomiky', cost: 99999,
+{id: 'EcoGrand', class: 'Eco', name: 'Budoucnost ekonomiky', cost: 199999,
 	teaser: 'Dovedete si vůbec představit, že všichni pilně pracují a státní úřady fungují tak, jak mají? To je naše budoucnost!',
 	result: 'Pořádek v ulicích a ekonomický růst. To se líbí občanům i mě!',
 	effect: 'těžba všech surovin +10%, daňový výběr +10%, údržba města -10%',
@@ -194,7 +194,7 @@ const research = [
 	reqs: ['PolA5'], f: function() {
 		s.p.unlockBuild.push('palac');
 	}},
-{id: 'PolA7', class: 'Pol', name: 'Populismus', cost: 44999,
+{id: 'PolA7', class: 'Pol', name: 'Populismus', cost: 49999,
 	teaser: 'Převratný traktát v oboru politické filozofie, který má prý v praxi přinést harmonizaci vztahů mezi plebsem a oligarchií, jakož i pozvednout politickou kulturu v zemi.',
 	result: 'Portrét vypaseného vládce visí na všech rozích a lidé přikyvují: no ano, chceme lepší budoucnost! Rozhazovat peníze je spravedlivé, úspory jsou stejně jenom výmysl nějakých ročíldů z volstrýtu.',
 	effect: 'vygebenost +700, platy dělníků +10%, daňový výběr -10%',
@@ -210,7 +210,7 @@ const research = [
 	reqs: ['PolA7', 'ArmB5'], f: function() {
 		s.p.unlockNuke = true;
 	}},
-{id: 'PolGrand', class: 'Pol', name: 'Budoucnost politiky', cost: 99999,
+{id: 'PolGrand', class: 'Pol', name: 'Budoucnost politiky', cost: 199999,
 	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně a sviňárny nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
 	effect: 'vygebenost +1600, platy dělníků -20%',
@@ -382,7 +382,7 @@ const research = [
 	reqs: ['ArmB6'], f: function() {
 		s.p.unlockUnit.push('gyr');
 	}},
-{id: 'ArmD1', class: 'Arm', name: 'Povinná vojna', cost: 72000,
+{id: 'ArmD1', class: 'Arm', name: 'Povinná vojna', cost: 82000,
 	teaser: 'Další buzerace občanů, tentokrát pro vojenské účely! Nevím, jestli budou rekruti bojeschopní, ale to je jedno – kvantita nad kvalitou, vždy a všude!',
 	result: 'Každý dospělý občan je zbuzerován a vycvičen, aby uměl salutovat, obléct si uniformu a vypotácet se ze stanu na ranní nástup. To značně pomůže produkci kanonenfutru v případě války.',
 	effect: 'cena jednotek -12%, síla jednotek -10%',
@@ -390,7 +390,7 @@ const research = [
 		s.p.cena -= 0.12;
 		s.p.power -= 0.10;
 	}},
-{id: 'ArmGrand', class: 'Arm', name: 'Budoucnost války', cost: 99999,
+{id: 'ArmGrand', class: 'Arm', name: 'Budoucnost války', cost: 199999,
 	teaser: 'Dovedete si vůbec představit, že se vojáci krvelačně vrhají do bitevní vřavy a poslušně poslouchají rozkazy? To je naše budoucnost!',
 	result: 'Po zuby ozbrojená banda lačnící po krveprolití. Naše válečná mašinerie může dobýt svět!',
 	effect: 'síla jednotek +20%',

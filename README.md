@@ -6,11 +6,12 @@ Ukradyjam je parodií na jistou dobře známou online hru, avšak není online a
 
 Jedná se o čistě frontendovou aplikaci napsanou v HTML/CSS/JS za pomoci frameworku [AngularJS](https://angularjs.org/).
 
-Děkuji [@M4ch](https://github.com/M4ch) za vytvoření grafiky!
+Děkuji [@M4ch](https://github.com/M4ch) za vytvoření značné části grafiky!
 
 ## Struktura aplikace
 
-:grey_exclamation: _POZOR: za žádných okolností ve hře nevolejte funkci_ `get_HACKER_achievement()`, _aby nebyl Ukradyjam nahackován_ :grey_exclamation:
+:grey_exclamation: _POZOR: za žádných okolností ve hře nevolejte funkci_ `get_HACKER_achievement()`, _aby nebyl Ukradyjam nahackován_ :grey_exclamation:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_(to se NEDĚLÁ tak, že se stiskne F12, vybere konzole, napíše se výše uvedený výraz včetně `()` a stiskne se Enter)_
 
 Téměř veškeré HTML je v **index.html**, veškeré statické CSS je v **app/style.css** (dynamické je pak nastaveno v příslušných Angular controllerech)
 
@@ -21,9 +22,10 @@ image preloading a objekt `saveService`, který slouží na ukládání/načít�
 
 **app/middle.js** obsahuje angular controller. Tedy vše, co se týká view/controller vrstvy aplikace a není definované v direktivách, je právě zde, naházeno bez ladu a skladu
 
-**app/game.js** obsahuje model aplikace, který je rozdělen do dvou objektů:  
-`s`, definovaný pomocí factory `S`, obsahuje veškerý stav aplikace - který se zase nenachází nikde jinde než zde. Právě tento objekt je tedy ukládán a načítán pomocí saveService  
-`game` obsahuje téměř veškerou funkcionalitu samotné hry - jedná se tedy o model aplikace, avšak bez stavu
+**app/game.js** definuje objekt `game`, který jakožto aplikační model obsahuje téměř veškerou funkcionalitu samotné hry, avšak kromě stavu aplikace
+
+**app/state.js** definuje factory `S` a instancuje jí jako objekt `s`, který obsahuje veškerý stav aplikace - který se zase nenachází nikde jinde než zde.
+Právě tento objekt je tedy ukládán a načítán pomocí saveService
 
 **app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto factory `War`. Její instance je zařazena do objektu *game*.
 Též se zde nachází direktiva `battleCanvas`, která propojuje view funkce *war* s příslušným canvas elementem, avšak časovač je spouštěn z hlavního controlleru.

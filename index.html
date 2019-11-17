@@ -20,6 +20,7 @@
 		<script src="app/middle.js" type="text/javascript"></script>
 		<script src="app/war.js" type="text/javascript"></script>
 		<script src="app/game.js" type="text/javascript"></script>
+		<script src="app/state.js" type="text/javascript"></script>
 		<script src="app/directives.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="app/style.css">
 		<!--TODO <link rel="shortcut icon" href="favicon.ico">-->
@@ -125,8 +126,9 @@
 				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl.showBuildingList = !ctrl.showBuildingList" class="clickImg">
 
 				<!-- existing buildings-->
-				<img ng-repeat="b in sortBuildings()" ng-src="res/build/{{buildings[b.id].img}}" ng-style="getBuildingStyle(b)" tooltip="{{buildings[b.id].name + ' (' + b.lvl + ')'}}"
-					ng-mousedown="buildingMouseDown($event, b)" ng-class="{building: b.draggable, clickImg: !b.draggable}">
+				<img ng-repeat="b in sortBuildings() track by $index" ng-mousedown="buildingMouseDown($event, b)"
+					ng-src="res/build/{{buildings[b.id].img}}" tooltip="{{buildings[b.id].name + ' (' + b.lvl + ')'}}"
+					ng-style="getBuildingStyle(b)" ng-class="{building: b.draggable, clickImg: !b.draggable}">
 
 				<!-- construction interface -->
 				<div id="buildingList" ng-show="ctrl.showBuildingList" ng-style="style.buildingList">
@@ -209,7 +211,7 @@
 						<td>&sum;</td>
 						<td>{{game.realHappiness().withSign()}}</td>
 					</tr>
-					<tr class="tip" tooltip="růst populace za jeden cyklus, počítá se jako vygebenost/50">
+					<tr class="tip" tooltip="růst populace za jeden cyklus, počítá se jako vygebenost / 50">
 						<td>🙂</td>
 						<td>{{game.popGrowth().withSign()}}</td>
 					</tr>
@@ -251,7 +253,7 @@
 				<h2>Výzkumný přehled</h2>
 				<p>Vědec vám vynalezne nejrůznější technologie - užitečná hnojiva i šílené rovnice!</p>
 				<p ng-if="!s.p.unlockDoge">
-					Počet výzkumných bodů: 💡{{s.WP}}<br>
+					Počet výzkumných bodů: 💡{{s.WP.addk(1e7, 1e7)}}<br>
 					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost výzkumu: {{game.rateWP()}}</span>
 				</p>
 				<div ng-repeat="g in WPgroups" ng-if="!s.p.unlockDoge">
@@ -282,7 +284,7 @@
 					<p><span class="tip" tooltip="míra vytlemenosti obyvatel, určuje růst populace">
 						Vygebenost: {{game.realHappiness()}}
 					</span></p>
-					<p><span class="tip" tooltip="růst populace za jeden cyklus, počítá se jako vygebenost/50" ng-class="{thisIsBad: game.popGrowth() < 0}">
+					<p><span class="tip" tooltip="růst populace za jeden cyklus, počítá se jako vygebenost / 50" ng-class="{thisIsBad: game.popGrowth() < 0}">
 						Růst populace: {{game.popGrowth().withSign()}}
 					</span></p>
 					<p>Od založení města dne {{getFoundationDate()}} uplynulo {{s.iteration}} cyklů.</p>
@@ -295,7 +297,7 @@
 				<hr>
 				<p>
 					Škola vytváří výzkumné body, výzkumy se pak kupují v okně vědce<br>
-					Počet výzkumných bodů: 💡{{s.WP}}<br>
+					Počet výzkumných bodů: 💡{{s.WP.addk(1e7, 1e7)}}<br>
 					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost získávání bodů:
 					{{demMulti([game.rateWP()/game.eff().skola], [game.eff().skola]) }}</span>
 				</p>
@@ -363,7 +365,7 @@
 
 					<div ng-if="!s.ownNuke  && s.nukeCooldown > 0">
 						<p>Ohňostroj byl nedávno využit a než budeme moci koupit další, bude třeba uklidit všechny ty sýrou smrdící doutnající odpadky.</p>
-						<p>Úklid bude trvat ještě {{s.nukeCooldown}} cyklů (vylepšením zkušebny se čekací doba zkrátí).</p>
+						<p>Úklid bude trvat ještě {{s.nukeCooldown}} cyklů (vylepšením zkušebny se čekací doba zkrátí)</p>
 					</div>
 
 					<div ng-if="!s.ownNuke && s.nukeCooldown === 0">

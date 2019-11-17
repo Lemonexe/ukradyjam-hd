@@ -1,7 +1,7 @@
 //Contains:
 //1. War object factory, which contains all functions related to warfare, both model and view
 //2. battleCanvas directive, which executes timeout and links the rendering functions with canvas element
-let War = () => ({
+const War = () => ({
 	//initiate a battle by creating the battle object (state of battlefield)
 	initBattle: function() {
 		if(this.armySum(s.army) === 0) {game.msg('Nemáme žádnou dostupnou armádu');return;}

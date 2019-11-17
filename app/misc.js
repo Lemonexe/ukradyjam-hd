@@ -14,7 +14,7 @@ window.onbeforeunload = function() {
 	saveService.save();
 };
 
-window.onerror = function(err) {alert('Došlo k neočekávané chybě aplikace:\n' + err);}
+window.onerror = function(err) {alert('Došlo k neočekávané chybě aplikace:\n' + err);};
 
 //preload images
 window.onload = imgPreload;
@@ -44,7 +44,7 @@ Number.prototype.withSign = function() {
 	return n > 0 ? ('+' + s) : s;
 };
 
-let saveService = {
+const saveService = {
 	//save game to local storage
 	save: function() {
 		if(!s.running) {return;}
@@ -114,6 +114,17 @@ let saveService = {
 		let reader = new FileReader();
 		reader.onload = function() {
 			window.onbeforeunload = null;
+
+			//validate file - if it's even parsable as an object and randomly check some attributes
+			try {
+				let data = JSON.parse(reader.result);
+				if(typeof data !== 'object' || !data.hasOwnProperty('sur') || !data.hasOwnProperty('WP')) {throw 'nope.';}
+			}
+			catch(err) {
+				game.msg('Soubor není platný, není jej tedy možno načíst.'); return;
+			}
+
+			//set local save
 			localStorage.setItem('UKHDsavegame', reader.result);
 			location.reload();
 		};
@@ -164,7 +175,7 @@ const compatibility = [
 ];
 
 //these images will be used in canvas, and therefore need to be preloaded
-let imgs = {battle: 'res/env/BATTLE.png'};
+const imgs = {battle: 'res/env/BATTLE.png'};
 function imgPreload() {
 	for(let k in units) {
 		imgs[k] = 'res/unit/' + units[k].img;

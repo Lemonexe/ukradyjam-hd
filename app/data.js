@@ -125,7 +125,7 @@ const units = {
 		bonus: {}
 	},
 	sln: {class: 'infantry', img: 'slon.png', train: 'kasarna',
-		name: 'Slon', flavor: 'Tato obluda se sice nevrhá do bitevní vřavy, funguje však jako živý štít',
+		name: 'Slon', flavor: 'Ty potvory sice nemají správný bojový zápal, fungují však jako živý štít',
 		price: [450, 120, 0, 80, 0], pop: 3,
 		group: 10, att: 9, hp: 140,
 		bonus: {sln: 0.7}
@@ -165,7 +165,7 @@ const units = {
 //table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army is loaded
 //the last army will simply get regenerated after defeat
 //'ground' and 'air' means size of battlefield as number of rows for ground units and air units. MAX ground:6, air:2
-let enemyArmies = [
+const enemyArmies = [
 	{ground: 1, air: 1, dranc: 20,   army: {kop: 1,    luk: 0,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
 	{ground: 1, air: 1, dranc: 90,   army: {kop: 4,    luk: 1,    hop: 0,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
 	{ground: 1, air: 1, dranc: 200,  army: {kop: 12,   luk: 4,    hop: 2,    sln: 0,   trj: 0,   obr: 0,   baz: 0,   bal: 0,   gyr: 0}},
