@@ -368,6 +368,32 @@ const game = {
 		}
 	},
 
+	//a beautiful hackertype sequence
+	hackTheSystem: function() {
+		forceDigest();
+		//What a nice piece of source code...
+		let source = String(angular.module);
+		//Would be a shame if someone...
+		let lines = [];
+		let c = 0;
+		//Split it into lines of random length,
+		while(c < source.length) {
+			let c0 = c;
+			c += Math.ceil(100*(0.1 + 0.9*Math.random()));
+			lines.push(source.substring(c0, c));
+		}
+		//and gradually logged them into console!
+		let tc = 1000; //cumulative time in [ms]
+		for(let i = 0; i < 200; i++) {
+			if(i % 43 === 0 && Math.random() < 0.5) {tc += 500;}
+			if(i % 19 === 0 && Math.random() < 0.5) {tc += 250;}
+			tc += Math.ceil(40 * (0.1 + 0.9*Math.random()));
+			window.setTimeout(() => console.log(lines[i%lines.length]), tc);
+		}
+		//MUHAHAHA!!!
+		window.setTimeout(() => console.log('ＵＫＲＡＤＹＪＡＭ　ＷＡＳ　ＨＡＣＫＥＤ！'), tc+1500);
+	},
+
 	//hidden function, never executed - writes a list of missing achievements to console
 	revealAchievements: () => Object.keys(achievements).filter(item => s.achievements.indexOf(item) === -1).forEach(item => console.log(achievements[item].name + ': ' + achievements[item].description)),
 
