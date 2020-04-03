@@ -29,7 +29,7 @@ const research = [
 		s.sur[4] += 100;
 	}},
 {id: 'EcoA3', class: 'Eco', name: 'Hospoda', cost: 300,
-	teaser: 'Popište ráj na zemi: kamarádi z vojny, šipky, fotbálek a hlavně pivo tekoucí proudem – a přesně to můžeme mít i v našem městě!',
+	teaser: 'Popište ráj na zemi: kamarádi z vojny, šipky, fotbálek, a hlavně pivo tekoucí proudem. A přesně tohle můžeme mít i v našem městě!',
 	result: 'Teď ty prasata můžeme ožrat do němoty a odvést tak pozornost od jiných vládních vyhlášek.',
 	effect: 'odemknuta hospoda',
 	reqs: ['EcoA2', 'EcoB2'], f: function() {
@@ -37,7 +37,7 @@ const research = [
 	}},
 {id: 'EcoA4', class: 'Eco', name: 'Logistika', cost: 1000,
 	teaser: 'Ve velkých polisech prý mají jakýsi "logistický systém", což znamená, že staví obrovské sklady surovin. Takové chci mít taky!',
-	result: 'To bude určitě dobrý nápad, zkuste jeden postavit. Snad lidem nebudou vadit hovna od povozů a nevzhledné krabice.',
+	result: 'To bude určitě dobrý nápad, zkuste jeden postavit. Snad lidem nebudou vadit hovna od povozů a nevzhledné šedé krabice hyzdící město.',
 	effect: 'odemknut sklad',
 	reqs: ['EcoA3'], f: function() {
 		s.p.unlockBuild.push('sklad');
@@ -50,14 +50,14 @@ const research = [
 		s.p.drevo += 0.20;
 	}},
 {id: 'EcoA6a', class: 'Eco', name: 'Vozíky na kamení', cost: 2500,
-	teaser: 'Dělníci dosud táhli kameny ručně a to moc efektivní není.',
+	teaser: 'Dělníci dosud táhli kameny ručně, a to moc efektivní není.',
 	result: 'Dělníci šutry stále nosí po jednom, ale jedou přitom ve vozíku a jde to tedy rychleji.',
 	effect: 'těžba kamení +20%',
 	reqs: ['EcoA4'], f: function() {
 		s.p.kamen += 0.20;
 	}},
 {id: 'EcoA6b', class: 'Eco', name: 'Morálka na moři', cost: 2500,
-	teaser: 'Na pivní plošině furt všichni jen chlastají! Je třeba zavést disciplínu a omezit tak ztráty piva.',
+	teaser: 'Na pivní plošině furt všichni jen chlastají! Je třeba zavést tvrdou disciplínu a omezit tak ztráty piva.',
 	result: 'Uzavřel se přístup k hlavní nádrži. Většina dělníků tedy chlastá u ventilu, ale aspoň ti blbí už nepijou a ztráty piva byly omezeny.',
 	effect: 'těžba piva +20%',
 	reqs: ['EcoA6a'], f: function() {
@@ -123,8 +123,8 @@ const research = [
 		s.p.happy += 60;
 	}},
 {id: 'EcoB6', class: 'Eco', name: 'Eurozóna', cost: 38000,
-	teaser: 'Zavedeme jednotnou měnu pro meziostrovní obchod, to bude pokrokové a vyplatí se to skutečně VŠEM!',
-	result: 'Ano! To je rozumné a dobré. Kdo bude tuto univerzální měnu razit? No přece my, samozřejmě. Ostatním se to už tolik nevyplatí...',
+	teaser: 'Zavedeme jednotnou měnu pro meziostrovní obchod, to bude moderní, pokrokové a vyplatí se to skutečně VŠEM!',
+	result: 'Ano! To je rozumné a dobré. A kdo bude tuto univerzální měnu razit? No přece my, samozřejmě. Ostatním se to už tolik nevyplatí...',
 	effect: 'účinnost obchodu +10%',
 	reqs: ['EcoB5'], f: function() {
 		s.p.obchod += 0.10;
@@ -205,13 +205,13 @@ const research = [
 	}},
 {id: 'PolC1', class: 'Pol', name: 'Novoroční ohňostroj', cost: 92235,
 	teaser: 'Oslavy náhodného dne v kalendáři jsou vhodnou záminkou k chlastání a dělání bordelu. Dáme občanům den svátku, odpálíme ohňostroj a budou spokojení!',
-	result: 'Po několika případech těžkých popálenin jsme ohňostroj raději zakázali a oslavy zrušili. Můžeme však tyto zbraně hromadného ničení vypustit na nepřátelské armády a proměnit tak bojiště v krvavá jatka!',
+	result: 'Po několika případech těžkých popálenin jsme ohňostroj raději zakázali a oslavy zrušili. Můžeme však tyto zbraně hromadného ničení vypustit na nepřátele a proměnit tak bojiště v krvavá jatka!',
 	effect: 've zkušebně ohňostrojů odemčen novoroční ohňostroj',
 	reqs: ['PolA7', 'ArmB5'], f: function() {
 		s.p.unlockNuke = true;
 	}},
 {id: 'PolGrand', class: 'Pol', name: 'Budoucnost politiky', cost: 199999,
-	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně a sviňárny nám beztrestně prochází? To je naše budoucnost!',
+	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně, zatímco sviňárny v zákulisí nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
 	effect: 'vygebenost +1600, platy dělníků -20%',
 	reqs: ['PolA7', 'PolC1'], f: function() {
@@ -229,14 +229,14 @@ const research = [
 		s.p.skola += 0.20;
 	}},
 {id: 'WisA2', class: 'Wis', name: 'Tužka', cost: 128,
-	teaser: 'Když zabalíme uhlí do dřeva, budou si žáci moci dokonce opsat vyučovanou látku.',
+	teaser: 'Když bychom nacpali kus uhlí do dutého dřeva, mohli by si žáci dokonce něco z tabule opsat a účinně tak separovat průtokové znalosti.',
 	result: 'Je to zdravá strava pro děti – žáci můžou tužku okousávat a ušetřili jsme tak za svačiny!',
 	effect: 'účinnost školství +20%',
 	reqs: ['WisA1'], f: function() {
 		s.p.skola += 0.20;
 	}},
 {id: 'WisA3', class: 'Wis', name: 'Učebnice', cost: 512,
-	teaser: 'Kusy papyru s poznámkami se dají spojit dohromady, aby mohly být propůjčeny žákům.',
+	teaser: 'Kusy papyru s poznámkami se dají spojit dohromady, aby mohly být propůjčeny žákům, kteří se jistě budou po večerech pilně učit.',
 	result: 'Skvělé, teď už při zkoušení nebudou žádné plané výmluvy, že "to sme přece nebrali"!',
 	effect: 'účinnost školství +20%',
 	reqs: ['WisA2'], f: function() {
@@ -258,14 +258,14 @@ const research = [
 	}},
 {id: 'WisB1', class: 'Wis', name: 'Kulturní bohatství', cost: 4096,
 	teaser: 'Měli bychom podpořit vlasteneckého ducha dělného lidu uspořádáním výstavy, ať mají všichni na očích výdobytky naší skvělé kultury.',
-	result: 'Sehnali jsme nejrůznější smetí po babičkách a máme tak vytvořenou kulturní sbírku. Nyní můžeme začít stavět muzeum a zlepšit tak dopravní situaci ve městě!',
+	result: 'Sehnali jsme nejrůznější smetí po babičkách a máme tak vytvořenou kulturní sbírku. Nyní můžeme postavit muzeum a zlepšit tak dopravní situaci ve městě!',
 	effect: 'odemknuto muzeum',
 	reqs: ['WisA4'], f: function() {
 		s.p.unlockBuild.push('muzeum');
 	}},
 {id: 'WisB2', class: 'Wis', name: 'Občanská nauka', cost: 16384,
 	teaser: 'Účelem vzdělání není jen předat dětem nějaké znalosti, ale také je řádně připravit na konformní život v autoritativní diktatuře. Vtlučeme jim do hlav, že náš systém je nejlepší možný.',
-	result: 'Děti jsou naše budoucnost, a z těch příštích určitě vyrostou naprostí ignoranti bez ponětí o svých právech. Nad takovými ovcemi se nám bude dobře vládnout.',
+	result: 'Děti jsou naše budoucnost, a z těch příštích určitě vyrostou naprostí ignoranti bez jakéhokoliv ponětí o svých právech. Nad takovými ovcemi se nám bude pohodlně vládnout.',
 	effect: 'vygebenost +400, cena jednotek -10%, účinnost školství -10%',
 	reqs: ['WisB1', 'WisA5'], f: function() {
 		s.p.happy += 400;
@@ -274,7 +274,7 @@ const research = [
 	}},
 {id: 'WisC1', class: 'Wis', name: 'Praktické činnosti', cost: 32768,
 	teaser: 'Je třeba prohloubit technickou zručnost našich žáků a zlepšit tak perspektivu jejich uplatnění – mohou pak udělat kariéru třeba v montovně!',
-	result: 'Výborně, máme cvičené pracanty, kteří mohou v dílně montovat obrovské válečné stroje! Nepřátelé se budou třást před výtvory našich zlatých řemeslných ručiček!',
+	result: 'Výborně, máme cvičené pracanty, kteří mohou v dílně montovat obrovské stroje! Nepřátelé se budou třást před výtvory našich zlatých řemeslných ručiček!',
 	effect: 'odemknut parní kolos (dílna)',
 	reqs: ['WisB2', 'ArmB4'], f: function() {
 		s.p.unlockUnit.push('obr');
@@ -305,7 +305,7 @@ const research = [
 	}},
 {id: 'ArmA3', class: 'Arm', name: 'Příděl piva', cost: 9500,
 	teaser: 'Vojákům rozdáme před bojem pivo, abychom podpořili jejich agresivitu.',
-	result: 'Ožralí vojáci se sice neumí pořádně trefit do nepřátel, ale zase ztrácí pud sebezáchovy a zapomínají pak dezertovat. Bojová síla našich pluků se tedy značně zvýšila.',
+	result: 'Ožralí vojáci se sice neumí trefit do nepřátel, ale zase ztrácí pud sebezáchovy a zapomínají pak dezertovat. Bojová síla našich pluků se tedy značně zvýšila.',
 	effect: 'síla jednotek +10%',
 	reqs: ['ArmC2'], f: function() {
 		s.p.power += 0.10;
@@ -319,7 +319,7 @@ const research = [
 	}},
 {id: 'ArmC2', class: 'Arm', name: 'Káry na brakování', cost: 4000,
 	teaser: 'Drancování je ta nejdůležitější část boje, proto musíme zajistit funkční logistiku vyplundrovaných surovin!',
-	result: 'Skvělé! Intenzita loupení a vykrádání se zlepšila a do našeho města může proudit tučná kořist. Alespoň NĚCO v tomhle státě funguje přesně podle očekávání.',
+	result: 'Skvělé! Intenzita vykrádání se zlepšila a do našeho města může proudit tučná kořist. Alespoň NĚCO v tomhle státě funguje přesně podle očekávání.',
 	effect: 'účinnost drancování +30%',
 	reqs: ['ArmA2'], f: function() {
 		s.p.dranc += 0.30;
@@ -332,7 +332,7 @@ const research = [
 		s.p.dranc += 0.30;
 	}},
 {id: 'ArmB1', class: 'Arm', name: 'Luk', cost: 350,
-	teaser: 'Jiná města umí házet nože pomocí klacku! To zní velice nebezpečně, tak proč to nezkusit?',
+	teaser: 'Jiná města prý umí házet nože pomocí zahnuté větve! To zní opravdu velice nebezpečně, tak proč to nezkusit?',
 	result: 'Vrhače nožů se v rukou těch trotlů chovají víceméně náhodně. Někdy je zasažen nepřítel, někdy spolubojovník. Válka je holt krutá a z krvavého pekla není úniku žádným směrem...',
 	effect: 'odemknut lučištník (kasárna)',
 	reqs: ['ArmA1'], f: function() {
@@ -353,7 +353,7 @@ const research = [
 		s.p.unlockUnit.push('hop');
 	}},
 {id: 'ArmB4', class: 'Arm', name: 'Sochařství', cost: 6500,
-	teaser: 'Sochy jsou krásné a vznešené, měli bychom jimi zvelebit naši armádu. Třeba tak usmíříme své sveřepé soky!',
+	teaser: 'Sochy jsou krásné a vznešené umění, měli bychom jimi tedy zvelebit naši armádu. Třeba tak usmíříme své sveřepé soky!',
 	result: 'Dřevěné koně lze vydávat za umělecké dílo, takže můžeme část výdajů na armádu zahrnout pod kulturu a náš rozpočet hned vypadá přívětivěji! V útrobách koní zatím čekají chrabří bratři ve zbrani.',
 	effect: 'odemknuta dílna a v ní trojský kůň',
 	reqs: ['ArmB3', 'ArmC2'], f: function() {
@@ -400,11 +400,11 @@ const research = [
 
 
 
-{id: 'doge', class: 'Eco', name: 'Poslední výzkum', cost: 999999,
+{id: 'doge', class: 'Eco', name: 'Poslední výzkum', cost: 6942069,
 	teaser: 'Vědci slibují, že tento ultra-ultimátní megavýzkum™ 3000 přinese zlepšení života úplně ve všech oblastech. Občané už se nemůžou dočkat!',
 	result: 'Tento výzkumný grant byl naprostým mrháním času. Místo utopické sci-fi vize jsme dostali jen vyčpelý meme. Už raději nikdy nebudeme nic zkoumat!',
 	effect: 'vůbec nic',
 	reqs: ['EcoGrand', 'PolGrand', 'WisGrand', 'ArmGrand'], f: function() {
-		s.p.unlockDoge = true;
+		s.p.unlockDoge = 1;
 	}}
 ];

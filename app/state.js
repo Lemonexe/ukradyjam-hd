@@ -35,11 +35,11 @@ const S = () => ({
 	//current popups, displayed from last to first. Each message is an array of strings, with each string representing one line
 	messages: [],
 
-	// prachy, dřevo, kameny, sýra, pivo
+	//prachy, dřevo, kameny, sýra, pivo
 	pop: [10, 0, 0, 0, 0],
 	sur: [250, 250, 50, 50, 50],
 
-	// kolekce budov
+	//kolekce budov
 	build: [
 		{
 			id: 'radnice', //key in 'buildings' database
@@ -79,7 +79,7 @@ const S = () => ({
 	},
 
 	WP: 0, //výzkumné body
-	research: [], // array of IDs of researched techs
+	research: [], //array of IDs of researched techs
 
 	//id zázraku (např. 'delfin') a počet zbývajících cyklů zázraku, resp. do další možné aktivace
 	miracle: false,

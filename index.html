@@ -75,15 +75,13 @@
 		<p>Velikost okna <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
 		<p>Zobrazit mřížku bitevního pole <input type="checkbox" ng-model="ctrl.drawBattleGrid"></p>
 		<p>Manuální save do souboru
-			<span onclick="saveService.manualSave()" class="fakeButton" download="Ukradyjam.json"
+			<span fake-button onclick="saveService.manualSave()" download="Ukradyjam.json"
 				tooltip="stáhnout soubor s daty vaší říše">Uložit</span>
 			<input type="file" id="fileUpload" file-upload class="hidden">
-			<label for="fileUpload" class="fakeButton"
-				tooltip="nahrát soubor s daty vaší říše">Načíst</label>
+			<label fake-button for="fileUpload" tooltip="nahrát soubor s daty vaší říše">Načíst</label>
 		</p>
 		<p>Automatický save
-			<span class="fakeButton" onclick="confirm('Opravdu chcete smazat veškerá vaše data v této hře?') && saveService.purge()"
-				tooltip="resetovat hru">Smazat</span>
+			<span fake-button onclick="confirm('Opravdu si přejete smazat veškerá vaše data v této hře?') && saveService.purge()" tooltip="resetovat hru">Smazat</span>
 		</p>
 	</div>
 
@@ -111,7 +109,7 @@
 			<div id="assistents">
 				<img src="res/GUI/head_starosta.png" ng-click="tab('advisorEco')" class="clickImg" tooltip="Starosta">
 				<img src="res/GUI/head_vojak.png" ng-click="tab('advisorArmy')" class="clickImg" tooltip="Generál">
-				<img src="res/GUI/head_vedec.png" ng-click="tab('advisorScience')" class="clickImg" tooltip="Výzkumník">
+				<img src="res/GUI/head_vedec.png" ng-click="tab('advisorScience')" class="clickImg" tooltip="Vědec">
 			</div>
 		</div>
 
@@ -260,8 +258,8 @@
 						{{w.teaser}}</p>
 					</div>
 				</div>
-				<div ng-if="s.p.unlockDoge" style="padding-left: 5px">
-					<img ng-src="{{dogeSRC()}}">
+				<div ng-if="s.p.unlockDoge" style="padding-left: 5px" class="clickImg" ng-click="dogeClic()">
+					<img ng-src="{{dogeSRC()}}" ng-style="{transform: 'scaleY('+(s.p.unlockDoge%2*2-1)+')'}">
 				</div>
 			</div>
 

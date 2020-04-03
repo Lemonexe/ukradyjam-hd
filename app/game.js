@@ -1,7 +1,7 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 4],
+	version: [1, 1, 5],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -22,12 +22,36 @@ const game = {
 		let nw = Math.floor((Date.now() - s.warstamp) / consts.dtw);
 		(n >= consts.backAchieve / consts.dt) && game.achieve('back');
 
-		(n > 1e5) && alert('VAROVÁNÍ\n\nKe hře jste se vrátili po dlouhé době a je třeba dopočítat, co se stalo, což může trvat docela dlouho!\nZavřete toto okno pro zahájení.');
+		/*
+		//confirmation
+		const msg  = 'VAROVÁNÍ!\n\nKe hře jste se vrátili po dlouhé době a je třeba dopočítat, co se stalo, což může trvat docela dlouho!\n\nPotvrzením bude zahájen výpočet, zamítnutím bude hra resetována.';
+		const msg2 = 'Opravdu si přejete smazat veškerá vaše data v této hře?';
+		let purge;
+		const ask = () => n > 1e5 && !confirm(msg) && !(purge = confirm(msg2)) && ask();
+		ask();
+		if(purge) {saveService.purge(); return;}
+		*/
+
+		//variables for shortcut calculation
+		let shortcut = false;
+		let ctrl2, ctrl = s.sur.slice(1).concat(s.pop);
+		const callback = (sum,o,i) => sum && (Math.round(ctrl[i]-ctrl2[i]) === 0);
 
 		//retrospectively do all the game cycles and strokes
 		for(let i = 0; i < n; i++) {
 			game.tick();
+
+			//control for shortcut calculation
+			ctrl2 = s.sur.slice(1).concat(s.pop);
+			if(ctrl.reduce(callback,true)) {shortcut = true; n = n - i; break;}
+			ctrl = ctrl2;
 		}
+
+		if(shortcut) {
+			s.WP += this.rateWP() * n;
+			s.sur[0] += this.moneyTotal() * n;
+		}
+
 		for(let i = 0; i < nw; i++) {
 			if(!s.battlefield) {break;}
 			game.war.stroke();
@@ -391,7 +415,7 @@ const game = {
 			window.setTimeout(() => console.log(lines[i%lines.length]), tc);
 		}
 		//MUHAHAHA!!!
-		window.setTimeout(() => console.log('ＵＫＲＡＤＹＪＡＭ　ＷＡＳ　ＨＡＣＫＥＤ！'), tc+1500);
+		window.setTimeout(() => console.log('ＵＫＲＡＤＹＪＡＭ　ＷＡＳ　ＨＡＣＫＥＤ！'), tc+1000);
 	},
 
 	//hidden function, never executed - writes a list of missing achievements to console

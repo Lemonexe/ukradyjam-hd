@@ -11,6 +11,17 @@ app.directive('fileUpload', () => ({restrict: 'A', link: function(scope, elem) {
 	elem.on('change', () => saveService.manualLoad(elem[0].files[0]));
 }}));
 
+//fakeButton onclick
+app.directive('fakeButton', () => ({
+	restrict: 'A',
+	link: function(scope, elem, attrs) {
+		elem[0].className = 'fakeButton';
+		elem.on('mousedown', () => {elem[0].style.borderStyle = 'inset'});
+		elem.on('mouseup'  , () => {elem[0].style.borderStyle = 'outset'});
+		elem.on('mouseout' , () => {elem[0].style.borderStyle = 'outset'});
+	}
+}));
+
 //custom title
 app.directive('tooltip', () => ({
 	restrict: 'A',

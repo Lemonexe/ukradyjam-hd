@@ -392,7 +392,7 @@ app.controller('middle', function($scope, $interval) {
 	//to do list: achievements that are non-secret and not yet unlocked
 	$scope.getAchievementGoals = function() {
 		return Object.keys(achievements)
-			.filter(item => !achievements[item].secret)
+			.filter(item => !achievements[item].secret || s.p.unlockDoge >= consts.dogePower) //xD
 			.filter(item => s.achievements.indexOf(item) === -1)
 			.map(item => achievements[item].description);
 	}
@@ -410,6 +410,12 @@ app.controller('middle', function($scope, $interval) {
 	};
 
 	$scope.dogeSRC = () => s.p.unlockDoge ? 'res/GUI/doge.jpg' : ''; //poor smol doge must be well hidden from evil robots!
+	$scope.dogeClic = () => { //it's something.
+		s.p.unlockDoge++;
+		(s.p.unlockDoge === consts.dogePower) && game.msg([
+			'Tak přeci to nebylo k ničemu. Zdá se, že tento prastarý meme z dávných dob má kouzelnou moc odhalit všechny skryté achievementy!',
+			'I\'m gonna do what\'s called a PRO GAMER MOVE']);
+	};
 
 
 

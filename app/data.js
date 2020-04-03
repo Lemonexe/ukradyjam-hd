@@ -1,4 +1,4 @@
-// generic constants
+//generic constants
 const consts = {
 	dt: 1e4,  //duration of one game cycle [ms]
 	dtw: 1e3, //duration of one battle stroke [ms]
@@ -34,7 +34,8 @@ const consts = {
 
 	//misc
 	maxMessages: 20,
-	backAchieve: 24*3600e3
+	backAchieve: 24*3600e3,
+	dogePower: 6
 };
 
 const buildings = {
@@ -207,7 +208,7 @@ const miracles = {
 		description: l => `základ vygebenosti +${(l*consts.mir.dmnt1).toPercent()}, učinnost školství -${(l*consts.mir.dmnt2).toPercent()}`
 	},
 	apollo: {name: 'Apollo 11, bůh astrálních poutníků',
-		flavor: 'Hvězdné putování je sice k ničemu, ale státní rozpočet dokáže vyluxovat až do dna.',
+		flavor: 'Hvězdné putování je sice na nic, ale státní rozpočet dokáže vyluxovat až do dna.',
 		description: l => `daňový výběr -${(l*consts.mir.apollo).toPercent()}`
 	},
 	had: {name: 'Had, bůh hrobníků',

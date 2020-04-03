@@ -87,12 +87,15 @@ td {
 	text-decoration: underline;
 }
 .fakeButton {
-	-webkit-appearance: button;
-	-moz-appearance: button;
 	cursor: pointer;
-	font: 400 13.3333px Arial;
+	font: 400 13px Arial;
 	padding: 2px 8px;
-}
+	user-select: none;
+	background-color: buttonface;
+	border-color: buttonface;
+	border-width: 2px;
+	border-style: outset;
+};
 .windows {
 	border: 4px solid #998855;
 	background-color: #eeddaa;

@@ -92,7 +92,7 @@ const saveService = {
 			//and retrospectively perform all ticks
 			let cycles = game.retrospecticks();
 
-			cycles > 0 && game.msg([`Zatímco byl vládce na dovolené, proběhlo ${cycles} cyklů.`,
+			cycles > 0 && game.msg([`Zatímco byl vládce na dovolené, proběhlo ${cycles.addk()} cyklů.`,
 				`Raději zkontrolujte, zda-li je ${s.name} v pořádku.`,
 				'Řím možná nebyl postaven za den, ale naši občané by ho za den zvládli zcela vybydlet.']);
 			return true;
