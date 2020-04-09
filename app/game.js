@@ -33,7 +33,7 @@ const game = {
 		*/
 
 		//variables for shortcut calculation
-		let shortcut = false;
+		let n2 = false;
 		let ctrl2, ctrl = s.sur.slice(1).concat(s.pop);
 		const callback = (sum,o,i) => sum && (Math.round(ctrl[i]-ctrl2[i]) === 0);
 
@@ -43,13 +43,15 @@ const game = {
 
 			//control for shortcut calculation
 			ctrl2 = s.sur.slice(1).concat(s.pop);
-			if(ctrl.reduce(callback,true)) {shortcut = true; n = n - i; break;}
+			if(ctrl.reduce(callback,true) &&
+				s.nukeCooldown <= 0 && s.mirCooldown <= 0
+			) {n2 = n - i; break;}
 			ctrl = ctrl2;
 		}
 
-		if(shortcut) {
-			s.WP += this.rateWP() * n;
-			s.sur[0] += this.moneyTotal() * n;
+		if(n2) {
+			s.WP += this.rateWP() * n2;
+			s.sur[0] += this.moneyTotal() * n2;
 		}
 
 		for(let i = 0; i < nw; i++) {
