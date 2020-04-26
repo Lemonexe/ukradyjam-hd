@@ -323,6 +323,9 @@ const War = () => ({
 			bf[g1.own ? 'deadP' : 'deadE'][k1] += g1.n - n1;
 			bf[g2.own ? 'deadP' : 'deadE'][k2] += g2.n - n2;
 			g1.n = n1; g2.n = n2;
+			//trample
+			(s.miracle === 'faust' && g1.own && hp2 < 0) && damageSpecial(-hp2, x2 + (x2 < 3 ? -1 : 1), y2);
+			(s.miracle === 'faust' && g2.own && hp1 < 0) && damageSpecial(-hp1, x1 + (x1 < 3 ? -1 : 1), y1);
 
 			//special graphical effects
 			bf.effects.push({type: 'grayLine', x1:x1,y1:y1,x2:x2,y2:y2});
@@ -344,6 +347,8 @@ const War = () => ({
 			let n2 = Math.ceil(hp2 / units[k2].hp).positify();
 			bf[g2.own ? 'deadP' : 'deadE'][k2] += g2.n - n2;
 			g2.n = n2;
+			//trample
+			(s.miracle === 'faust' && g1.own && hp2 < 0) && damageSpecial(-hp2, x2 + (x2 < 3 ? -1 : 1), y2);
 
 			//special graphical effects for balloon, bazooka and other ranged units
 			if(k1 === 'bal') {
@@ -358,6 +363,22 @@ const War = () => ({
 				bf.effects.push({type: 'grayArc', x1:x1,y1:y1,x2:x2,y2:y2});
 				bf.effects.push({type: 'bloodSplatter', x:x2,y:y2});
 			}
+		}
+		//special function to deal specified amount of damage to specified group (trample damage)
+		function damageSpecial(dmg,x2,y2) {
+			//substitutions
+			let g2 = bf.map[y2][x2];
+			if(!bf.map[y2][x2]) {return;}
+			let k2 = g2.key;
+			//total attacks and total hp
+			let hp2 = g2.hp + (g2.n-1) * units[k2].hp;
+			//do the damage, calculate new n, log dead units and save new n
+			hp2 -= dmg;
+			g2.hp = (hp2 % units[k2].hp).positify();
+			let n2 = Math.ceil(hp2 / units[k2].hp).positify();
+			bf[g2.own ? 'deadP' : 'deadE'][k2] += g2.n - n2;
+			g2.n = n2;
+			bf.effects.push({type: 'bloodSplatter', x:x2,y:y2});
 		}
 
 		//normal attacks (1 or 2 cells forwards)

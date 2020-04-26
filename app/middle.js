@@ -356,6 +356,8 @@ app.controller('middle', function($scope, $interval) {
 			return true;
 		});
 	};
+	//is all research complete
+	$scope.isAllWis = () => s.research.length >= research.length;
 
 	//getter / setter function for beer
 	$scope.getSetBeer = function(newBeer) {
@@ -384,6 +386,7 @@ app.controller('middle', function($scope, $interval) {
 	//how many achievements are there in total - but only: all non-secret + already unlocked secret
 	$scope.getAchievementCount = function() {
 		let keys = Object.keys(achievements);
+		if(s.p.unlockDoge >= consts.dogePower) {return keys.length} //xD
 		let secret = keys.filter(item => achievements[item].secret);
 		let secretUnlocked = secret.filter(item => s.achievements.indexOf(item) > -1);
 		return keys.length - secret.length + secretUnlocked.length;

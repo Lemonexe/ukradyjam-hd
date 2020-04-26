@@ -91,6 +91,7 @@
 		<p>Tento seznam pouze shrnuje nejvýznamější změny v důležitých verzích. Pokud Vás zajímá zdrojový kód aplikace včetně jeho vývoje,
 			navštivte GitHub <a href="https://github.com/Lemonexe/ukradyjam-hd" target="_blank">repozitář</a>.</p>
 		<ul>
+			<li><b>1.1.6</b> (26.04.2020) přidán Oktoberfest, balancování</li>
 			<li><b>1.1.0</b> (07.06.2019) zvětšeno bojiště, balancování</li>
 			<li><b>1.0.3</b> (14.05.2019) poslední výzkum</li>
 			<li><b>1.0.0</b> (04.05.2019) oficiální release</li>
@@ -247,11 +248,11 @@
 				<escape></escape>
 				<h2>Výzkumný přehled</h2>
 				<p>Vědec vám vynalezne nejrůznější technologie - užitečná hnojiva i šílené rovnice!</p>
-				<p ng-if="!s.p.unlockDoge">
+				<p ng-if="!isAllWis()">
 					Počet výzkumných bodů: 💡{{s.WP.addk(1e7, 1e7)}}<br>
 					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost výzkumu: {{game.rateWP()}}</span>
 				</p>
-				<div ng-repeat="g in WPgroups" ng-if="!s.p.unlockDoge">
+				<div ng-repeat="g in WPgroups" ng-if="!isAllWis()">
 					<p><b>{{WPgroupNames[$index]}}</b></p>
 					<div ng-repeat="w in getAvailableWis(g)" style="padding-left: 20px;">
 						<p><a class="fakeLink" ng-click="game.buyResearch(w)">{{w.name}}</a> 💡{{w.cost}}<br>
@@ -338,6 +339,18 @@
 					Bonus vygebenosti: +{{game.happyHospoda()}}<br>
 					Celková vygebenost: {{game.realHappiness()}}
 				</p>
+				<div ng-if="s.p.unlockOktoberfest" style="text-align: center;">
+					<div style="height: 50px"></div>
+					<p class="strong">Oktoberfest, čili slavnost piva v září</p>
+					<p>
+						Způsobí krátkodobé, leč velice intenzivní vygebení.</p><p>
+						Společnost si však získává toleranci, takže je třeba aplikovat stále větší dávky,<br>a nebo delší dobu počkat, aby se játra vzpamatovala.
+					</p>
+					<p>
+						<img src="res/GUI/icon_pivo.png" width="16" height="16"> {{(consts.oktoberfest.base * s.oktoberfest).toFixed(0)}}
+						<input type="button" ng-click="game.oktoberfest()" value="Zahájit">
+					</p>
+				</div>
 			</div>
 
 			<div ng-switch-when="dilna" ng-style="screenStyle()">
@@ -358,7 +371,7 @@
 						<p>Nejlepší bude odpálit je během probíhající bitvy, aby ani sousedé nepřišly o tuto velkolepou podívanou! <i>(v okně generála nebo nepřátelské vesnice)</i></p>
 					</div>
 
-					<div ng-if="!s.ownNuke  && s.nukeCooldown > 0">
+					<div ng-if="!s.ownNuke && s.nukeCooldown > 0">
 						<p>Ohňostroj byl nedávno využit a než budeme moci koupit další, bude třeba uklidit všechny ty sýrou smrdící doutnající odpadky.</p>
 						<p>Úklid bude trvat ještě {{s.nukeCooldown}} cyklů (vylepšením zkušebny se čekací doba zkrátí)</p>
 					</div>

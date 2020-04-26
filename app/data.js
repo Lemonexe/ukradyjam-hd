@@ -18,7 +18,7 @@ const consts = {
 		delfin: 0.05,  //+obchod
 		obr:    0.125, //+all suroviny
 		antena: 0.30,  //+skola
-		dmnt1:  0.15,  //+happy
+		dmnt1:  0.20,  //+happy
 		dmnt2:  0.125, //-skola
 		apollo: 0.125, //-prachy
 		had:    0.125, //-all suroviny
@@ -27,6 +27,14 @@ const consts = {
 
 	nukeCooldown: 16, //base value of waiting time for new nuke
 	nukePrice: [5e3, 0, 0, 5e3, 0], //as sur
+
+	oktoberfest: {
+		base: 1e4, //base beer costs
+		max: 2e5, //max beer costs
+		pop: 100, //mean population bonus
+		increase: 1.2, //factor of cost amplification per use
+		decrease: 0.9 //factor of cost attenuation per tick
+	},
 
 	//which units are aerial / terrestrial. In this order they will be rendered on battlefield
 	skyUnits: ['bal', 'gyr'],

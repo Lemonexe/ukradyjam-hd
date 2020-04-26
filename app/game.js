@@ -1,7 +1,7 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 5],
+	version: [1, 1, 6],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -44,7 +44,7 @@ const game = {
 			//control for shortcut calculation
 			ctrl2 = s.sur.slice(1).concat(s.pop);
 			if(ctrl.reduce(callback,true) &&
-				s.nukeCooldown <= 0 && s.mirCooldown <= 0
+				s.nukeCooldown <= 0 && s.mirCooldown <= 0 && s.oktoberfest <= 1
 			) {n2 = n - i; break;}
 			ctrl = ctrl2;
 		}
@@ -107,6 +107,8 @@ const game = {
 			s.hospoda = 0;
 			this.msg(['Pivo došlo a štamgasti museli hospodu opustit!', 'To se jim nebude líbit...']);
 		}
+		s.oktoberfest *= consts.oktoberfest.decrease;
+		s.oktoberfest < 1 && (s.oktoberfest = 1);
 
 	//POP
 		this.population();
@@ -129,11 +131,11 @@ const game = {
 
 		//population gain, check pop limit
 		if(diff > 0) {
-			s.pop[0] += diff;
 			if(poptotal + diff >= poplim) {
-				s.pop[0] -= (poptotal + diff) - poplim;
+				diff = (poplim - poptotal).positify();
 				this.singleUseWarn('warnPopLimit');
 			}
+			s.pop[0] += diff;
 		}
 
 		//population drain algorithm that avoids going into negative numbers
@@ -237,9 +239,8 @@ const game = {
 				draggable: true
 			});
 			this.checkAchievement.buildings(key);
-		} else {
-			this.msg(`Na stavbu budovy ${buildings[key].name} není dostatek surovin.`);
 		}
+		else {this.msg(`Na stavbu budovy ${buildings[key].name} není dostatek surovin.`);}
 	},
 
 	//upgrade existing building
@@ -251,9 +252,8 @@ const game = {
 		if(this.spend(price)) {
 			existing.lvl++;
 			this.checkAchievement.maxed();
-		} else{
-			this.msg(`Na vylepšení budovy ${buildings[key].name} na úroveň ${(existing.lvl + 1)} bohužel není dostatek surovin.`);
 		}
+		else {this.msg(`Na vylepšení budovy ${buildings[key].name} na úroveň ${(existing.lvl + 1)} bohužel není dostatek surovin.`);}
 	},
 
 	//buy research object 'r'
@@ -264,9 +264,8 @@ const game = {
 			r.f();
 			this.checkAchievement.researches();
 			this.msg([r.name + ':', r.result , '→ ' + r.effect]);
-		} else {
-			this.msg(`Na provedení výzkumu ${r.name} bohužel není dostatek výzkumných bodů.`)
 		}
+		else {this.msg(`Na provedení výzkumu ${r.name} bohužel není dostatek výzkumných bodů.`)}
 	},
 
 	//calculate current happiness, which is a sum of multiple factors
@@ -339,9 +338,7 @@ const game = {
 			(s.mirsReceived.indexOf(mirs[i]) === -1) && s.mirsReceived.push(mirs[i]) && this.achieve('zazrak');
 			(s.mirsReceived.length === mirs.length) && this.achieve('gambler');
 		}
-		else {
-			this.msg('Nemáme dostatek surovin na obětování, a olympští bohové jsou velmi hákliví na objem oběti.');
-		}
+		else {this.msg('Nemáme dostatek surovin na obětování, a olympští bohové jsou velmi hákliví na objem oběti.');}
 	},
 
 	//buy a nuclear warhead
@@ -349,9 +346,20 @@ const game = {
 		if(this.spend(consts.nukePrice)) {
 			s.ownNuke = true;
 		}
-		else {
-			this.msg('Nemáme dostatek surovin, a taková velkolepá pyrotechnická sestava přijde hodně draho!');
+		else {this.msg('Nemáme dostatek surovin, a taková velkolepá pyrotechnická sestava přijde hodně draho!');}
+	},
+
+	//beer overdrive
+	oktoberfest: function() {
+		const co = consts.oktoberfest;
+		if(this.spend([0, 0, 0, 0, co.base * s.oktoberfest])) {
+			s.oktoberfest *= co.increase;
+			(co.base * s.oktoberfest > co.max) && (s.oktoberfest = co.max / co.base);
+			const bonus = Math.ceil((0.5 + Math.random()) * consts.oktoberfest.pop);
+			s.pop[0] += bonus;
+			this.msg(`Díky oktoberfestu máme ${bonus} nově vygebených obyvatel!`);
 		}
+		else {this.msg('Nemáme dostatek piva na totální opití společnosti!');}
 	},
 
 	//check for insolvency and grant a bailout
@@ -409,7 +417,7 @@ const game = {
 			lines.push(source.substring(c0, c));
 		}
 		//and gradually logged them into console!
-		let tc = 1000; //cumulative time in [ms]
+		let tc = 500; //cumulative time in [ms]
 		for(let i = 0; i < 200; i++) {
 			if(i % 43 === 0 && Math.random() < 0.5) {tc += 500;}
 			if(i % 19 === 0 && Math.random() < 0.5) {tc += 250;}

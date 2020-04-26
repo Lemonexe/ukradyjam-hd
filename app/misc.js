@@ -171,6 +171,10 @@ const compatibility = [
 	//extrapolate the actual date of founding
 	{v: [1, 1, 3], f: function(s) {
 		s.timestampFounded = Date.now() - s.iteration*consts.dt;
+	}},
+	//add new variable
+	{v: [1, 1, 6], f: function(s) {
+		s.oktoberfest = 1;
 	}}
 ];
 

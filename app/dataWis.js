@@ -203,6 +203,13 @@ const research = [
 		s.p.plat += 0.10;
 		s.p.prachy -= 0.10;
 	}},
+{id: 'PolB1', class: 'Pol', name: 'Oktoberfest', cost: 39999,
+	teaser: 'Vědci přišli s návrhem na "Slavnost piva v září", která by měla umožnit nacpat do chřtánů obyvatel ještě více piva, než se dosud považovalo za možné.',
+	result: 'Připravili jsme zhýralé dekadentní slavnosti na počest boha Dežonýza. Ať žije jaterní cirhóza!',
+	effect: 'v hospodě odemknut Oktoberfest',
+	reqs: ['EcoA3', 'WisB1', 'ArmA3'], f: function() {
+		s.p.unlockOktoberfest = true;
+	}},
 {id: 'PolC1', class: 'Pol', name: 'Novoroční ohňostroj', cost: 92235,
 	teaser: 'Oslavy náhodného dne v kalendáři jsou vhodnou záminkou k chlastání a dělání bordelu. Dáme občanům den svátku, odpálíme ohňostroj a budou spokojení!',
 	result: 'Po několika případech těžkých popálenin jsme ohňostroj raději zakázali a oslavy zrušili. Můžeme však tyto zbraně hromadného ničení vypustit na nepřátele a proměnit tak bojiště v krvavá jatka!',
@@ -214,7 +221,7 @@ const research = [
 	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně, zatímco sviňárny v zákulisí nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
 	effect: 'vygebenost +1600, platy dělníků -20%',
-	reqs: ['PolA7', 'PolC1'], f: function() {
+	reqs: ['PolA7', 'PolB1', 'PolC1'], f: function() {
 		s.p.happy += 1600;
 		s.p.plat -= 0.20;
 	}},

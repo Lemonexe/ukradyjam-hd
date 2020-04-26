@@ -75,6 +75,7 @@ const S = () => ({
 		unlockBuild: ['skola', 'pristav', 'kasarna'],
 		unlockUnit: ['kop'],
 		unlockNuke: false,
+		unlockOktoberfest: false,
 		unlockDoge: false
 	},
 
@@ -96,6 +97,7 @@ const S = () => ({
 	battleReports: [],
 	ownNuke: false,
 	nukeCooldown: 0,
+	oktoberfest: 1, //multiplier of oktoberfest price
 
 	achievements: [],
 	//'false' variables that are set to 'true' once, at some point during game as a warning / tutorial
