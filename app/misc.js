@@ -33,8 +33,8 @@ Number.prototype.positify = function() {return this.valueOf() > 0 ? this.valueOf
 //write number using 'k' or 'M' to denote thousands or millions, but only if number exceeds threshold t or M
 Number.prototype.addk = function(t, M) {
 	let val = this.valueOf();
-	if(val > (M ? M : 1e6)) {return Math.floor(val/1e6) + 'M';}
-	if(val > (t ? t : 1e3)) {return Math.floor(val/1e3) + 'k';}
+	if(Math.abs(val) > (M ? M : 1e6)) {return Math.floor(val/1e6) + 'M';}
+	if(Math.abs(val) > (t ? t : 1e3)) {return Math.floor(val/1e3) + 'k';}
 	return val.toFixed(0);
 };
 //return number as fixed(0) with sign always displayed if not (rounded to) zero
@@ -175,7 +175,11 @@ const compatibility = [
 	//add new variable
 	{v: [1, 1, 6], f: function(s) {
 		s.oktoberfest = 1;
-	}}
+	}},
+	//add new variable
+	{v: [1, 1, 7], f: function(s) {
+		s.p.sklad = 1;
+	}},
 ];
 
 //these images will be used in canvas, and therefore need to be preloaded

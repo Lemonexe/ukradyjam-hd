@@ -42,17 +42,46 @@ ul {
 	padding-left: 30px;
 }
 li {margin-bottom: 10px;}
-input[type = "button"] {cursor: pointer;}
-input[type = "range"] {
+input[type=button] {cursor: pointer;}
+
+/*Slider – unfortunately it's quite a pain!*/
+input[type=range] {
 	height: 24px;
+	background-color: transparent;
+	-webkit-appearance: none;
 }
-input[type = "range"]::-webkit-slider-runnable-track {
-	height: 3px;
+input[type=range]:focus {outline: none;}
+/*chromium*/
+input[type=range]::-webkit-slider-runnable-track {
+	height: 4px;
 	background: #998855;
+	cursor: pointer;
 }
-input[type = "range"]::-webkit-slider-thumb {
-	margin-top: -9px;
+input[type=range]::-webkit-slider-thumb {
+	margin-top: -10px;
+	width: 13px;
+	height: 24px;
+	background: #ffeedd;
+	border: 2px solid #998855;
+	border-radius: 2px;
+	cursor: pointer;
+	-webkit-appearance: none;
 }
+/*firefox*/
+input[type=range]::-moz-range-track {
+	height: 4px;
+	background: #998855;
+	cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+	width: 9px;
+	height: 20px;
+	background: #ffeedd;
+	border: 2px solid #998855;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
 hr {
 	width: 85%;
 	margin-top: 20px;

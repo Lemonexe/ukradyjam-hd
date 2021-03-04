@@ -1,7 +1,7 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 6],
+	version: [1, 1, 7],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -21,16 +21,6 @@ const game = {
 		let n  = Math.floor((Date.now() - s.timestamp) / consts.dt);
 		let nw = Math.floor((Date.now() - s.warstamp) / consts.dtw);
 		(n >= consts.backAchieve / consts.dt) && game.achieve('back');
-
-		/*
-		//confirmation
-		const msg  = 'VAROVÁNÍ!\n\nKe hře jste se vrátili po dlouhé době a je třeba dopočítat, co se stalo, což může trvat docela dlouho!\n\nPotvrzením bude zahájen výpočet, zamítnutím bude hra resetována.';
-		const msg2 = 'Opravdu si přejete smazat veškerá vaše data v této hře?';
-		let purge;
-		const ask = () => n > 1e5 && !confirm(msg) && !(purge = confirm(msg2)) && ask();
-		ask();
-		if(purge) {saveService.purge(); return;}
-		*/
 
 		//variables for shortcut calculation
 		let n2 = false;
@@ -196,8 +186,7 @@ const game = {
 			plat:   s.p.plat   - 0.05*palac,
 			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', consts.mir.delfin),
 			power:  s.p.power               + this.mir('faust', consts.mir.faust1),
-			dranc:  s.p.dranc               + this.mir('faust', -consts.mir.faust2),
-			WC:     s.p.WC
+			dranc:  s.p.dranc               + this.mir('faust', -consts.mir.faust2)
 		};
 	},
 
@@ -282,7 +271,7 @@ const game = {
 
 	popGrowth: function() {return Math.ceil(this.realHappiness() / 50)},
 	popTotal: function() {return s.pop.reduce((sum, i) => sum + i)},
-	popLimit: function() {return Math.round(buildings.radnice.f(this.getBlvl('radnice')) * this.eff().WC)},
+	popLimit: function() {return Math.round(buildings.radnice.f(this.getBlvl('radnice')) * s.p.WC)},
 
 	//rate of research points per one cycle
 	rateWP: function() {
@@ -310,7 +299,7 @@ const game = {
 	storage: function() {
 		let cap = consts.baseSklad;
 		let sklad = this.getBuilding('sklad');
-		cap += sklad ? buildings.sklad.f(sklad.lvl) : 0;
+		cap += sklad ? buildings.sklad.f(sklad.lvl) * s.p.sklad : 0;
 		return Math.round(cap);
 	},
 

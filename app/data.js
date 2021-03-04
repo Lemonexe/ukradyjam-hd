@@ -17,7 +17,7 @@ const consts = {
 		faust2: 0.10,  //-dranc
 		delfin: 0.05,  //+obchod
 		obr:    0.125, //+all suroviny
-		antena: 0.30,  //+skola
+		antena: 0.50,  //+skola
 		dmnt1:  0.20,  //+happy
 		dmnt2:  0.125, //-skola
 		apollo: 0.125, //-prachy
@@ -119,7 +119,7 @@ const units = {
 		name: 'Kopiník', flavor: 'Tupý branec z venkova ozbrojený klackem, vhodný jako kanonenfutr',
 		price: [10, 10, 0, 0, 0], pop: 1,
 		group: 50, att: 2, hp: 11,
-		bonus: {}
+		bonus: {sln: 0.3}
 	},
 	luk: {class: 'ranged', img: 'archys.png', train: 'kasarna',
 		name: 'Lučištník', flavor: 'Pidlooký branec z venkova, který se občas i trefí do nepřátelské armády',
@@ -131,7 +131,7 @@ const units = {
 		name: 'Hoplit', flavor: 'Disciplinovaný voják v naleštěné uniformě je chloubou přehlídek',
 		price: [60, 25, 0, 10, 0], pop: 1,
 		group: 50, att: 5, hp: 20,
-		bonus: {}
+		bonus: {sln: 0.3}
 	},
 	sln: {class: 'infantry', img: 'slon.png', train: 'kasarna',
 		name: 'Slon', flavor: 'Ty potvory sice nemají správný bojový zápal, fungují však jako živý štít',
@@ -143,7 +143,7 @@ const units = {
 		name: 'Trojský kůň', flavor: 'Navenek vkusné umělecké dílo, uvnitř však číhají ozbrojení záškodníci',
 		price: [600, 200, 0, 130, 0], pop: 4,
 		group: 10, att: 16, hp: 85,
-		bonus: {hop: 0.5}
+		bonus: {hop: 0.8}
 	},
 	obr: {class: 'infantry', img: 'steam.png', train: 'dilna',
 		name: 'Parní kolos', flavor: 'Hromada pístů, pružin a čepelí s řachotem rozdupe všechno před sebou',
@@ -219,7 +219,7 @@ const miracles = {
 		flavor: 'Hvězdné putování je sice na nic, ale státní rozpočet dokáže vyluxovat až do dna.',
 		description: l => `daňový výběr -${(l*consts.mir.apollo).toPercent()}`
 	},
-	had: {name: 'Had, bůh hrobníků',
+	had: {name: 'Had, bůh funebráků',
 		flavor: 'Dělníci se flákají a vymlouvají se, že musí pořád chodit na různé pohřby.',
 		description: l => `těžba všech surovin -${(l*consts.mir.had).toPercent()}`
 	},

@@ -66,6 +66,7 @@ const S = () => ({
 		udrzba: 1, //údržba města
 		plat: 1, //plat dělníků
 		WC: 1, //násobí max. populační kapacitu
+		sklad: 1, //násobí kapacitu skladu
 		obchod: 0.40, //počáteční efektivita obchodu
 		cena: 1.04, //surovinové náklady na trénink jednotek
 		power: 1, //atac jednotek

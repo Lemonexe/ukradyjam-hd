@@ -105,6 +105,7 @@ const research = [
 	effect: 'účinnost obchodu +10%',
 	reqs: ['EcoB2', 'EcoA3'], f: function() {
 		s.p.obchod += 0.10;
+		s.WP -= 300; //wtf, to je podvod!
 	}},
 {id: 'EcoB4', class: 'Eco', name: 'Chodníkový zákon', cost: 8000,
 	teaser: 'Každej na svůj chodník jenom sere a město pak musí platit údržbu. Od nynějška bude majitel zasraného chodníku pokutován, což zvýší incentivu k uklízení.',
@@ -279,6 +280,15 @@ const research = [
 		s.p.cena -= 0.10;
 		s.p.skola -= 0.10;
 	}},
+/*
+{id: 'WisB3', class: 'Wis', name: 'Daktylský hexametr', cost: 16384,
+	teaser: 'Taková kultůra, to není jenom muzeum plné zaprášených krámů. Udržme naši kulturu živou a předejme příštím generacím orální tradici klasických eposů od Houmra!',
+	result: 'Naše básně jsou tak děsně epický, že se hned staly #1 hitem a všichni se už těší, až se po vzoru velkých hrdinů vypraví za moře a dají přes držku kouzelným potvorám.',
+	effect: 'na ostrově odemknuta Odysseia',
+	reqs: ['WisB1', 'ArmB4'], f: function() {
+		s.p.unlockOdysseia = true;
+	}},
+*/
 {id: 'WisC1', class: 'Wis', name: 'Praktické činnosti', cost: 32768,
 	teaser: 'Je třeba prohloubit technickou zručnost našich žáků a zlepšit tak perspektivu jejich uplatnění – mohou pak udělat kariéru třeba v montovně!',
 	result: 'Výborně, máme cvičené pracanty, kteří mohou v dílně montovat obrovské stroje! Nepřátelé se budou třást před výtvory našich zlatých řemeslných ručiček!',
@@ -290,7 +300,7 @@ const research = [
 	teaser: 'Dovedete si vůbec představit, že žáci rádi chodí do školy a pilně se učí? To je naše budoucnost!',
 	result: 'Kvalitní výuka a motivovaní studenti. Čeká nás technický pokrok a zářná budoucnost!',
 	effect: 'účinnost školství +60%',
-	reqs: ['WisA5', 'WisB2', 'WisC1'], f: function() {
+	reqs: ['WisA5', 'WisB2', 'WisC1'], f: function() { // 'WisB3'
 		s.p.skola += 0.60;
 	}},
 
@@ -352,6 +362,13 @@ const research = [
 	reqs: ['ArmB1'], f: function() {
 		s.p.unlockUnit.push('sln');
 	}},
+{id: 'ArmE1', class: 'Arm', name: 'Terárium', cost: 9600,
+	teaser: 'Když se nápad se zoologickou zahradou tak nečekaně osvědčil, mohli bychom tentokrát zkusit chovat plazy. Snad naši vojenští stratégové nějak vymyslí, jak ještěrky využít k dobývání slavných vítězství!',
+	result: 'Generál o ještěrky zájem neměl, zato si je vzali skladníci, kteří s jejich pomocí snadno ukládají suroviny až do nejvyšších polic! Skvělé, jen teď musíme zakázat bezpečákům chodit do skladu..',
+	effect: 'kapacita skladu +33%',
+	reqs: ['ArmB2', 'EcoA4'], f: function() {
+		s.p.sklad += 0.333778; //not exactly 1/3, because there is also a consts.baseSklad
+	}},
 {id: 'ArmB3', class: 'Arm', name: 'Hopliti', cost: 3000,
 	teaser: 'Nový kopiníci budou větší, lepší, hezčí, delší a když se tito tvrdí hoši postaví do hrozivě vypadající formace, určitě hluboce penetrují nepřátelské linie.',
 	result: 'Tyto elitní jednotky s nablýskanou zbrojí jsou zlatým hřebem každé vojenské přehlídky!',
@@ -401,7 +418,7 @@ const research = [
 	teaser: 'Dovedete si vůbec představit, že se vojáci krvelačně vrhají do bitevní vřavy a poslušně poslouchají rozkazy? To je naše budoucnost!',
 	result: 'Po zuby ozbrojená banda lačnící po krveprolití. Naše válečná mašinerie může dobýt svět!',
 	effect: 'síla jednotek +20%',
-	reqs: ['ArmD1'], f: function() {
+	reqs: ['ArmD1', 'ArmE1'], f: function() {
 		s.p.power += 0.20;
 	}},
 
