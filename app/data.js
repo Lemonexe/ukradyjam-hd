@@ -19,7 +19,7 @@ const consts = {
 		obr:    0.125, //+all suroviny
 		antena: 0.50,  //+skola
 		dmnt1:  0.20,  //+happy
-		dmnt2:  0.125, //-skola
+		dmnt2:  0.20, //-skola
 		apollo: 0.125, //-prachy
 		had:    0.125, //-all suroviny
 		helma:  0.20   //-happy
@@ -149,7 +149,7 @@ const units = {
 		name: 'Parní kolos', flavor: 'Hromada pístů, pružin a čepelí s řachotem rozdupe všechno před sebou',
 		price: [1200, 400, 0, 350, 0], pop: 5,
 		group: 10, att: 25, hp: 120,
-		bonus: {}
+		bonus: {kop: 0.5, luk: 0.2}
 	},
 	baz: {class: 'ranged', img: 'ohnostrojcik.png', train: 'zkusebna',
 		name: 'Ohňostrojčík', flavor: 'Šílený vědec, co se vydal experimentovat s výbušninami přímo do bitvy',

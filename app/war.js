@@ -506,6 +506,7 @@ const War = () => ({
 	drawSide: function(ctx) {
 		const pc = this.positionConsts;
 		let bf = s.battlefield;
+		s.tooltipField = [];
 		//define which units are rendered where
 		let sky = consts.skyUnits;
 		let ground = consts.groundUnits;
@@ -550,6 +551,10 @@ const War = () => ({
 		if(dead > 0) {
 			ctx.font = 'italic 16px Arial'; ctx.fillText('-'+dead.addk(), x0+w/2, y+48, w-2);
 		}
+
+		//[top,left,height,width,text]
+		const zoom = s.ctrl.zoom/600;
+		s.tooltipField.push([y*zoom, x*zoom, 64*zoom, 64*zoom, units[key].name]);
 	},
 
 	//draw the battlefield itself
@@ -651,6 +656,7 @@ const War = () => ({
 		bf.effects.forEach(e => effectCalls[e.type](e));
 	}
 });
+
 
 //this directive links the rendering functions with canvas element
 app.directive('battleCanvas', () => ({

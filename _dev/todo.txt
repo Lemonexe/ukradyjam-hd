@@ -1,22 +1,40 @@
 LOTS OF NEW IMAGES see _dev/todo images.md
 
-tooltip on battlefield – show unit name (docela potřeba pro odysseu xD)
+redo attack effects as property of unit, not hardcoded in war.js
 
 
 
-ODYSEA (mytický tech Daktylský hexametr, navazuje na kulturní bohatství)
-	Aktuální armáda se vyšle do boje, kde není možné dávat ohňostroj, posily ani kapitulaci.
-	Stojí to počáteční částku piva a sýry závisející na velikosti armády (sum of groups).
-	Velikost nepřítele není fixní, ale odvíjí se od velikosti armády hráče (+random).
+ODYSSEA (mytický tech Daktylský hexametr, navazuje na kulturní bohatství)
+	Na ostrově bude v moři vlevo nahoře nějaká příšera – podobně jako nepřátelský Polis tohle bude GUI pro zahájení odyssei
+	Aktuální armáda se vyšle do boje, kde není možné dávat ohňostroj, posily ani kapitulaci. Faust ovšem bude fungovat.
+	Stojí to počáteční částku piva a sýry závisející na $size = velikost armády při zahájení (sum of groups).
+	Velikost nepřítele ~ $size, ale jen po určitý $size_limit aby to v late game nebylo úplně frustrující.
 
-	Po každé vyhrané bitvě je hned další wave a cíl = přežít co nejvíc waves, podle přežitých vln pak bude reward (surky, VP, relikvie)
-	Jednotky: medúza (ranged), minotaur (melee tank), cerberus (melee nuke), pegas (gyro), sirény (wololo!!!), kyklop (melee/ranged tank), hydra (boss w/ threeway attack)
-		siréna je weak, ale má malou šanci, že zkonvertuje celou skupinu, která zůstane na místě (na nepřátelské pozici) než ji nepřítel zlikviduje → achievement Wololo!
+	Po každé vyhrané bitvě je summary screen, po odklepnutí další wave. Cíl = přežít co nejvíc waves
+	Reward = surky, WP, relic drop chance. Násobí se podle podle skóre: $size (či $size_limit) * dosažená vlna (nelineárně)
 
-	Relikvie: určitá kolekce předmětů, které je možno prohlédnout v muzeu. Ty dávají určitý permabonus, každou je však možné mít jen jednou. Proto je třeba ty odyssey chvíli farmit
+	mytické jednotky: medúza (ranged), minotaur (melee tank), cerberus (melee nuke), pegas (gyro), hydra (boss w/ threeway attack)
 
-	Mohla by se taky encounterovat (spíš vzácně) jiná armáda, kromě toho mythical unit setu viz výše by mohli být:
-		cavemen: jako barbaři, akorát ještě barbarštější, mají jenom jednu jednotku, a to clubman (melee nuke w/ trample)
-		ufoni (primitivní grafika přímo ze space invaders)
-		time-travelling nazis: soldier (silný odolný ranged), motorka se sidekárou (melee nuke), hitler clone (boss w/ wololo), letadlo (gyro & balón dohromady)
-		undefined unit – image missing (velmi slabý melee cannonfodder)
+	S postupujícími vlnami stoupá šance na encounter zvláštní armády:
+		jeskynní muži: barbaři, now ještě barbarštější: clubman (melee nuke w/ trample), muž na praseti (melee tank w/ trample, w/ the actual "muž na praseti" painting)
+		vetřelci z hvězdných sfér: ufoni s primitivní grafikou přímo ze space invaders. "s tykadly" (cannonfodder), "kulatý" (tank), "špičatý" (ranged w/ cyan arc), létající talíř (spíše balón, ale i gyro)
+		time-travelling nazis: soldier (silný odolný ranged), motorka se sidekárou (melee nuke), hitler clone (boss w/ wololo), letadlo (spíše gyro, ale i balón)
+		mirror army: vertical flip images normálních jednotek. Možná v negativu jestli to jde v canvasu snadno.
+		undefined_$unit: image missing (velmi slabý melee cannonfodder. A LOT OF IT)
+
+	Relikvie: kolekce 10 předmětů, které je možno prohlédnout v muzeu (text se zobrazí poté co mám aspoň jednu).
+		Ty dávají určitý permabonus, každou je však možné mít jen jednou. Proto je třeba ty odyssey chvíli farmit. Po první dokončené odyssei je guaranteed drop.
+		obrázky 90*90, graficky se jich vejde muzea 5x2
+			Helma krále Leónida: -10% cena jednotek (inspirace z thermopyl)
+			Necrocomicon: simuluje +2 lvl chrámu (kniha o démonech, rituálech a černém humoru)
+			Stížnost na Ea-Nasira: +10% obchod (NANNI ???)
+			Relikvie z AoE2: +20% gold
+			Prsten Pána: +10% těžba všeho ("Jeden pán vládne všem, jeden jim makat káže, jeden všechny přivede, k lopatě je přiváže". Do práce, holoto jedna!)
+
+			Hitlerův mozek ve sklenici [dropped by nazis]: +power (mozek stratéga na dobývání světa)
+			Věstonická venuše [dropped by cavemen]: +400 vygebenost (Důkaz, že už před neolitickou revolucí měli lidé kozy. Plodnost, růst obyvatel atd.)
+			Hvězdná brána [dropped by ufo]: nic (nevíme na co to je, udělali jsme si z toho sezení v muzeu)
+			undefined_$relic [dropped by undefined]: nic (Error at line 420: undefined_$relic.effect is not a function)
+			Dimenzionální zrcadlo [dropped by mirror]: +20% WP (vědci studují mystéria vesmíru a tak)
+
+	new Achievements: Indiana Jones (získat jednu relikvii), Gotta Catch 'Em All! (získat všechny relikvie)

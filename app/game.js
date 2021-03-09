@@ -1,7 +1,7 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 7],
+	version: [1, 1, 8],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -13,6 +13,15 @@ const game = {
 		m = (typeof m === 'string') ? [m] : m;
 		m = m.filter(item => item.trim());
 		(m.length > 0) && s.messages.push(m);
+	},
+
+	//create and fill in the tooltip object (remove it: s.tooltip.visible = false)
+	createTooltip: function (top, left, msg) {
+		s.tooltip.visible = true; s.tooltip.message = msg;
+		s.tooltip.style = {
+			'top': (top + 25) + 'px',
+			'left': left + 'px'
+		};
 	},
 
 	//perform ticks retrospectively while loading a game

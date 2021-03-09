@@ -21,6 +21,7 @@ const S = () => ({
 		style: {'top': '0px', 'left': '0px'}, //numeric values are just placeholders
 		message: ''
 	},
+	tooltipField: false, //array of tooltips as [top,left,height,width,text], currently used only on battlefield
 
 
 	timestampInit: Date.now(), //start of application
@@ -94,7 +95,7 @@ const S = () => ({
 	army:  {kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0},
 	armyE: angular.copy(enemyArmies[0].army), //currently remaining enemy army
 	enemyLevel: 0, //index of enemyArmies
-	battlefield: false,
+	battlefield: false, //the battlefield object, will be created on war.initBattle
 	battleReports: [],
 	ownNuke: false,
 	nukeCooldown: 0,

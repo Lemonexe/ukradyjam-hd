@@ -19,7 +19,7 @@ const research = [
 		s.p.drevo += 0.20;
 	}},
 {id: 'EcoA2', class: 'Eco', name: 'Bohatství', cost: 100,
-	teaser: 'Zatím neznáme nic než dřevo a peníze – jíme klobásy z dřevěných pilin a pijeme dřevný líh. To není úplně zdravé, je proto čas obohatit náš život o nové substance!',
+	teaser: 'Zatím neznáme nic než dřevo a peníze – jíme párky z dřevěných pilin a pijeme dřevný líh. To není úplně zdravé, nastal tedy čas obohatit náš život o nové hmotné substance!',
 	result: 'Nová filozofická studie podložená chemickým rozborem ukazuje, že se vesmír skládá z 5 živlů: nejen peníze a dřevo, ale také kamení, sýra a pivo.',
 	effect: 'odemknuta těžba kamení, sýry a piva. Zdarma bonus 100 ks od každého',
 	reqs: ['EcoA1'], f: function() {
@@ -29,21 +29,21 @@ const research = [
 		s.sur[4] += 100;
 	}},
 {id: 'EcoA3', class: 'Eco', name: 'Hospoda', cost: 300,
-	teaser: 'Popište ráj na zemi: kamarádi z vojny, šipky, fotbálek, a hlavně pivo tekoucí proudem. A přesně tohle můžeme mít i v našem městě!',
+	teaser: 'Popište ráj na zemi: kamarádi z vojny, šipky, fotbálek.. a hlavně pivo tekoucí proudem! A přesně tohle můžeme mít i v našem městě!',
 	result: 'Teď ty prasata můžeme ožrat do němoty a odvést tak pozornost od jiných vládních vyhlášek.',
 	effect: 'odemknuta hospoda',
 	reqs: ['EcoA2', 'EcoB2'], f: function() {
 		s.p.unlockBuild.push('hospoda');
 	}},
 {id: 'EcoA4', class: 'Eco', name: 'Logistika', cost: 1000,
-	teaser: 'Ve velkých polisech prý mají jakýsi "logistický systém", což znamená, že staví obrovské sklady surovin. Takové chci mít taky!',
+	teaser: 'Ve velkých polisech prý mají jakýsi "logistický systém", tedy že staví obrovské sklady surovin. My už to všecko nemáme kam dávat, takže to přesně chceme!',
 	result: 'To bude určitě dobrý nápad, zkuste jeden postavit. Snad lidem nebudou vadit hovna od povozů a nevzhledné šedé krabice hyzdící město.',
 	effect: 'odemknut sklad',
 	reqs: ['EcoA3'], f: function() {
 		s.p.unlockBuild.push('sklad');
 	}},
 {id: 'EcoA5', class: 'Eco', name: 'Železná sekera', cost: 4500,
-	teaser: 'Nová železná sekera je hezčí, ostřejší a vydrží mnohem déle, proto ji doporučuje 9 z 10 dřevorubců. Nyní i s dvouletou zárukou. Úžasné!',
+	teaser: 'Zbrusu nová železná sekera je hezčí, ostřejší a vydrží mnohem déle, proto ji doporučuje 9 z 10 dřevorubců. Nyní i s dvouletou zárukou. Úžasné!',
 	result: 'Nechali jsme se přesvědčit reklamou z amfiteátru a koupili jsme výhodný balíček 10 seker + 1 zdarma, tak snad je prodejce brzo doručí.',
 	effect: 'těžba dřeva +20%',
 	reqs: ['EcoA4'], f: function() {
@@ -57,8 +57,8 @@ const research = [
 		s.p.kamen += 0.20;
 	}},
 {id: 'EcoA6b', class: 'Eco', name: 'Morálka na moři', cost: 2500,
-	teaser: 'Na pivní plošině furt všichni jen chlastají! Je třeba zavést tvrdou disciplínu a omezit tak ztráty piva.',
-	result: 'Uzavřel se přístup k hlavní nádrži. Většina dělníků tedy chlastá u ventilu, ale aspoň ti blbí už nepijou a ztráty piva byly omezeny.',
+	teaser: 'Na pivní plošině všichni celé dny jen chlastají! Je třeba zavést tvrdou disciplínu a omezit tak ztráty piva.',
+	result: 'Uzavřel se přístup k hlavní nádrži. Většina dělníků tedy potají chlastá u vzorkovacího kohoutu, ale aspoň ti blbí už nepijou a ztráty piva byly trochu omezeny.',
 	effect: 'těžba piva +20%',
 	reqs: ['EcoA6a'], f: function() {
 		s.p.pivo += 0.20;
@@ -71,21 +71,21 @@ const research = [
 		s.p.syra += 0.20;
 	}},
 {id: 'EcoA7', class: 'Eco', name: 'Splachovadlo', cost: 14000,
-	teaser: 'A potom že se prý nezajímáme o komfort obyčejných lidi! Moderní a čistý záchod ubytuje i početnou rodinu.',
+	teaser: 'A pak prý že se nezajímáme o komfort obyčejných lidí! Moderní, čistý záchod ubytuje i početnou rodinu při zachování přísných hygienických norem.',
 	result: 'No to je ale luxus! Naše překrásná toaletní zařízení nyní přitáhnou více lidí.',
 	effect: 'kapacita veřejných záchodů +10%',
 	reqs: ['EcoA5'], f: function() {
 		s.p.WC += 0.10;
 	}},
 {id: 'EcoA8', class: 'Eco', name: 'Oblouková pila', cost: 36000,
-	teaser: 'To bude druhá revoluce v dřevorubectví! Budeme stromy moci i řezat, nejen do nich sekat!',
-	result: 'Excelentní! Teď budeme mít dostatek dřeva na stavbu velkolepé megalopole!',
+	teaser: 'V jakýchsi starých textech je zmíněn nápad třít ebonitovou tyč o liščí ohon, čímž se vytvoří "vysokonapěťový oblouk", kterým lze krájet stromy jak máslo! Už slyším ty libé tóny hudby budoucnosti!',
+	result: 'Dodavatel pověřený výrobou špatně pochopil zadání a místo pily s elektrickým obloukem vytvořil... Obyčejnou pilu, jen ve tvaru oblouku. No, co se dá dělat, i to přineslo určité zlepšení v těžbě.',
 	effect: 'těžba dřeva +10%',
 	reqs: ['EcoA7'], f: function() {
 		s.p.drevo += 0.10;
 	}},
 {id: 'EcoB1', class: 'Eco', name: 'Truhlička na peníze', cost: 50,
-	teaser: 'Možná, že když vynalezneme uzamykatelnou pokladnici, nebudou prachy stále tak záhadně mizet.',
+	teaser: 'Možná, že když vynalezneme uzamykatelnou pokladnici, nebudou prachy z našeho rozpočtu stále tak záhadně mizet.',
 	result: 'Jen co jsme peníze dali pod zámek, hned je jich mnohem více. Že nás tohle nenapadlo dřív!',
 	effect: 'daňový výběr +20%',
 	reqs: ['EcoA1'], f: function() {
@@ -108,8 +108,8 @@ const research = [
 		s.WP -= 300; //wtf, to je podvod!
 	}},
 {id: 'EcoB4', class: 'Eco', name: 'Chodníkový zákon', cost: 8000,
-	teaser: 'Každej na svůj chodník jenom sere a město pak musí platit údržbu. Od nynějška bude majitel zasraného chodníku pokutován, což zvýší incentivu k uklízení.',
-	result: 'Konečně ty prasata zametaj aspoň ty největší hovna! Bohužel se jim to moc nelíbí, ale alespoň konečně to tu nevypadá jako ve chlévě.',
+	teaser: 'Každej na svůj chodník jenom sere a město pak platí údržbu. Od nynějška bude majitel zasraného chodníku pokutován, což zvýší incentivu k uklízení.',
+	result: 'Konečně ty prasata zametaj aspoň ty největší hovna! Bohužel se jim to moc nelíbí, ale alespoň to tu konečně nevypadá jako ve chlévě.',
 	effect: 'údržba města -10%, vygebenost -60',
 	reqs: ['EcoB3'], f: function() {
 		s.p.udrzba -= 0.10;
@@ -124,7 +124,7 @@ const research = [
 		s.p.happy += 60;
 	}},
 {id: 'EcoB6', class: 'Eco', name: 'Eurozóna', cost: 38000,
-	teaser: 'Zavedeme jednotnou měnu pro meziostrovní obchod, to bude moderní, pokrokové a vyplatí se to skutečně VŠEM!',
+	teaser: 'Zavedeme jednotnou helénskou měnu pro meziostrovní obchod. To bude moderní, pokrokové a vyplatí se to skutečně VŠEM!',
 	result: 'Ano! To je rozumné a dobré. A kdo bude tuto univerzální měnu razit? No přece my, samozřejmě. Ostatním se to už tolik nevyplatí...',
 	effect: 'účinnost obchodu +10%',
 	reqs: ['EcoB5'], f: function() {
@@ -138,8 +138,8 @@ const research = [
 		s.p.plat -= 0.10;
 	}},
 {id: 'EcoGrand', class: 'Eco', name: 'Budoucnost ekonomiky', cost: 199999,
-	teaser: 'Dovedete si vůbec představit, že všichni pilně pracují a státní úřady fungují tak, jak mají? To je naše budoucnost!',
-	result: 'Pořádek v ulicích a ekonomický růst. To se líbí občanům i mě!',
+	teaser: 'Dovedete si vůbec představit.. že všichni pilně pracují a státní úřady fungují tak, jak mají? To je naše budoucnost!',
+	result: 'Budování potěmkinovy vesnice jde zdárně kupředu: hlásíme bujný ekonomický růst a pořádek v ulicích.',
 	effect: 'těžba všech surovin +10%, daňový výběr +10%, údržba města -10%',
 	reqs: ['EcoA8', 'EcoB7', 'EcoA6c'], f: function() {
 		s.p.prachy += 0.10;
@@ -152,7 +152,7 @@ const research = [
 
 {id: 'PolA1', class: 'Pol', name: 'Schránka na vzkazy', cost: 29,
 	teaser: 'Lidi potřebujou na vládu anonymně nadávat a vylít si tak srdíčko beze strachu z možné represe. Umožněme jim to, vždyť to přece pak ani nemusíme číst!',
-	result: 'Schránka byla ihned ucpána vzkazy typu CHCI PIVO VOLOVÉ a lidé jsou vygebení, jak pěkně nás "vochcali". Inu, proč ne.',
+	result: 'Schránka byla ihned ucpána vzkazy typu CHCI PIVO VOLOVÉ a lidé jsou hrozně vygebení, jak pěkně tu vládu "vochcali". Inu, proč ne.',
 	effect: 'vygebenost +50',
 	reqs: [], f: function() {
 		s.p.happy += 50;
@@ -165,7 +165,7 @@ const research = [
 		s.p.happy += 180;
 	}},
 {id: 'PolA3', class: 'Pol', name: 'Úsporná opatření', cost: 899,
-	teaser: 'No je přece kríze, tak se musí šetřit! Ale samozřejmě že zrovna vás se to vůbec nedotkne, peníze najdeme v jiných sektorech!',
+	teaser: 'No je přece kríze, tak se musí šetřit! Ale samozřejmě že zrovna vás se to vůbec nedotkne, peníze samozřejmě najdeme v jiných sektorech!',
 	result: 'Lidé tuto tíži přeci jen pocítili a moc se jim to nelíbí. Státní rozpočet však vypadá slibně!',
 	effect: 'údržba města -10%, platy dělníků -10%, vygebenost -90',
 	reqs: ['PolA2'], f: function() {
@@ -196,7 +196,7 @@ const research = [
 		s.p.unlockBuild.push('palac');
 	}},
 {id: 'PolA7', class: 'Pol', name: 'Populismus', cost: 49999,
-	teaser: 'Převratný traktát v oboru politické filozofie, který má prý v praxi přinést harmonizaci vztahů mezi plebsem a oligarchií, jakož i pozvednout politickou kulturu v zemi.',
+	teaser: 'Je tu koncept na převratný traktát v oboru politické filozofie, který má prý v praxi přinést harmonizaci vztahů mezi plebsem a oligarchií, jakož i celkově pozvednout politickou kulturu v zemi.',
 	result: 'Portrét vypaseného vládce visí na všech rozích a lidé přikyvují: no ano, chceme lepší budoucnost! Rozhazovat peníze je spravedlivé, úspory jsou stejně jenom výmysl nějakých ročíldů z volstrýtu.',
 	effect: 'vygebenost +700, platy dělníků +10%, daňový výběr -10%',
 	reqs: ['PolA6'], f: function() {
@@ -212,14 +212,14 @@ const research = [
 		s.p.unlockOktoberfest = true;
 	}},
 {id: 'PolC1', class: 'Pol', name: 'Novoroční ohňostroj', cost: 92235,
-	teaser: 'Oslavy náhodného dne v kalendáři jsou vhodnou záminkou k chlastání a dělání bordelu. Dáme občanům den svátku, odpálíme ohňostroj a budou spokojení!',
+	teaser: 'Náhodný den v kalendáři je jistě vhodnou záminkou k chlastání a dělání brajglu. Dáme občanům den svátku, odpálíme ohňostroj a budou spokojení!',
 	result: 'Po několika případech těžkých popálenin jsme ohňostroj raději zakázali a oslavy zrušili. Můžeme však tyto zbraně hromadného ničení vypustit na nepřátele a proměnit tak bojiště v krvavá jatka!',
 	effect: 've zkušebně ohňostrojů odemčen novoroční ohňostroj',
 	reqs: ['PolA7', 'ArmB5'], f: function() {
 		s.p.unlockNuke = true;
 	}},
 {id: 'PolGrand', class: 'Pol', name: 'Budoucnost politiky', cost: 199999,
-	teaser: 'Dovedete si vůbec představit, že máme přitažlivé PR kampaně, zatímco sviňárny v zákulisí nám beztrestně prochází? To je naše budoucnost!',
+	teaser: 'Dovedete si vůbec představit.. že máme přitažlivé PR kampaně, zatímco sviňárny v zákulisí nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
 	effect: 'vygebenost +1600, platy dělníků -20%',
 	reqs: ['PolA7', 'PolB1', 'PolC1'], f: function() {
@@ -259,7 +259,7 @@ const research = [
 	}},
 {id: 'WisA5', class: 'Wis', name: 'Zábavné učivo', cost: 8192,
 	teaser: 'Když žákům řekneme, že matika je přece kůl, tak se budou mnohem lépe učit!',
-	result: 'Žáci se vysmívají dementním pokusům o humor v nových učebnicích, ale to splnilo cíl – nyní s učebnicemi tráví více času.',
+	result: 'Žáci se vysmívají trapným pokusům o humor v nových učebnicích, ale to splnilo cíl – nyní s učebnicemi přeci jen tráví trochu více času.',
 	effect: 'účinnost školství +20%',
 	reqs: ['WisA4'], f: function() {
 		s.p.skola += 0.20;
@@ -282,8 +282,8 @@ const research = [
 	}},
 /*
 {id: 'WisB3', class: 'Wis', name: 'Daktylský hexametr', cost: 16384,
-	teaser: 'Taková kultůra, to není jenom muzeum plné zaprášených krámů. Udržme naši kulturu živou a předejme příštím generacím orální tradici klasických eposů od Houmra!',
-	result: 'Naše básně jsou tak děsně epický, že se hned staly #1 hitem a všichni se už těší, až se po vzoru velkých hrdinů vypraví za moře a dají přes držku kouzelným potvorám.',
+	teaser: 'Taková kultůra, to není jenom muzuem plné zaprášených krámů. Povídá se cosi o jakési orální tradici klasických eposů od Houmra, prý tam je taky nějaký hexametr, a s tím budeme moci cestovat do exotických kouzelných zemí!',
+	result: 'Ty básně jsou tak děsně epický, že se hned staly hitem #1. Všichni se už moc těší, až vsednou v lodě poháněné vysoce výkonným hexametrem, a na konci světa dají přes držku pár kouzelným potvorám.',
 	effect: 'na ostrově odemknuta Odysseia',
 	reqs: ['WisB1', 'ArmB4'], f: function() {
 		s.p.unlockOdysseia = true;
@@ -297,8 +297,8 @@ const research = [
 		s.p.unlockUnit.push('obr');
 	}},
 {id: 'WisGrand', class: 'Wis', name: 'Budoucnost školství', cost: 65536,
-	teaser: 'Dovedete si vůbec představit, že žáci rádi chodí do školy a pilně se učí? To je naše budoucnost!',
-	result: 'Kvalitní výuka a motivovaní studenti. Čeká nás technický pokrok a zářná budoucnost!',
+	teaser: 'Dovedete si vůbec představit.. že žáci rádi chodí do školy, pilně se učí a excelují ve srovnávacích testech? To je naše budoucnost!',
+	result: 'Vždy když přijde inspektor, vidí kvalitní výuku a motivované studenty. Ti později dostanou slíbené sladkosti, rozprchnou se, a naši zem čeká technický pokrok a zářná budoucnost!',
 	effect: 'účinnost školství +60%',
 	reqs: ['WisA5', 'WisB2', 'WisC1'], f: function() { // 'WisB3'
 		s.p.skola += 0.60;
@@ -415,8 +415,8 @@ const research = [
 		s.p.power -= 0.10;
 	}},
 {id: 'ArmGrand', class: 'Arm', name: 'Budoucnost války', cost: 199999,
-	teaser: 'Dovedete si vůbec představit, že se vojáci krvelačně vrhají do bitevní vřavy a poslušně poslouchají rozkazy? To je naše budoucnost!',
-	result: 'Po zuby ozbrojená banda lačnící po krveprolití. Naše válečná mašinerie může dobýt svět!',
+	teaser: 'Dovedete si vůbec představit.. že se vojáci krvelačně vrhají do bitevní vřavy a poslušně poslouchají rozkazy? To je naše budoucnost!',
+	result: 'Naše vojsko je po zuby ozbrojená banda lačnící po krveprolití! S tím posloucháním rozkazů už to tak slavné není. Celý svět si asi nepodrobíme, ale aspoň ho tak vykrademe, že se zapíšeme do dějin!',
 	effect: 'síla jednotek +20%',
 	reqs: ['ArmD1', 'ArmE1'], f: function() {
 		s.p.power += 0.20;

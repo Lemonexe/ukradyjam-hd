@@ -163,7 +163,7 @@
 		<!-- BATTLE -->
 			<div ng-switch-when="battle" ng-style="mergeStyles(['gameWidth', 'gameHeight'])" style="overflow: hidden">
 				<escape></escape>
-				<canvas width="600" height="600" ng-style="mergeStyles(['gameWidth', 'gameHeight'])" battle-canvas></canvas>
+				<canvas width="600" height="600" ng-style="mergeStyles(['gameWidth', 'gameHeight'])" battle-canvas tooltip-field></canvas>
 				<div ng-show="s.battlefield && s.battlefield.nukeDuration > 0" id="nukeEffect" ng-style="mergeStyles(['gameWidth', 'gameHeight'])"></div>
 			</div>
 
@@ -217,7 +217,7 @@
 			<div ng-switch-when="advisorArmy" ng-style="screenStyle()">
 				<escape></escape>
 				<h2>Strategický přehled</h2>
-				<p>Generál vám naplánuje všechna slavná vojenská tažení a možná někdy i vyhraje.</p>
+				<p>Generál naplánuje všechna slavná vojenská tažení a možná někdy i vyhraje.</p>
 				<battle-management></battle-management>
 				<hr>
 				<div ng-show="!generalView">
@@ -247,7 +247,7 @@
 			<div ng-switch-when="advisorScience" ng-style="screenStyle()">
 				<escape></escape>
 				<h2>Výzkumný přehled</h2>
-				<p>Vědec vám vynalezne nejrůznější technologie - užitečná hnojiva i šílené rovnice!</p>
+				<p>Vědec vám vynalezne nejrůznější technologie – užitečná hnojiva i šílené rovnice!</p>
 				<p ng-if="!isAllWis()">
 					Počet výzkumných bodů: 💡{{s.WP.addk(1e7, 1e7)}}<br>
 					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost výzkumu: {{game.rateWP()}}</span>
@@ -344,7 +344,7 @@
 					<p class="strong">Oktoberfest, čili slavnost piva v září</p>
 					<p>
 						Způsobí krátkodobé, leč velice intenzivní vygebení.</p><p>
-						Společnost si však získává toleranci, takže je třeba aplikovat stále větší dávky,<br>a nebo delší dobu počkat, aby se játra vzpamatovala.
+						Společnost si však získává toleranci, takže je třeba aplikovat stále větší dávky,<br>a nebo delší dobu počkat, aby se z toho játra opět vzpamatovala.
 					</p>
 					<p>
 						<img src="res/GUI/icon_pivo.png" width="16" height="16"> {{(consts.oktoberfest.base * s.oktoberfest).toFixed(0)}}
@@ -368,7 +368,7 @@
 					<p><span class="strong">Novoroční ohňostroj</span> <span style="font-size: 40px">☢</span></p>
 					<div ng-if="s.ownNuke">
 						<p>Rachejtle jsou připraveny a bezpečně uloženy.</p>
-						<p>Nejlepší bude odpálit je během probíhající bitvy, aby ani sousedé nepřišly o tuto velkolepou podívanou! <i>(v okně generála nebo nepřátelské vesnice)</i></p>
+						<p>Nejlepší bude odpálit je během probíhající bitvy, aby ani sousedé nepřišli o tuto velkolepou podívanou! <i>(v okně generála nebo nepřátelské vesnice)</i></p>
 					</div>
 
 					<div ng-if="!s.ownNuke && s.nukeCooldown > 0">

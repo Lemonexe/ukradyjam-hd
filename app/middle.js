@@ -59,7 +59,7 @@ app.controller('middle', function($scope, $interval) {
 	$scope.WPgroupNames = ['Ekonomika', 'Politika', 'Vzdělávání', 'Armáda'];
 
 	//tab addresses to be opened when you click on resources in top bar
-	$scope.mineNames = ['', 'islandPila', 'islandKamen', 'islandSyra', 'islandPivo'];
+	$scope.mineNames = ['advisorEco', 'islandPila', 'islandKamen', 'islandSyra', 'islandPivo'];
 
 	//merge multiple styles objects ('styles' array) in ng-style
 	$scope.mergeStyles = function(styles) {
@@ -307,6 +307,7 @@ app.controller('middle', function($scope, $interval) {
 				$scope.ctrl = s.ctrl;
 				$scope.initGame();
 				autoresize();
+				dinnerbone();
 			}
 		}
 		catch(err) {confirm('FATÁLNÍ CHYBA APLIKACE!\nNejspíše je způsobená nekompatibilním savem. Přejete si save smazat?') && saveService.purge();}
@@ -314,12 +315,12 @@ app.controller('middle', function($scope, $interval) {
 
 	//try to access mines
 	$scope.accessMine = function(arg) {
-		if(arg === '') {}
-		else if(arg === 'islandPila') {
+		if(arg === 'advisorEco') {$scope.tab(arg);} //is money
+		else if(arg === 'islandPila') { //is wood
 			s.singleUse.visitedPila = true;
 			$scope.tab(arg);
 		}
-		else if(s.p.unlockLuxus) {$scope.tab(arg);}
+		else if(s.p.unlockLuxus) {$scope.tab(arg);} //is other resources. if unlocked, else not yet
 		else{game.msg('Nejprve bude nutné tyto prapodivné věci vědecky popsat, než je budeme moci využít!');}
 	};
 
@@ -376,7 +377,10 @@ app.controller('middle', function($scope, $interval) {
 			newName = newName.slice(0, 16);
 		}
 		s.name = newName;
+		dinnerbone();
 	};
+	//lol xD velikonoční vajíčko lmao
+	function dinnerbone() {$scope.style.city.transform = (s.name.toLowerCase() === 'dinnerbone') ? 'rotate(180deg)' : 'none';}
 
 	//is s.sur[i] in overflow? -> display blinking warning. Gold is never in overflow (only i >= 1)
 	$scope.isOverflow = function(i) {

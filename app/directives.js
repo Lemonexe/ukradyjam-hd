@@ -11,6 +11,7 @@ app.directive('fileUpload', () => ({restrict: 'A', link: function(scope, elem) {
 	elem.on('change', () => saveService.manualLoad(elem[0].files[0]));
 }}));
 
+
 //fakeButton onclick
 app.directive('fakeButton', () => ({
 	restrict: 'A',
@@ -22,6 +23,7 @@ app.directive('fakeButton', () => ({
 	}
 }));
 
+
 //custom title
 app.directive('tooltip', () => ({
 	restrict: 'A',
@@ -29,22 +31,38 @@ app.directive('tooltip', () => ({
 		//create tooltip when you move mouse over the element
 		function create(event) {
 			if(!attrs.tooltip) {return;}
-			s.tooltip.visible = true;
-			s.tooltip.style = {
-				'top': (event.pageY + 25) + 'px',
-				'left': event.pageX + 'px'
-			};
-			s.tooltip.message = attrs.tooltip;
+			game.createTooltip(event.pageY, event.pageX, attrs.tooltip);
 		}
-
-		//remove tooltip when no longer relevant
-		let rem = () => (s.tooltip.visible = false);
+		const rem = () => (s.tooltip.visible = false); //remove tooltip when no longer relevant
 
 		elem.on('mousemove', create);
 		elem.on('mouseout', rem);
 		elem.on('click', rem);
 	}
 }));
+//currently only for battlefield
+app.directive('tooltipField', () => ({
+	restrict: 'A',
+	link: function(scope, elem) {
+		//find the correct tooltip when hovering on the battlefield
+		function create(event) {
+			const rect = elem[0].getBoundingClientRect(); //get position of canvas on window
+			const evY = event.pageY-rect.top, evX = event.pageX-rect.left; //corrected event coordinates
+			
+			s.tooltip.visible = false;
+			for(let o of s.tooltipField) { //o = [top,left,height,width,text]
+				if(evY > o[0] && evY < o[0]+o[2] && evX > o[1] && evX < o[1]+o[3]) {
+					game.createTooltip(event.pageY, event.pageX, o[4]); break;
+				}
+			}
+		}
+		const rem = () => (s.tooltip.visible = false); //remove tooltip when no longer relevant
+
+		elem.on('mousemove', create);
+		elem.on('mouseout', rem);
+	}
+}));
+
 
 //directive for generic (not type specific) content on a building detail page
 app.directive('buildingDetails', function() {
@@ -70,6 +88,7 @@ app.directive('buildingDetails', function() {
 	};
 });
 
+
 //directive for a slider to distribute workers
 app.directive('resourceSlider', function() {
 	return {
@@ -86,6 +105,7 @@ app.directive('resourceSlider', function() {
 		}]
 	};
 });
+
 
 //directive for the whole trading interface
 app.directive('tradeSlider', function() {
@@ -153,6 +173,7 @@ app.directive('tradeSlider', function() {
 		}]
 	};
 });
+
 
 //directive for generic training interface
 app.directive('training', function() {
@@ -224,6 +245,7 @@ app.directive('training', function() {
 		}]
 	};
 });
+
 
 //directive for a detailed report of battle
 app.directive('battleReports', () => ({

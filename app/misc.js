@@ -83,7 +83,9 @@ const saveService = {
 
 			//see definition of 'compatibility'
 			//function 'f' is fired if save version is lower than 'v' version
-			compatibility.forEach(c => (ver2num(data.version) < ver2num(c.v)) && c.f(data));
+			compatibility.forEach(c => {
+				if(ver2num(data.version) < ver2num(c.v)) {console.log('compatibility fix '+JSON.stringify(c.v)); c.f(data);}
+			});
 			data.version = game.version;
 
 			//actually load the data
@@ -165,21 +167,13 @@ const compatibility = [
 		}
 	}},
 	//add warstamp and set it as timestamp, which should actually be close enough
-	{v: [1, 1, 1], f: function(s) {
-		s.warstamp = s.timestamp;
-	}},
+	{v: [1, 1, 1], f: (s) => {s.warstamp = s.timestamp;}},
 	//extrapolate the actual date of founding
 	{v: [1, 1, 3], f: function(s) {
 		s.timestampFounded = Date.now() - s.iteration*consts.dt;
 	}},
-	//add new variable
-	{v: [1, 1, 6], f: function(s) {
-		s.oktoberfest = 1;
-	}},
-	//add new variable
-	{v: [1, 1, 7], f: function(s) {
-		s.p.sklad = 1;
-	}},
+	{v: [1, 1, 6], f: (s) => {s.oktoberfest = 1;}},
+	{v: [1, 1, 7], f: (s) => {s.p.sklad = 1;}}
 ];
 
 //these images will be used in canvas, and therefore need to be preloaded
