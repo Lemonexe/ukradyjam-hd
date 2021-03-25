@@ -23,7 +23,7 @@ který slouží na ukládání/načítání uživatelských dat do Local Storage
 
 **app/middle.js** obsahuje angular controller. Tedy vše, co se týká view/controller vrstvy aplikace a není definované v direktivách, je právě zde, naházeno bez ladu a skladu.
 Jsou zde tedy funkce týkající se stylu, event listenery, a hlavně funkce zprostředkující přístup k `s` a `game` (viz níže). Timeouty jsou také právě zde.  
-Právě v tomto souboru se nejspíše nachází porouchaný kód způsobující zvláštní chování, když pojmenujete své město `dinnerbone`
+Právě zde se nejspíše nachází porouchaný kód způsobující zvláštní bug, když pojmenujete své město `dinnerbone`
 
 **app/game.js** definuje objekt `game`, který jakožto aplikační model obsahuje téměř veškerou funkcionalitu samotné hry, avšak kromě stavu aplikace
 
@@ -47,9 +47,9 @@ Též se zde nachází direktiva `battleCanvas`, která propojuje view funkce *w
 
 **app/directives.js** zde jsou definovány různé direktivy, ty jsou vytvářeny buďto z důvodu jejich opakovaného použití, nebo jen vyčleněny z hlavního controlleru pro jeho zmenšení.
 Pouze následující direktivy obsahují složitější logiku v controlleru:
-`buildingDetails` obecné informace o budově a možnosti jejího vylepšování, vyskytuje se v každém okně budovy  
+`buildingDetails` obecné informace o budově a její možnosti, vyskytuje se v každém okně budovy  
 `resourceSlider` posuvník na rozdělení daňových poplatníků a dělníků, vystkytuje se v každém dole  
 `tradeSlider` rozhraní na obchod, vyskytuje se pouze v přístavu  
 `training` rozhraní na trénink příslušných jednotek podle typu bodovy, vyskytuje se v kasárně, dílně a zkušebně
 
-**app/ng/ \* .html** HTML soubory v tomto adresáři jsou templates pro ng-include nebo pro direktivy definované v *directives.js*
+**app/ng/ \* .html** HTML soubory v tomto adresáři jsou templates (jak statické, tak dynamické) pro ng-include nebo pro direktivy definované v *directives.js*

@@ -8,7 +8,7 @@
 			<img ng-src="res\unit\{{unit.img}}">
 		</td>
 		<td style="padding: 0px;">
-			<p><b>{{unit.name}}</b> <span class="tip" tooltip="v naší armádě">({{army[id]}})</span><br>{{unit.flavor}}<br>
+			<p><b>{{unit.name}}</b> <span class="tip" tooltip="v naší armádě">({{army[id]}})</span><br>{{unit.flavor + extraFlavor(id)}}<br>
 				<input type="range" class="distributeSlider" step="1" min="0" max="{{getBuyLimit(id)}}" ng-model="ranges[id]">
 				<span class="strong tip" tooltip="koupit">{{ranges[id]}}</span><br>
 

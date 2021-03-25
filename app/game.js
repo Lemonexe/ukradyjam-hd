@@ -1,7 +1,7 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 8],
+	version: [1, 1, 9],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a factory
@@ -178,12 +178,13 @@ const game = {
 		if(s.achievements.length === Object.keys(achievements).length - 1) {this.achieve('ALL');}
 	},
 
-	//all efficiency values, calculated by base value + building bonus
-	//note: s.p.cena is not here, since it's more complicated - see getUnitCost()
-	eff: function() {
-		let palac = this.getBlvl('palac');
-		let docks = this.getBlvl('pristav');
-		let surMiracle = this.mir('obr', consts.mir.obr) + this.mir('had', -consts.mir.had);
+	//all efficiency values, calculated by base value + building bonus + miracle bonus
+	//efficiency values that are constant are referenced directly asd s.p.whatever
+	eff: function(arg) {//argument optional
+		const palac = this.getBlvl('palac');
+		const docks = this.getBlvl('pristav');
+		const surMiracle = this.mir('obr', consts.mir.obr) + this.mir('had', -consts.mir.had);
+		const extraPower = (arg === 'bal' && s.p.powerBal) ? s.p.powerBal : 0; //extra power for a specific unit
 		return {
 			skola:  s.p.skola  + this.mir('antena', consts.mir.antena) + this.mir('dmnt', -consts.mir.dmnt2),
 			prachy: s.p.prachy + 0.10*palac + this.mir('apollo', -consts.mir.apollo),
@@ -194,9 +195,14 @@ const game = {
 			udrzba: s.p.udrzba - 0.05*palac,
 			plat:   s.p.plat   - 0.05*palac,
 			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', consts.mir.delfin),
-			power:  s.p.power               + this.mir('faust', consts.mir.faust1),
+			power:  s.p.power  + extraPower + this.mir('faust', consts.mir.faust1),
 			dranc:  s.p.dranc               + this.mir('faust', -consts.mir.faust2)
 		};
+	},
+	//cost of a unit is dependent on building 'key' where it's trained
+	getUnitCost: function(key)  {
+		const lvl = this.getBlvl(key);
+		return s.p.cena - consts.trainingDiscount*lvl;
 	},
 
 	//get existing building object on its id
@@ -312,12 +318,6 @@ const game = {
 		return Math.round(cap);
 	},
 
-	//cost of a unit is dependent on building 'key' where it's trained
-	getUnitCost: function(key)  {
-		let lvl = this.getBlvl(key);
-		return s.p.cena - 0.04*lvl;
-	},
-
 	//get percent modifier of miracle
 	mir: function(miracle, p) {
 		return this.getBlvl('kostel') * p * (s.miracle === miracle);
@@ -423,7 +423,7 @@ const game = {
 			window.setTimeout(() => console.log(lines[i%lines.length]), tc);
 		}
 		//MUHAHAHA!!!
-		window.setTimeout(() => console.log('ＵＫＲＡＤＹＪＡＭ　ＷＡＳ　ＨＡＣＫＥＤ！'), tc+1000);
+		window.setTimeout(() => console.log('%cUKRADYJAM WAS HACKED !!!', 'color: #AA0000; font-size: 24px; font-weight: bold'), tc+1000);
 	},
 
 	//hidden function, never executed - writes a list of missing achievements to console

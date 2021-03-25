@@ -208,7 +208,7 @@ const research = [
 	teaser: 'Vědci přišli s návrhem na "Slavnost piva v září", která by měla umožnit nacpat do chřtánů obyvatel ještě více piva, než se dosud považovalo za možné.',
 	result: 'Připravili jsme zhýralé dekadentní slavnosti na počest boha Dežonýza. Ať žije jaterní cirhóza!',
 	effect: 'v hospodě odemknut Oktoberfest',
-	reqs: ['EcoA3', 'WisB1', 'ArmA3'], f: function() {
+	reqs: ['PolA4', 'EcoA3', 'WisB1', 'ArmA3'], f: function() {
 		s.p.unlockOktoberfest = true;
 	}},
 {id: 'PolC1', class: 'Pol', name: 'Novoroční ohňostroj', cost: 92235,
@@ -283,7 +283,7 @@ const research = [
 /*
 {id: 'WisB3', class: 'Wis', name: 'Daktylský hexametr', cost: 16384,
 	teaser: 'Taková kultůra, to není jenom muzuem plné zaprášených krámů. Povídá se cosi o jakési orální tradici klasických eposů od Houmra, prý tam je taky nějaký hexametr, a s tím budeme moci cestovat do exotických kouzelných zemí!',
-	result: 'Ty básně jsou tak děsně epický, že se hned staly hitem #1. Všichni se už moc těší, až vsednou v lodě poháněné vysoce výkonným hexametrem, a na konci světa dají přes držku pár kouzelným potvorám.',
+	result: 'Ty básně jsou tak děsně epický, že se hned staly hitem #1. Všichni se už moc těší, až vsednou v lodě poháněné vysoce výkonným hexametrem a na konci světa dají přes držku pár kouzelným potvorám.',
 	effect: 'na ostrově odemknuta Odysseia',
 	reqs: ['WisB1', 'ArmB4'], f: function() {
 		s.p.unlockOdysseia = true;
@@ -293,14 +293,21 @@ const research = [
 	teaser: 'Je třeba prohloubit technickou zručnost našich žáků a zlepšit tak perspektivu jejich uplatnění – mohou pak udělat kariéru třeba v montovně!',
 	result: 'Výborně, máme cvičené pracanty, kteří mohou v dílně montovat obrovské stroje! Nepřátelé se budou třást před výtvory našich zlatých řemeslných ručiček!',
 	effect: 'odemknut parní kolos (dílna)',
-	reqs: ['WisB2', 'ArmB4'], f: function() {
+	reqs: ['WisB2', 'ArmB5'], f: function() {
 		s.p.unlockUnit.push('obr');
+	}},
+{id: 'WisC2', class: 'Wis', name: 'Optika', cost: 65536,
+	teaser: 'Doslechli jsme se o sklářském vynálezu zvaném brýle, se kterým prý může číst knihy i letitý kmet. Rozvíjejme tedy v dílně sklářské umění, neboť nám to otevře cestu k celoživotnímu vzdělávání již dospělých občanů!',
+	result: 'V tomhle městě nikdo žádné knihy nečte. Brýle si vzaly děcka na pálení mravenců a hrozně je to baví.. Ale počkat!! Můžeme vyrobit brýle ještě větší, uličníky posadit na balón a místo hmyzu pálit něco většího!',
+	effect: 'síla balónů +50%',
+	reqs: ['WisC1', 'ArmB6'], f: function() {
+		s.p.powerBal = 0.5;
 	}},
 {id: 'WisGrand', class: 'Wis', name: 'Budoucnost školství', cost: 65536,
 	teaser: 'Dovedete si vůbec představit.. že žáci rádi chodí do školy, pilně se učí a excelují ve srovnávacích testech? To je naše budoucnost!',
 	result: 'Vždy když přijde inspektor, vidí kvalitní výuku a motivované studenty. Ti později dostanou slíbené sladkosti, rozprchnou se, a naši zem čeká technický pokrok a zářná budoucnost!',
 	effect: 'účinnost školství +60%',
-	reqs: ['WisA5', 'WisB2', 'WisC1'], f: function() { // 'WisB3'
+	reqs: ['WisA5', 'WisC2'], f: function() {
 		s.p.skola += 0.60;
 	}},
 

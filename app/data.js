@@ -8,6 +8,7 @@ const consts = {
 	wage: 3, //base money loss per worker
 	goldValue: 6, //exchange rate of resources to gold
 	baseSklad: 2000,
+	trainingDiscount: 0.04, //% unit price discount per level of building
 
 	mirCountdown: 8, //duration of miracle
 	mirCooldown: 16, //base value of waiting time for new miracle
@@ -114,6 +115,7 @@ const units = {
 	'train': which building? Training GUI directive in all buildings automatically infers which units are trained there
 	'pop': cost in people
 	'bonus': {kop: 0.6} means +60% attack bonus against 'kop'
+	OPTIONAL 'effect': {arc: 'grayArc', splat: 'bloodSpatter'} (defaults) specifies graphical effect for ranged attack
 	*/
 	kop: {class:'infantry', img: 'kopinik.png', train: 'kasarna',
 		name: 'Kopiník', flavor: 'Tupý branec z venkova ozbrojený klackem, vhodný jako kanonenfutr',
@@ -122,7 +124,7 @@ const units = {
 		bonus: {sln: 0.3}
 	},
 	luk: {class: 'ranged', img: 'archys.png', train: 'kasarna',
-		name: 'Lučištník', flavor: 'Pidlooký branec z venkova, který se občas i trefí do nepřátelské armády',
+		name: 'Lučištník', flavor: 'Pidlooký branec z venkova, který se občas trefí do nepřátelské armády',
 		price: [20, 15, 0, 0, 0], pop: 1,
 		group: 30, att: 3, hp: 9,
 		bonus: {kop: 0.5, luk: 0.2, hop: 0.7, sln: 0.3, trj: -0.2}
@@ -146,25 +148,25 @@ const units = {
 		bonus: {hop: 0.8}
 	},
 	obr: {class: 'infantry', img: 'steam.png', train: 'dilna',
-		name: 'Parní kolos', flavor: 'Hromada pístů, pružin a čepelí s řachotem rozdupe všechno před sebou',
+		name: 'Parní kolos', flavor: 'Hromada pístů, pružin a čepelí s řachotem rozdupe vše před sebou',
 		price: [1200, 400, 0, 350, 0], pop: 5,
 		group: 10, att: 25, hp: 120,
 		bonus: {kop: 0.5, luk: 0.2}
 	},
-	baz: {class: 'ranged', img: 'ohnostrojcik.png', train: 'zkusebna',
+	baz: {class: 'ranged', img: 'ohnostrojcik.png', train: 'zkusebna', effect: {arc: 'yellowArc', splat: 'explosion'},
 		name: 'Ohňostrojčík', flavor: 'Šílený vědec, co se vydal experimentovat s výbušninami přímo do bitvy',
 		price: [250, 10, 0, 100, 0], pop: 1,
 		group: 10, att: 22, hp: 9,
 		bonus: {sln: -0.2, trj: 0.3, obr: 0.4}
 	},
-	bal: {class: 'bomber', img: 'balon.png', train: 'dilna',
+	bal: {class: 'bomber', img: 'balon.png', train: 'dilna', effect: {arc: 'shitLine', splat: 'shitSplatter'},
 		name: 'Balón', flavor: 'Plně naložen naplněnými nočníky, které neváhá vylít na hlavy nepřátel',
 		price: [900, 40, 5, 150, 0], pop: 2,
-		group: 10, att: 5, hp: 15, apparentAtt: 25,
+		group: 10, att: 5, hp: 15, apparentAtt: () => s.p.powerBal ? 40 : 25,
 		bonus: {kop: 3, luk: 2.5, hop: 5, sln: 2, trj: 4, obr: 5, baz: 0.5, bal: 0.5}
 	},
 	gyr: {class: 'antibomber', img: 'gyrokoptera.png', train: 'dilna',
-		name: 'Gyrosář', flavor: 'Létající stánek s gyrosem je hrozivý vzdušný stroj obsypaný ostrými noži',
+		name: 'Gyrosář', flavor: 'Létající stánek s gyrosem je hrozivý vzdušný stroj s mnoha ostrými noži',
 		price: [400, 50, 0, 80, 0], pop: 1,
 		group: 10, att: 15, hp: 30,
 		bonus: {}

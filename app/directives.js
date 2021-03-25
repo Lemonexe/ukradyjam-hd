@@ -188,6 +188,7 @@ app.directive('training', function() {
 			$scope.ranges = {};//control for all sliders
 			$scope.freePop = () => s.pop[0];
 			$scope.eff = () => game.getUnitCost($scope.building);
+			$scope.extraFlavor = $scope.$parent.extraFlavor;
 
 			//units that are unlocked and trained in the currently viewed building
 			function getAvailableUnits() {

@@ -7,10 +7,11 @@
 		<title>Ukradyjam: HD edition</title>
 		<script>
 // Do not execute this function unless you are a skilled H4CK0R!!!
-			var get_HACKER_achievement = function() {
-				game.achieve('hacker');
-				game.hackTheSystem();
-			};
+var get_HACKER_achievement = function() {
+	//Doufáme, že kyberútočník zapomene napsat závorky()
+	game.achieve('hacker');
+	game.hackTheSystem();
+};
 		</script>
 		<script src="libs/angular.min.js"></script>
 		<script src="app/misc.js" type="text/javascript"></script>
@@ -22,7 +23,7 @@
 		<script src="app/state.js" type="text/javascript"></script>
 		<script src="app/directives.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="app/style.css">
-		<!--TODO <link rel="shortcut icon" href="favicon.ico">-->
+		<link rel="shortcut icon" href="res/GUI/favicon.ico">
 	</head>
 	<body ng-keyup="listen4Esc($event)" ng-mousemove="mouseMove($event)" ng-mouseup="mouseUp($event)">
 
@@ -223,17 +224,20 @@
 				<div ng-show="!generalView">
 					<p><span class="strong">Přehled armády ve městě</span> <a class="fakeLink" ng-click="generalView = true">zobrazit záznamy bitev</a></p>
 					<p>
-						<span class="tip" tooltip="násobí útok všech našich jednotek">Účinnost armády: {{game.eff().power.toPercent()}}</span>,
+						<span class="tip" tooltip="násobí útok všech našich jednotek">Síla armády: {{game.eff().power.toPercent()}}</span>,
 						<span class="tip" tooltip="násobí vydrancované suroviny">účinnost drancování: {{game.eff().dranc.toPercent()}}</span>
 					</p>
-					<p></p>
-					<table>
+					<p ng-if="armySum(s.army) === 0">
+						Nemáme vůbec žádnou armádu.. Naše město je zcela nechráněno a může se tedy stát, že nebudeme moci dobývat nepřátele, plenit a loupit!<br>
+						Tak honem do kasárny, uděláme občanům pořádnou vojnu.
+					</p>
+					<table class="compactTable">
 						<tr ng-repeat="(i,n) in s.army" ng-if="n > 0">
 							<td><img ng-src="res\unit\{{units[i].img}}"></td>
 							<td><p>
 								<b>{{units[i].name}} ({{n}} ks)</b><br>
-								{{units[i].flavor}}.
-								Útok: {{units[i].apparentAtt || units[i].att}}, výdrž: {{units[i].hp}}
+								{{units[i].flavor + extraFlavor(i)}}<br>
+								Útok: {{units[i].apparentAtt ? units[i].apparentAtt() : units[i].att}}, výdrž: {{units[i].hp}}
 							</p></td>
 						</tr>
 					</table>
@@ -493,7 +497,7 @@
 </div>
 
 <div id="footer" ng-style="style.footer">
-	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> v roce 2019 za použití <a href="https://angularjs.org/" target="_blank">AngularJS</a><br>
+	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> v letech 2019-2021 za použití <a href="https://angularjs.org/" target="_blank">AngularJS</a><br>
 	Za pomoc s grafikou děkuji Martinu Machovi
 </div>
 

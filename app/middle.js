@@ -404,6 +404,7 @@ app.controller('middle', function($scope, $interval) {
 			.map(item => achievements[item].description);
 	}
 
+	//date of initation of current state
 	$scope.getFoundationDate = function() {
 		let d = new Date(s.timestampFounded);
 
@@ -423,6 +424,9 @@ app.controller('middle', function($scope, $interval) {
 			'Tak přeci to nebylo k ničemu. Zdá se, že tento prastarý meme z dávných dob má kouzelnou moc odhalit všechny skryté achievementy!',
 			'I\'m gonna do what\'s called a PRO GAMER MOVE']);
 	};
+
+	$scope.armySum = game.war.armySum;
+	$scope.extraFlavor = key => (key === 'bal' && s.p.powerBal) ? '. Aby to nebylo málo, nově má ve výzbroji i skleněný Paprsek Smrti™' : '';
 
 
 

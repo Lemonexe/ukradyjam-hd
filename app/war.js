@@ -306,9 +306,8 @@ const War = () => ({
 			//substitutions
 			let g1 = bf.map[y1][x1]; let g2 = bf.map[y2][x2]; let k1 = g1.key; let k2 = g2.key;
 			//efficiency of player's units. It will be assigned either to 1 or 2
-			let power = game.eff().power;
-			let p1 = g1.own ? power : 1;
-			let p2 = g2.own ? power : 1;
+			let p1 = g1.own ? game.eff(k1).power : 1;
+			let p2 = g2.own ? game.eff(k2).power : 1;
 			//total attacks and total hp
 			let att1 = g1.n * units[k1].att * getBonus(x1,y1,x2,y2) * p1;
 			let att2 = g2.n * units[k2].att * getBonus(x2,y2,x1,y1) * p2;
@@ -327,7 +326,7 @@ const War = () => ({
 			(s.miracle === 'faust' && g1.own && hp2 < 0) && damageSpecial(-hp2, x2 + (x2 < 3 ? -1 : 1), y2);
 			(s.miracle === 'faust' && g2.own && hp1 < 0) && damageSpecial(-hp1, x1 + (x1 < 3 ? -1 : 1), y1);
 
-			//special graphical effects
+			//default melee graphical effects, can't be modified
 			bf.effects.push({type: 'grayLine', x1:x1,y1:y1,x2:x2,y2:y2});
 			bf.effects.push({type: 'bloodSplatter', x:x1,y:y1});
 			bf.effects.push({type: 'bloodSplatter', x:x2,y:y2});
@@ -337,7 +336,7 @@ const War = () => ({
 			//substitutions
 			let g1 = bf.map[y1][x1]; let g2 = bf.map[y2][x2]; let k1 = g1.key; let k2 = g2.key;
 			//power is calculated only if player is the attacker
-			let p1 = g1.own ? game.eff().power : 1;
+			let p1 = g1.own ? game.eff(k1).power : 1;
 			//total attacks and total hp
 			let att1 = g1.n * units[k1].att * getBonus(x1,y1,x2,y2) * p1;
 			let hp2 = g2.hp + (g2.n-1) * units[k2].hp;
@@ -350,19 +349,12 @@ const War = () => ({
 			//trample
 			(s.miracle === 'faust' && g1.own && hp2 < 0) && damageSpecial(-hp2, x2 + (x2 < 3 ? -1 : 1), y2);
 
-			//special graphical effects for balloon, bazooka and other ranged units
-			if(k1 === 'bal') {
-				bf.effects.push({type: 'shitLine', x1:x1,y1:y1,x2:x2,y2:y2});
-				bf.effects.push({type: 'shitSplatter', x:x2,y:y2});
-			}
-			else if(k1 === 'baz') {
-				bf.effects.push({type: 'yellowArc', x1:x1,y1:y1,x2:x2,y2:y2});
-				bf.effects.push({type: 'explosion', x:x2,y:y2});
-			}
-			else {
-				bf.effects.push({type: 'grayArc', x1:x1,y1:y1,x2:x2,y2:y2});
-				bf.effects.push({type: 'bloodSplatter', x:x2,y:y2});
-			}
+			//add default ranged graphical effects, or special effects (e.g. baloon, bazooka)
+			let arc = 'grayArc', splat = 'bloodSplatter';
+			if(units[k1].hasOwnProperty('effect')) {arc = units[k1].effect.arc; splat = units[k1].effect.splat;}
+
+			bf.effects.push({type: arc, x1:x1,y1:y1,x2:x2,y2:y2});
+			bf.effects.push({type: splat, x:x2,y:y2});
 		}
 		//special function to deal specified amount of damage to specified group (trample damage)
 		function damageSpecial(dmg,x2,y2) {
@@ -439,7 +431,7 @@ const War = () => ({
 		s.ownNuke = false; //deplete current fireworks supply
 		s.nukeCooldown = consts.nukeCooldown - game.getBlvl('zkusebna'); //set countdown to buy another one
 		s.ctrl.tab = 'battle'; //switch to battle
-		bf.nukeDuration = 5; //draw effect
+		bf.nukeDuration = 5; //draw whiteflash
 		bf.scheduledNuke = true; //schedule the actual killing for next stroke
 		game.achieve('nuke');
 	},
