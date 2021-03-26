@@ -1,0 +1,7 @@
+MISC – various notes and console commands
+
+list unit stats:
+console.clear(); Object.keys(units).forEach(o => {let u = units[o];console.log(u.name + ' ' + u.att*u.group + '/' + u.hp*u.group + ' = ' + (u.att*u.hp*u.group**2/1000).toFixed())})
+
+enemy armies groups
+console.clear(); enemyArmies.forEach(e => console.log(e.ground, Object.keys(e.army).reduce((s,o) => s+e.army[o]/units[o].group, 0)));

@@ -4,7 +4,7 @@ app.directive('escape',    () => ({restrict: 'E', template: '<div class="escape"
 app.directive('escapeWin', () => ({restrict: 'E', template: '<div class="escape" ng-click="window(\'game\')" tooltip="Esc">&times;</div>'}));
 
 //directive for battle management options
-app.directive('battleManagement', () => ({restrict: 'E', templateUrl: 'app/ng/battleManagement.html'}));
+app.directive('battleManagement', () => ({restrict: 'E', templateUrl: 'app/ng/battleManagement.html', link: function(scope, elem, attrs) {scope.type = attrs.type;}}));
 
 //upload file for manual loading
 app.directive('fileUpload', () => ({restrict: 'A', link: function(scope, elem) {
@@ -257,6 +257,7 @@ app.directive('battleReports', () => ({
 		$scope.battleReports = s.battleReports;
 		$scope.icons = consts.surAliases;
 		$scope.units = units;
+		$scope.relics = relics;
 		$scope.blankObj = game.war.newArmyObj();
 		//which report should have details displayed
 		$scope.detailView = -1;

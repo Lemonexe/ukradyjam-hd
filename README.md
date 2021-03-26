@@ -31,9 +31,10 @@ Právě zde se nejspíše nachází porouchaný kód způsobující zvláštní 
 Stav aplikace znamená zaprvé stav GUI a nastavení, ale především stav hry, čili savegame.
 Právě tento objekt je tedy celý ukládán a načítán pomocí saveService.
 
-**app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto factory `War`. Její instance je zařazena do objektu *game*.
-Jsou zde funkce týkající se modelu, controlleru i view (canvas).
-Též se zde nachází direktiva `battleCanvas`, která propojuje view funkce *war* s příslušným canvas elementem, avšak časovač je spouštěn z hlavního controlleru.
+**app/war.js** funkcionalita související s bojem je z *game.js* vyčleněna sem jakožto konstruktor `War`. Jeho instance je zařazena do objektu *game*. Zde jsou pouze funkce týkající se modelu.
+
+**app/warView.js** definuje konstruktor `WarView`. Ten není sám instancován, ale `War` jej dědí – zde je z něj vyčleněn controller a view (canvas).
+Též se zde nachází direktiva `battleCanvas`, která propojuje view funkce s příslušným canvas elementem, avšak časovač je spouštěn z hlavního controlleru.
 
 **app/data.js** obsahuje konstantní data pro hru:  
 `consts` různé obecné parametry  

@@ -94,10 +94,10 @@ const research = [
 {id: 'EcoB2', class: 'Eco', name: 'Pravidelné daně z příjmu', cost: 200,
 	teaser: 'Peníze nyní vybíráme jen tak namátkově, kdykoliv je to zrovna potřeba. Když místo tohoto chaotického sběru zavedeme důmyslný systém pravidelných plateb, okrademe lid mnohem více!',
 	result: 'Peníze sice do státní poklady tečou proudem, ale lidé se bouří! Měli bychom je nějak usmířit.',
-	effect: 'daňový výběr +30%, vygebenost -40',
+	effect: 'daňový výběr +30%, vygebenost -60',
 	reqs: ['EcoB1'], f: function() {
 		s.p.prachy += 0.30;
-		s.p.happy -= 40;
+		s.p.happy -= 60;
 	}},
 {id: 'EcoB3', class: 'Eco', name: 'Podvod', cost: 999,
 	teaser: 'Proč se při obchodování otravovat s přesným měřením? Kilo sem, tuna tam, a hned vyděláme trochu více!',
@@ -110,10 +110,10 @@ const research = [
 {id: 'EcoB4', class: 'Eco', name: 'Chodníkový zákon', cost: 8000,
 	teaser: 'Každej na svůj chodník jenom sere a město pak platí údržbu. Od nynějška bude majitel zasraného chodníku pokutován, což zvýší incentivu k uklízení.',
 	result: 'Konečně ty prasata zametaj aspoň ty největší hovna! Bohužel se jim to moc nelíbí, ale alespoň to tu konečně nevypadá jako ve chlévě.',
-	effect: 'údržba města -10%, vygebenost -60',
+	effect: 'údržba města -10%, vygebenost -140',
 	reqs: ['EcoB3'], f: function() {
 		s.p.udrzba -= 0.10;
-		s.p.happy -= 60;
+		s.p.happy -= 140;
 	}},
 {id: 'EcoB5', class: 'Eco', name: 'Novela zákonu o daních', cost: 18000,
 	teaser: 'Zrušíme velice nepopulární daň z příjmu, zato zavedeme spoustu menších daní a správních poplatků za všechno možné.',
@@ -153,9 +153,9 @@ const research = [
 {id: 'PolA1', class: 'Pol', name: 'Schránka na vzkazy', cost: 29,
 	teaser: 'Lidi potřebujou na vládu anonymně nadávat a vylít si tak srdíčko beze strachu z možné represe. Umožněme jim to, vždyť to přece pak ani nemusíme číst!',
 	result: 'Schránka byla ihned ucpána vzkazy typu CHCI PIVO VOLOVÉ a lidé jsou hrozně vygebení, jak pěkně tu vládu "vochcali". Inu, proč ne.',
-	effect: 'vygebenost +50',
+	effect: 'vygebenost +70',
 	reqs: [], f: function() {
-		s.p.happy += 50;
+		s.p.happy += 70;
 	}},
 {id: 'PolA2', class: 'Pol', name: 'Koblihy', cost: 299,
 	teaser: 'JO! Bude úplně nejvíc nejlíp! Nejsme jako politici, my makáme a prostě všecko spravíme! To je motto, které hlásáme při rozdávání sladkého pečiva. Lid pak skousne úplně všechno.',
@@ -167,18 +167,18 @@ const research = [
 {id: 'PolA3', class: 'Pol', name: 'Úsporná opatření', cost: 899,
 	teaser: 'No je přece kríze, tak se musí šetřit! Ale samozřejmě že zrovna vás se to vůbec nedotkne, peníze samozřejmě najdeme v jiných sektorech!',
 	result: 'Lidé tuto tíži přeci jen pocítili a moc se jim to nelíbí. Státní rozpočet však vypadá slibně!',
-	effect: 'údržba města -10%, platy dělníků -10%, vygebenost -90',
+	effect: 'údržba města -10%, platy dělníků -10%, vygebenost -110',
 	reqs: ['PolA2'], f: function() {
 		s.p.udrzba -= 0.10;
 		s.p.plat -= 0.10;
-		s.p.happy -= 90;
+		s.p.happy -= 110;
 	}},
 {id: 'PolA4', class: 'Pol', name: 'Dopravní zklidnění', cost: 2499,
 	teaser: 'Všudypřítomné plachetnice jen dělají hluk, zabírají místo a prostě nepatří na moderní ostrov -5. století. Aktivisté požadují nápravu: omezit rychlost, zavést rezidentní kotvení a postavit cyklostezky!',
 	result: 'Pod hladinu moře jsme umístili retardéry a na celé pobřeží značky zákazu stání, takže na prázdných plážích mohou začít sousedské slavnosti. Bez ošklivých lodí naše město konečně žije a dýchá! Jupí!',
-	effect: 'vygebenost +350, účinnost obchodu -10%',
+	effect: 'vygebenost +400, účinnost obchodu -10%',
 	reqs: ['PolA3'], f: function() {
-		s.p.happy += 350;
+		s.p.happy += 400;
 		s.p.obchod -= 0.10;
 	}},
 {id: 'PolA5', class: 'Pol', name: 'Státní náboženství', cost: 8999,
@@ -198,9 +198,9 @@ const research = [
 {id: 'PolA7', class: 'Pol', name: 'Populismus', cost: 49999,
 	teaser: 'Je tu koncept na převratný traktát v oboru politické filozofie, který má prý v praxi přinést harmonizaci vztahů mezi plebsem a oligarchií, jakož i celkově pozvednout politickou kulturu v zemi.',
 	result: 'Portrét vypaseného vládce visí na všech rozích a lidé přikyvují: no ano, chceme lepší budoucnost! Rozhazovat peníze je spravedlivé, úspory jsou stejně jenom výmysl nějakých ročíldů z volstrýtu.',
-	effect: 'vygebenost +700, platy dělníků +10%, daňový výběr -10%',
+	effect: 'vygebenost +950, platy dělníků +10%, daňový výběr -10%',
 	reqs: ['PolA6'], f: function() {
-		s.p.happy += 700;
+		s.p.happy += 950;
 		s.p.plat += 0.10;
 		s.p.prachy -= 0.10;
 	}},
@@ -221,9 +221,9 @@ const research = [
 {id: 'PolGrand', class: 'Pol', name: 'Budoucnost politiky', cost: 199999,
 	teaser: 'Dovedete si vůbec představit.. že máme přitažlivé PR kampaně, zatímco sviňárny v zákulisí nám beztrestně prochází? To je naše budoucnost!',
 	result: 'Rostoucí preference v průzkumech veřejného mínění a malá domů pro mě. Přesně jak to má být!',
-	effect: 'vygebenost +1600, platy dělníků -20%',
+	effect: 'vygebenost +1400, platy dělníků -20%',
 	reqs: ['PolA7', 'PolB1', 'PolC1'], f: function() {
-		s.p.happy += 1600;
+		s.p.happy += 1400;
 		s.p.plat -= 0.20;
 	}},
 
@@ -280,15 +280,13 @@ const research = [
 		s.p.cena -= 0.10;
 		s.p.skola -= 0.10;
 	}},
-/*
-{id: 'WisB3', class: 'Wis', name: 'Daktylský hexametr', cost: 16384,
+{id: 'WisB3', class: 'Wis', name: 'Daktylský hexametr', cost: 8192,
 	teaser: 'Taková kultůra, to není jenom muzuem plné zaprášených krámů. Povídá se cosi o jakési orální tradici klasických eposů od Houmra, prý tam je taky nějaký hexametr, a s tím budeme moci cestovat do exotických kouzelných zemí!',
 	result: 'Ty básně jsou tak děsně epický, že se hned staly hitem #1. Všichni se už moc těší, až vsednou v lodě poháněné vysoce výkonným hexametrem a na konci světa dají přes držku pár kouzelným potvorám.',
 	effect: 'na ostrově odemknuta Odysseia',
 	reqs: ['WisB1', 'ArmB4'], f: function() {
 		s.p.unlockOdysseia = true;
 	}},
-*/
 {id: 'WisC1', class: 'Wis', name: 'Praktické činnosti', cost: 32768,
 	teaser: 'Je třeba prohloubit technickou zručnost našich žáků a zlepšit tak perspektivu jejich uplatnění – mohou pak udělat kariéru třeba v montovně!',
 	result: 'Výborně, máme cvičené pracanty, kteří mohou v dílně montovat obrovské stroje! Nepřátelé se budou třást před výtvory našich zlatých řemeslných ručiček!',
@@ -307,7 +305,7 @@ const research = [
 	teaser: 'Dovedete si vůbec představit.. že žáci rádi chodí do školy, pilně se učí a excelují ve srovnávacích testech? To je naše budoucnost!',
 	result: 'Vždy když přijde inspektor, vidí kvalitní výuku a motivované studenty. Ti později dostanou slíbené sladkosti, rozprchnou se, a naši zem čeká technický pokrok a zářná budoucnost!',
 	effect: 'účinnost školství +60%',
-	reqs: ['WisA5', 'WisC2'], f: function() {
+	reqs: ['WisA5', 'WisB3', 'WisC2'], f: function() {
 		s.p.skola += 0.60;
 	}},
 
@@ -434,8 +432,9 @@ const research = [
 {id: 'doge', class: 'Eco', name: 'Poslední výzkum', cost: 6942069,
 	teaser: 'Vědci slibují, že tento ultra-ultimátní megavýzkum™ 3000 přinese zlepšení života úplně ve všech oblastech. Občané už se nemůžou dočkat!',
 	result: 'Tento výzkumný grant byl naprostým mrháním času. Místo utopické sci-fi vize jsme dostali jen vyčpelý meme. Už raději nikdy nebudeme nic zkoumat!',
-	effect: 'vůbec nic',
+	effect: 'vygebenost +1',
 	reqs: ['EcoGrand', 'PolGrand', 'WisGrand', 'ArmGrand'], f: function() {
 		s.p.unlockDoge = 1;
+		s.p.happy++;
 	}}
 ];

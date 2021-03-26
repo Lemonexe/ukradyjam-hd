@@ -43,9 +43,28 @@
 	lochneska? Požární siréna?
 
 **mythical unit set**
+myth_hyd.png
+myth_ker.png
+myth_med.png
+myth_min.png
+myth_pegas.png
 
 **time-travelling nazis**
+nazi_air.png
+nazi_hitler.png
+nazi_moto.png
+nazi_wehr.png
 
-**clubman, muž na praseti**
+**cavemen**
+cave_club.png
+
 
 **all the relics!**
+100x100
+	Helma krále Leónida  
+	Necrocomicon  
+	Prsten Pána  
+	Hitlerův mozek v lahvi  
+	Věstonická afrodita  
+	Černá díra  
+	Dimenzionální zrcadlo

@@ -37,12 +37,19 @@ const consts = {
 		decrease: 0.9 //factor of cost attenuation per tick
 	},
 
-	//which units are aerial / terrestrial. In this order they will be rendered on battlefield
-	skyUnits: ['bal', 'gyr'],
-	groundUnits: ['kop', 'hop', 'luk', 'baz', 'sln', 'trj', 'obr'],
+	//odysseia
+	odys: {
+		rateWP: 80, //WP reward per score
+		rateDranc: 500, //sur reward per score
+		rateRelic: 5e-3, //probability modifier for relic drop
+		scoreWave: 1.15, //score modifier per wave
+		sizeFun: [10, 150, 500], //function players size -> odys size as [min, max, delay]
+		rowsFun: [1, 0.37] //function odys wave size -> ground rows as [proportion, power]
+	},
 
 	//misc
 	maxMessages: 20,
+	maxReports: 10,
 	backAchieve: 24*3600e3,
 	dogePower: 6
 };
@@ -168,9 +175,29 @@ const units = {
 	gyr: {class: 'antibomber', img: 'gyrokoptera.png', train: 'dilna',
 		name: 'Gyrosář', flavor: 'Létající stánek s gyrosem je hrozivý vzdušný stroj s mnoha ostrými noži',
 		price: [400, 50, 0, 80, 0], pop: 1,
-		group: 10, att: 15, hp: 30,
-		bonus: {}
-	}
+		group: 10, att: 15, hp: 30
+	},
+//ODYSSEIA UNITS
+	myth_min:    {class: 'infantry', img: 'odys/myth_min.png', name: 'Minotaur', group: 20, att: 9, hp: 55, bonus: {sln: 0.5}},
+	myth_med:    {class: 'ranged', img: 'odys/myth_med.png', name: 'Medúza', group: 20, att: 5, hp: 17, actsAs: 'luk', bonus: {hop: 0.4}},
+	myth_ker:    {class: 'infantry', img: 'odys/myth_ker.png', name: 'Kerberos', group: 33, att: 10, hp: 20, actsAs: 'kop', bonus: {kop: 0.3, luk: 0.3}},
+	myth_hyd:    {class: 'infantry', img: 'odys/myth_hyd.png', name: 'Hydra', group: 1, att: 130, hp: 1700, actsAs: 'sln'},
+	myth_pegas:  {class: 'antibomber', img: 'odys/myth_pegas.png', name: 'Pegas', group: 10, att: 12, hp: 45},
+
+	cave_club:   {class: 'infantry', img: 'odys/cave_club.png', name: 'Lovec mamutů', group: 50, att: 7, hp: 15, trample: true, actsAs: 'sln'},
+	cave_prase:  {class: 'infantry', img: 'odys/cave_prase.png', name: 'Muž na praseti', group: 10, att: 17, hp: 95, trample: true, actsAs: 'sln'},
+
+	nazi_wehr:   {class: 'ranged', img: 'odys/nazi_wehr.png', name: 'Wehrmacht', group: 20, att: 7, hp: 18, actsAs: 'baz', bonus: {kop: 1, luk: 0.7, hop: 0.5, sln: 0.5}},
+	nazi_moto:   {class: 'infantry', img: 'odys/nazi_moto.png', name: 'Sajdkára', group: 10, att: 22, hp: 88, actsAs: 'trj', bonus: {kop: 0.5, luk: 0.5, hop: 0.3}},
+	nazi_hitler: {class: 'infantry', img: 'odys/nazi_hitler.png', name: 'Klon Hitlera', group: 1, att: 180, hp: 1300},
+	nazi_stuka:  {class: 'bomber', img: 'odys/nazi_air.png', name: 'Štuka', group: 1, att: 65, hp: 380, effect: {arc: 'grayLine', splat: 'explosion'}, bonus: {trj: 1.5, obr: 2, gyr: 1.5, bal: 1.5}},
+
+	ufo_trash:   {class: 'infantry', img: 'odys/ufo_trash.png', name: 'Vetřelec', group: 10, att: 12, hp: 60, actsAs: 'kop'},
+	ufo_tank:    {class: 'infantry', img: 'odys/ufo_tank.png', name: 'Predátor', group: 10, att: 10, hp: 120, actsAs: 'sln'},
+	ufo_ranged:  {class: 'ranged', img: 'odys/ufo_ranged.png', name: 'Narušitel', group: 10, att: 9, hp: 46, effect: {arc: 'cyanArc', splat: 'cyanSplatter'}, actsAs: 'luk', bonus: {trj: 0.4, obr: 0.6}},
+	ufo_air:     {class: 'bomber', img: 'odys/ufo_air.png', name: 'Mateřská loď', group: 1, att: 100, hp: 570, effect: {arc: 'cyanLine', splat: 'cyanSplatter'}, bonus: {sln: 2.5, trj: 2, obr: 3}},
+
+	undefined:   {class: 'infantry', img: 'odys/undefined.png', name: '$undefined', group: 999, att: 0.12, hp: 0.42},
 };
 
 //table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army is loaded
@@ -191,9 +218,19 @@ const enemyArmies = [
 	{ground: 4, air: 1, dranc: 6e4,  army: {kop: 900,  luk: 720,  hop: 900,  sln: 120, trj: 100, obr: 10,  baz: 90,  bal: 10,  gyr: 1}},
 	{ground: 5, air: 1, dranc: 12e4, army: {kop: 1200, luk: 900,  hop: 1200, sln: 160, trj: 140, obr: 30,  baz: 180, bal: 100, gyr: 30}},
 	{ground: 5, air: 1, dranc: 25e4, army: {kop: 1500, luk: 1200, hop: 1600, sln: 300, trj: 250, obr: 100, baz: 400, bal: 300, gyr: 200}},
-	{ground: 5, air: 1, dranc: 5e5,  army: {kop: 2000, luk: 2100, hop: 2500, sln: 600, trj: 550, obr: 200, baz: 800, bal: 700, gyr: 500}},
+	{ground: 5, air: 2, dranc: 5e5,  army: {kop: 2000, luk: 2100, hop: 2500, sln: 600, trj: 550, obr: 200, baz: 800, bal: 700, gyr: 500}},
 	{ground: 6, air: 2, dranc: 1e6,  army: {kop: 5000, luk: 3600, hop: 6000, sln: 1000,trj: 1000,obr: 500, baz: 1500,bal: 1500,gyr: 1200}}
 ];
+
+//table of possible odyssey army sets, with planned composition of unit groups (number is weight), which will however be slightly randomized
+const odyssets = {
+	myth: {name: 'mythologické nestvůry', wt: 40, units: {'myth_min': 25, 'myth_med': 25, 'myth_ker': 30, 'myth_hyd': 8, 'myth_pegas': 12}},
+	cavemen: {name: 'jeskynní muži', wt: 17, units: {'cave_club': 70, 'cave_prase': 30}},
+	nazi: {name: 'náckové se strojem času', wt: 14, units: {'nazi_wehr': 45, 'nazi_moto': 32, 'nazi_hitler': 8, 'nazi_stuka': 15}},
+	ufo: {name: 'vetřelci z hvězdných sfér', wt: 12, units: {'ufo_trash': 35, 'ufo_tank': 30, 'ufo_ranged': 25, 'ufo_air': 10}},
+	mirror: {name: 'zrcadloví lidé', wt: 10, units: {kop: 10, luk: 12, hop: 12, sln: 10, trj: 10, obr: 5, baz: 15, bal: 9, gyr: 8}},
+	undefined: {name: '{{$undefined}}', wt: 7, units: {'undefined': 1}}
+};
 
 //description is a function of kostel lvl
 const miracles = {
@@ -231,6 +268,30 @@ const miracles = {
 	}
 };
 
+//reward from odysseia
+const relics = {
+	helmet: {name: 'Helma krále Leónida', img: 'spartahelmet.png',
+		flavor: 'Odkaz tříset hrdinných reků spartských naplňuje naše ovčany vlasteneckou inspirací, aby se taky šli někde nechat povraždit.', effect: 'cena jednotek -10%'},
+	necro: {name: 'Necrocomicon', img: 'necrocomicon.png',
+		flavor: 'Prokletá kniha pradávných bytostí chaosu, která obsahuje především dost podivný černý humor. To nám velice pomůže při našich zvrácených rituálech.', effect: 'chrám o 2 úrovně účinnější'},
+	eanasir: {name: 'Stížnost na Ea-Nasira', img: 'ea-nasir.png',
+		flavor: 'Do kamene tesaná reklamace má fakt odstrašující účinek na šejdíře prodávající nekvalitní měď. Nikdo nechce mít navždy zničenou reputaci jako Ea-Nasir!', effect: 'účinnost obchodu +10%'},
+	AoE2: {name: 'Relikvie z Doby Císařství', img: 'AoE2.png',
+		flavor: 'Na první pohled jenom zdobená skříňka, ale jak jsme ji přinesli dovnitř – zázrak! Začaly se z ní prostě odsypávat zlaťáky! Nyní veřejnosti nepřístupná...', effect: 'daňový výběr +20%'},
+	LotR: {name: 'Prsten Pána', img: 'LotR.png',
+		flavor: 'Ultimátní artefakt moci, je na něm vyryto: "Jeden pán vládne všem, jeden jim makat káže, jeden všechny přivede, k lopatě je přiváže"', effect: 'těžba všech surovin +10%'},
+	hitler: {name: 'Hitlerův mozek v lahvi', img: 'brain.png', special: 'nazi',
+		flavor: 'Válečníkům z budoucnosti propůjčilo jejich božstvo tento mozek, který neustále jen chrlí rozkazy a plamenné projevy. Parádní věcička na dobývání světa!', effect: 'síla jednotek +10%'},
+	venus: {name: 'Věstonická afrodita', img: 'venus.png', special: 'cavemen',
+		flavor: 'Nezvratný důkaz, že ještě před neolitickou revolucí mělo lidstvo kozy.', effect: 'vygebenost +400'},
+	blackhole: {name: 'Černá díra', img: 'blackhole.png', special: 'ufo',
+		flavor: 'Velice atraktivní exponát. Je to taková zvláštní tma, která je tak nenasytná, že může sežrat všechen náš komunální odpad!', effect: 'údržba města -10%'},
+	undefined: {name: 'undefined_$relic', img: 'undefinedRelic.png', special: 'undefined',
+		flavor: 'Error: undefined_$relic.effect is not a function', effect: 'undefined'},
+	mirror: {name: 'Dimenzionální zrcadlo', img: 'mirror.png', special: 'mirror',
+		flavor: 'Kouzelné zrcátko umí překrucovat ksicht do pitoreskních podob, což je klíč k poznání reflexe duality hmotného jsoucna a stínu lidského ega. Poučné!', effect: 'účinnost školství +20%'}
+};
+
 const achievements = {
 //EARLY GAME
 	budovani: {name: 'Budovatelské nadšení', description: 'postavit první budovu',
@@ -250,6 +311,8 @@ const achievements = {
 		flavor: 'Který z nevyzpytatelných olympských bohů nás bude obtěžovat dnes?'},
 	palac: {name: 'Řekněte čapíčapíčapíčapíčapí hnízdo', description: 'postavit palác',
 		flavor: 'Je to kampaň a účelovka. Nic jsem nezpronevěřil, a ta částka taky nesouhlasí.'},
+	indiana: {name: 'Indiana Jones', description: 'ukrást svatou relikvii',
+		flavor: 'Archeologie bývala větší sranda, když to znamenalo vraždit hromady příšer.'},
 //ENDGAME
 	nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',
 		flavor: 'Novoroční ohňostroje mění svět v kouřící ruiny. A taky plaší domácí mazlíčky!!!'},
@@ -276,6 +339,8 @@ const achievements = {
 		flavor: 'Národní rozpočet je úplně rozkradený a ubozí občané jsou utiskováni exekuční mafií. Zlatý komunisti ciwe, tohle tenkrát nebylo!'},
 	gambler: {secret: true, name: 'Gambler', description: 'aktivovat všechny bohy',
 		flavor: 'Kámo vole puč mi love na bedny! Jenom jednu otočku, tentokrát to určitě klapne!'},
+	relics: {secret: true, name: 'Gotta Catch \'Em All!', description: 'ukrást všechny relikvie',
+		flavor: 'All relics have been captured. Hold them for 200 years to win!'},
 	hacker: {secret: true, name: 'H A C K E R M A N', description: 'get_HACKER_achievement()',
 		flavor: 'We are an anonymous function. We do not forgive invalid arguments. We do forget our scope. Expect our return value!'},
 	ecozmrd: {secret: true, name: 'Ekonomičtí zmrdi', description: 'obchodovat při účinnosti větší než 100%',

@@ -1,11 +1,11 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 1, 9],
+	version: [1, 2, 0],
 	support: [0, 2, 0],
 
-	//all warfare related functions are outsourced to a factory
-	war: War(),
+	//all warfare related functions are outsourced to a constructor
+	war: new War(),
 
 	//add a new alert-style message
 	//multi-line message is an array of strings; one-line message is a string (but will be converted to array anyway)

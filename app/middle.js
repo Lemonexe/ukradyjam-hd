@@ -5,14 +5,14 @@ app.controller('middle', function($scope, $interval) {
 	//current version of this build & last supported version (savegame compatibility)
 	$scope.version = game.version;
 
-	//USER SETTINGS - contains all state variables of view/controller (this object is shared between S and $scope)
-	$scope.ctrl = s.ctrl;
+	//USER SETTINGS - contains all state variables of view/controller
+	$scope.ctrl = s.ctrl; //this object is shared between S and $scope, the settings is saved
+	$scope.ctrl2 = {}; //this object exist only in $scope and is not saved. Properties will be populated on the go
 
 	//zoom factor
 	function zf() {return $scope.ctrl.zoom / 600;}
 	$scope.zoomOptions = [600, 900, 1200];
 
-	//s každou změnou bude potřeba provést digest, ale to by mělo jít celkem samo
 	$scope.s = s;
 	$scope.buildings = buildings;
 	$scope.consts = consts;
@@ -20,6 +20,8 @@ app.controller('middle', function($scope, $interval) {
 	$scope.achs = achievements;
 	$scope.units = units;
 	$scope.miracles = miracles;
+	$scope.relics = relics;
+	$scope.odyssets = odyssets;
 
 	//switch window, switch tab
 	$scope.window = function(arg) {
@@ -27,13 +29,13 @@ app.controller('middle', function($scope, $interval) {
 			game.msg('Nejprve si přečtěte tutoriál a klikněte na tlačítko pokračovat.');return;
 		}
 		$scope.ctrl.window = arg;
-		if($scope.ctrl.tab === 'battle') {$scope.ctrl.tab = 'islandPolis';}
+		$scope.tab();
 	};
 	$scope.tab = function(arg) {
-		let parentTab = ($scope.ctrl.tab === 'battle') ? 'islandPolis' : $scope.ctrl.parentTab;
-		if(!arg) {$scope.ctrl.tab = parentTab;return;}
+		const parentTab = ($scope.ctrl.tab === 'battle') ? (s.odys.wave > 0 ? 'islandOdysseia' : 'islandPolis') : $scope.ctrl.parentTab;
+		if(!arg) {$scope.ctrl.tab = parentTab; return;}
 		$scope.ctrl.tab = arg;
-		$scope.ctrl.showBuildingList = false;
+		$scope.ctrl2.showBuildingList = false;
 		if(arg === 'city' || arg === 'island') {$scope.ctrl.parentTab = arg;}
 	};
 
@@ -205,10 +207,12 @@ app.controller('middle', function($scope, $interval) {
 			myPolis: [150, 320, 200, 100],
 			myPolisName: [240, 370, 0, 220],
 			enemyPolis: [460, 150, 64, 64],
-			enemyPolisName: [460, 150, 0, 100]
+			enemyPolisName: [460, 150, 0, 100],
+			odysseia: [0, 0, 96, 96]
 		};
 		let pos = objectPositions[arg];
 		return {'position': 'absolute',
+			'transform': (s.name.toLowerCase() === 'dinnerbone' && arg === 'myPolis') ? 'rotate(180deg)' : 'none',
 			'top':    Math.round(pos[0]*zf()) + 'px',
 			'left':   Math.round(pos[1]*zf()) + 'px',
 			'height': Math.round(pos[2]*zf()) + 'px',
@@ -244,7 +248,7 @@ app.controller('middle', function($scope, $interval) {
 			if($scope.ctrl.window !== 'game') {$scope.ctrl.window = 'game'; return;}
 			//default behavior - switch tab
 			$scope.tab();
-			$scope.ctrl.showBuildingList = false;
+			$scope.ctrl2.showBuildingList = false;
 		}
 	};
 
@@ -292,7 +296,7 @@ app.controller('middle', function($scope, $interval) {
 		s.running = true;
 		s.timestampInit = s.timestamp = s.warstamp = Date.now();
 		$scope.ctrl.window = 'game';
-		if($scope.ctrl.tab === 'battle') {$scope.ctrl.tab = 'islandPolis';}
+		$scope.ctrl.tab === 'battle' && $scope.tab();
 
 		$scope.intervalHandle = $interval(tick, consts.dt);
 		$scope.intervalHandleWar = $interval(tickWar, consts.dtw);
@@ -339,7 +343,7 @@ app.controller('middle', function($scope, $interval) {
 
 	//'key' refers to a building data object
 	$scope.buyBuilding = function(key) {
-		$scope.ctrl.showBuildingList = false;
+		$scope.ctrl2.showBuildingList = false;
 		game.buyBuilding(key)
 	};
 

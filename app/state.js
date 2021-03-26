@@ -11,7 +11,6 @@ const S = () => ({
 		tab: 'city',
 		parentTab: 'city', //city or island
 		zoom: 600,
-		showBuildingList: false,
 		drawBattleGrid: false
 	},
 
@@ -78,6 +77,7 @@ const S = () => ({
 		unlockUnit: ['kop'],
 		unlockNuke: false,
 		unlockOktoberfest: false,
+		unlockOdysseia: false,
 		unlockDoge: false
 	},
 
@@ -101,11 +101,30 @@ const S = () => ({
 	nukeCooldown: 0,
 	oktoberfest: 1, //multiplier of oktoberfest price
 
+
+	//ODYSSEIA
+	odys: {
+		wave: 0, //0 means NO ODYSSEIA! When it's currently on, it is current not yet defeated wave 
+		race: 'myth', //id of odyssets for upcoming wave (or currently fought)
+		score: 0, //received for slain enemy groups, later waves produce more
+		scoreToGet: 0, //score reward for this wave
+		size: 0, //size of enemy waves (sum of groups), is calculated from initial player army size
+		rows: 0, //number of ground rows
+		army: null, //player army currently waiting for next wave
+		armyE: null, //enemy next wave
+		dead: null, //cummulative casualties army object
+		wavesHistory: [], //array of defeated waves
+		relics: [] //array of IDs of collected relics
+	},
+
+
+	//MISC
 	achievements: [],
 	//'false' variables that are set to 'true' once, at some point during game as a warning / tutorial
 	singleUse: {
 		visitedPila: false, //visit islandPila for the 1st time. Until then it will blink to attract player's attention
 		visitedRadnice: false, //visit Radnice for the 1st time to display popup
+		startedOdysseia: false, //started odys for the 1st time
 		warnPopLimit: false, //population has reached limit
 		warnOverflow: false, //storage capacity overflown
 		warnUnhappy: false //negative happiness

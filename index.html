@@ -9,8 +9,7 @@
 // Do not execute this function unless you are a skilled H4CK0R!!!
 var get_HACKER_achievement = function() {
 	//Doufáme, že kyberútočník zapomene napsat závorky()
-	game.achieve('hacker');
-	game.hackTheSystem();
+	game.achieve('hacker'); game.hackTheSystem();
 };
 		</script>
 		<script src="libs/angular.min.js"></script>
@@ -18,6 +17,7 @@ var get_HACKER_achievement = function() {
 		<script src="app/data.js" type="text/javascript"></script>
 		<script src="app/dataWis.js" type="text/javascript"></script>
 		<script src="app/middle.js" type="text/javascript"></script>
+		<script src="app/warView.js" type="text/javascript"></script>
 		<script src="app/war.js" type="text/javascript"></script>
 		<script src="app/game.js" type="text/javascript"></script>
 		<script src="app/state.js" type="text/javascript"></script>
@@ -46,7 +46,7 @@ var get_HACKER_achievement = function() {
 
 	<div ng-switch-when="intro">
 		<div ng-include="'app/ng/intro.html'"></div>
-		<p style="text-align: center;"><input type="button" ng-click="initGame();" value="POKRAČOVAT"></p>
+		<p style="text-align: center;"><input type="button" ng-click="initGame();" value="ZAČÍT HRU"></p>
 	</div>
 
 	<div ng-switch-when="intro2">
@@ -92,6 +92,7 @@ var get_HACKER_achievement = function() {
 		<p>Tento seznam pouze shrnuje nejvýznamější změny v důležitých verzích. Pokud Vás zajímá zdrojový kód aplikace včetně jeho vývoje,
 			navštivte GitHub <a href="https://github.com/Lemonexe/ukradyjam-hd" target="_blank">repozitář</a>.</p>
 		<ul>
+			<li><b>1.2.0</b> (??.??.2021) přidána Odysseia</li>
 			<li><b>1.1.6</b> (26.04.2020) přidán Oktoberfest, balancování</li>
 			<li><b>1.1.0</b> (07.06.2019) zvětšeno bojiště, balancování</li>
 			<li><b>1.0.3</b> (14.05.2019) poslední výzkum</li>
@@ -120,7 +121,7 @@ var get_HACKER_achievement = function() {
 		<!-- CITY -->
 			<div ng-switch-when="city" ng-style="mergeStyles(['gameWidth', 'gameHeight', 'city'])">
 				<img src="res/GUI/icon_island.png" class="switch clickImg" ng-click="tab('island')" tooltip="Ostrov">
-				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl.showBuildingList = !ctrl.showBuildingList" class="clickImg">
+				<img src="res/GUI/icon_build.png" style="margin: 5px;" ng-show="getAvailableBuild().length > 0" ng-click="ctrl2.showBuildingList = !ctrl2.showBuildingList" class="clickImg">
 
 				<!-- existing buildings-->
 				<img ng-repeat="b in sortBuildings() track by $index" ng-mousedown="buildingMouseDown($event, b)"
@@ -128,7 +129,7 @@ var get_HACKER_achievement = function() {
 					ng-style="getBuildingStyle(b)" ng-class="{building: b.draggable, clickImg: !b.draggable}">
 
 				<!-- construction interface -->
-				<div id="buildingList" ng-show="ctrl.showBuildingList" ng-style="style.buildingList">
+				<div id="buildingList" ng-show="ctrl2.showBuildingList" ng-style="style.buildingList">
 					<table>
 						<tr ng-repeat="b in getAvailableBuild()">
 							<td>
@@ -158,7 +159,9 @@ var get_HACKER_achievement = function() {
 				<img ng-src="res/env/polis_{{polisIcon()}}.png" ng-style="islandPos('myPolis')" ng-click="tab('city')" tooltip="Naše město" class="clickImg">
 				<span ng-style="islandPos('myPolisName')" class="strong clickImg" ng-click="tab('city')">{{s.name}}</span>
 				<img src="res/env/polis_E.png" ng-style="islandPos('enemyPolis')" ng-click="tab('islandPolis')" tooltip="Nepřátelská vesnice" class="clickImg">
-				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">{{s.battlefield ? '🔥' : '&nbsp;'}}Polis</span>
+				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">{{(s.battlefield && s.odys.wave === 0) ? '🔥' : '&nbsp;'}}Polis</span>
+
+				<img ng-if="s.p.unlockOdysseia" src="res/GUI/darkritual.png" ng-style="islandPos('odysseia')" ng-click="tab('islandOdysseia')" tooltip="Hic sunt leones" class="clickImg">
 			</div>
 
 		<!-- BATTLE -->
@@ -278,7 +281,7 @@ var get_HACKER_achievement = function() {
 					<p><span class="tip" tooltip="celková populace včetně dělníků">
 						Populace: {{game.popTotal()}}
 					</span></p>
-					<p><span class="tip" tooltip="volná místa na záchodech radnice" ng-class="{thisIsBad: game.popLimit() === game.popTotal()}">
+					<p><span class="tip" tooltip="volná místa na záchodech radnice" ng-class="{thisIsBad: game.popLimit() <= game.popTotal()}">
 						Populační limit: {{game.popLimit()}}
 					</span></p>
 					<p><span class="tip" tooltip="míra vytlemenosti obyvatel, určuje růst populace">
@@ -412,9 +415,16 @@ var get_HACKER_achievement = function() {
 				<escape></escape>
 				<building-details key="ctrl.tab"></building-details>
 				<hr>
-				<p>
-					Muzeum zlepšuje dopravní obslužnost města, což obyvatelé přijímají s povděkem a ocení to zvýšením své vygebenosti o 100 za každou úroveň.
-				</p>
+				<p>Muzeum zlepšuje dopravní obslužnost města, což obyvatelé přijímají s povděkem a ocení to zvýšením své vygebenosti o 100 za každou úroveň.</p>
+				<div ng-if="s.odys.relics.length > 0">
+					<p>Protože je tohle sklepení jinak dost nevyužité, můžeme tady třeba uskladnit různé suvenýry, co jsme přitáhli z našich válečných expedic do odlehlých dálav:</p>
+<div style="width:560px; height: 230px; background-color: purple">HERE BE RELIC ICONS.<br>MEANWHILE A LIST OF RELIX:<br>
+	<span ng-repeat="r in s.odys.relics" ng-mouseover="ctrl2.relicSelect=r" ng-mouseleave="ctrl2.relicSelect=false">{{relics[r].name}}, </span>
+</div>
+					<div ng-if="ctrl2.relicSelect" style="text-align: center">
+						<p><b>{{relics[ctrl2.relicSelect].name}}</b></p><p>{{relics[ctrl2.relicSelect].flavor}}</p><p>{{relics[ctrl2.relicSelect].effect}}</p>
+					</div>
+				</div>
 			</div>
 
 			<div ng-switch-when="kostel" ng-style="screenStyle()">
@@ -479,12 +489,39 @@ var get_HACKER_achievement = function() {
 				<escape></escape>
 				<h2>Polis</h2>
 				<p>Nepřátelská vesnice, která jistě skrývá ohromné bohatství zralé k uloupení!</p>
-				<div ng-if="!s.battlefield">
-					<p class="strong" ng-click="game.war.initBattle()">⚔️ <a class="fakeLink">Zaútočit</a> (úroveň {{s.enemyLevel+1}})</p>
+				<!-- no can do, is odysseia lobby/battle -->
+				<p ng-if="s.odys.wave > 0">
+					Avšak nemůžeme přeci vyvolávat malicherné sousedské šarvátky, zatímco naši hrdinové trpí kdesi za sedmero moři!
+					Asi je to pořád lepší než uspořádat párty pro ženichy ucházející se o jejich manželky, ale stejně, trošku respektu...
+				</p>
+				<!-- can start, is peace -->
+				<div ng-if="!s.battlefield && s.odys.wave === 0">
+					<p class="strong" ng-click="game.war.initBattle('polis')">⚔️ <a class="fakeLink">Zaútočit</a> (úroveň {{s.enemyLevel+1}})</p>
+					<p></p>
 					<p></p>
 					<p class="fakeLink tip" ng-click="tab('battleTutorial')" style="font-size: 13px;">Jak bojovat?</p>
 				</div>
-				<battle-management></battle-management>
+				<!-- is polis battle -->
+				<battle-management type="polis"></battle-management>
+			</div>
+
+			<div ng-switch-when="islandOdysseia" ng-style="screenStyle()">
+				<escape></escape>
+				<h2>Odysseia</h2>
+				<p>Naše lodě se díky hexametrickému pohonu dostanou za hranice známého světa do krajin mytických, kde na nás jistě čekají poklady o jakých se nám ani nesnilo!</p>
+				<!-- no can do, is polis battle -->
+				<p ng-if="s.battlefield && s.odys.wave === 0">Avšak nemůžeme přeci posílat vojáky na nějaký nesmyslný výlet do zámoří, zatímco doma nám zuří totální válka!</p>
+				<!-- can start, is peace -->
+				<p ng-if="!s.battlefield && s.odys.wave === 0" class="strong" ng-click="game.war.advanceOdys()" tooltip="POZOR: celá armáda tam asi zahyne tragickou smrtí a už se nevrátí!">⚓ <a class="fakeLink">Vydat se na Odysseu</a></p>
+				<!-- is odysseia lobby -->
+				<div ng-if="!s.battlefield && s.odys.wave > 0">
+					<p>Naši hrdinové přečkali nástrahy {{s.odys.wave-1}}. ostrova a celkem vymlátili epické skóre {{s.odys.score}}</p>
+					<p>Pomocí palubní palác-antény nám hlasí, že další ostrov obývají {{odyssets[s.odys.race].name}}.
+					Naše družina jen čeká na pokyn k dalšímu vylodění!<br>
+					<p class="strong" ng-click="game.war.advanceOdys()">⚓ <a class="fakeLink">Pokračovat v Odyssei</a></p>
+				</div>
+				<!-- is odysseia battle -->
+				<battle-management type="odys"></battle-management>
 			</div>
 
 			<div ng-switch-when="battleTutorial" ng-style="screenStyle()">

@@ -2,14 +2,21 @@
 <p ng-show="battleReports.length === 0">Zatím nejsou žádné bitevní zprávy. Zaútočte na nepřítele, ať máme o čem psát!</p>
 <ul>
 	<li ng-repeat="report in battleReports">
-		<div ng-if="report.victory">
+		<div ng-if="report.victory && !report.odys">
 			<span ng-click="viewSwitch($index)" class="clickImg" style="font-weight: bold; color: #0000bb;">Vítězství!</span><br>
-			Rozdrtili jsme armádu Polisu (úroveň {{report.lvl}}) za {{report.cycles}} kol.<br>
+			Rozdrtili jsme armádu Polisu (úroveň {{report.lvl}}) za {{report.cycles}} kol<br>
 			Vydrancováno: <span ng-repeat="i in icons"><img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">{{report.dranc[$index].addk(1e4, 1e7)}}&nbsp;</span>
 		</div>
-		<div ng-if="!report.victory">
+		<div ng-if="!report.victory && !report.odys">
 			<span ng-click="viewSwitch($index)" class="clickImg" style="font-weight: bold; color: #bb0000;">Porážka!</span><br>
-			Polis (úroveň {{report.lvl}}) zničil naši armádu za {{report.cycles}} kol.
+			Polis (úroveň {{report.lvl}}) zničil naši armádu za {{report.cycles}} kol
+		</div>
+		<div ng-if="report.odys">
+			<span ng-click="viewSwitch($index)" class="clickImg" style="font-weight: bold; color: #008800;">Odysseia</span><br>
+			Naši hrdinové padli na {{report.lvl}}. ostrově a dosáhli epického skóre {{report.score}}<br>
+			Kořist: <span ng-repeat="i in icons"><img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">{{report.dranc[$index].addk(1e4, 1e7)}}&nbsp;</span>
+			💡{{report.drancWP.addk(1e4, 1e7)}}
+			<span ng-if="report.relic"><br>Přivezli jsme také vzácný artefakt {{relics[report.relic].name}}</span>
 		</div>
 		<div ng-show="detailView === $index">
 			<table>
@@ -17,7 +24,7 @@
 					<td ng-repeat="(i,n) in blankObj" ng-if="report.deadP[i] > 0 || report.deadE[i] > 0" style="text-align: center">
 						<img ng-src="res\unit\{{units[i].img}}" width="56" height="56"><br>
 						<span style="color: #0000bb;">-{{report.deadP[i] ? report.deadP[i] : 0}}</span><br>
-						<span style="color: #bb0000;">-{{report.deadE[i] ? report.deadE[i] : 0}}</span>
+						<span ng-if="!report.odys" style="color: #bb0000;">-{{report.deadE[i] ? report.deadE[i] : 0}}</span>
 					</td>
 				</tr>
 			</table>

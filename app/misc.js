@@ -43,6 +43,8 @@ Number.prototype.withSign = function() {
 	let s = n.toFixed(0)
 	return n > 0 ? ('+' + s) : s;
 };
+//random number from 50% to 100%
+Math.rnd50 = () => (0.5 + 0.5*Math.random());
 
 const saveService = {
 	//save game to local storage
@@ -173,7 +175,12 @@ const compatibility = [
 		s.timestampFounded = Date.now() - s.iteration*consts.dt;
 	}},
 	{v: [1, 1, 6], f: (s) => {s.oktoberfest = 1;}},
-	{v: [1, 1, 7], f: (s) => {s.p.sklad = 1;}}
+	{v: [1, 1, 7], f: (s) => {s.p.sklad = 1;}},
+	//odysseia
+	{v: [1, 2, 0], f: function(s) {
+		s.odys = S().odys;
+		s.battleReports = s.battleReports.slice(0, consts.maxReports);
+	}}
 ];
 
 //these images will be used in canvas, and therefore need to be preloaded

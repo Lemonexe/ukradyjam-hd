@@ -1,29 +1,13 @@
 LOTS OF NEW IMAGES see _dev/todo images.md
 
+tooltip on suroviny in top bar
 
+letadla dvakrát větší movement speed když je volno (utilize Faust better)
 
-ODYSSEA (mytický tech Daktylský hexametr, navazuje na Kulturní bohatství)
-	Na ostrově bude v moři vlevo nahoře nějaká příšera – podobně jako nepřátelský Polis, tady bude GUI pro zahájení odyssei
-	Aktuální armáda se vyšle do boje, kde není možné dávat ohňostroj, posily ani kapitulaci. Faust ovšem bude fungovat.
-	Vyslání na odysseu stojí počáteční částku piva a sýry závisející na $size = velikost armády při zahájení (sum of groups).
-	Velikost nepřítele bude ~ $size, ale jen po určitý $size_limit aby to v late game nebyl časově frustrující.
+close ALL popups
 
-	Po vyhrané bitvě bude summary screen, a po odklepnutí přijde další wave. Cíl = přežít co nejvíc waves
-	Po spotřebování armády: reward = surky, WP, relic drop chance. Násobí se podle podle skóre: $size (či $size_limit) * dosažená wave (nelineárně)
+nicer tabs in army advisor
 
-	mytické jednotky: minotaur (melee tank), medúza (ranged), kerberus (melee nuke), pegas (gyro), hydra (boss w/ threeway attack)
-
-
-	S postupujícími vlnami stoupá šance na encounter zvláštní armády namísto té mytické:
-		jeskynní muži: barbaři, now even barbarštější: clubman jako z Prehistorik (melee nuke w/ trample), muž na praseti (melee tank w/ trample, img = the actual "muž na praseti" painting)
-		vetřelci z hvězdných sfér: ufoni s primitivní grafikou přímo ze space invaders. "s tykadly" (cannonfodder), "kulatý" (tank), "špičatý" (ranged w/ cyan arc), létající talíř (spíše balón, ale i gyro)
-		time-travelling nazis: soldier (silný odolný ranged), motorka se sidekárou (melee nuke), hitler clone (boss), ww2 letadlo (spíše gyro, ale i balón)
-		??? mirror army: vertical flip images normálních jednotek. Možná v negativu jestli to jde v canvasu snadno.
-		??? undefined_$unit: image missing (velmi slabý melee cannonfodder. A LOT OF IT. Bude mít grupy třeba po 999 místo 50)
-
-	Relikvie: kolekce třeba 10 předmětů, které je možno prohlédnout v muzeu (text se zobrazí poté co mám aspoň jednu).
-		Ty dávají určitý permabonus, každou je však možné mít jen jednou. Proto je třeba ty odyssey chvíli farmit.
-		Po první dokončené odyssei je guaranteed drop na Helmu krále Leonida jako "starter pack" relic.
-		obrázky budou 90*90, pak se jich graficky vejde 5x2
-
-	implement Indiana Jones, Gotta Catch 'Em All!
+ODYSSEIA
+	relic effects
+	balancing
