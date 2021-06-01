@@ -186,23 +186,24 @@ const game = {
 		const surMiracle = this.mir('obr', consts.mir.obr) + this.mir('had', -consts.mir.had);
 		const extraPower = (arg === 'bal' && s.p.powerBal) ? s.p.powerBal : 0; //extra power for a specific unit
 		return {
-			skola:  s.p.skola  + this.mir('antena', consts.mir.antena) + this.mir('dmnt', -consts.mir.dmnt2),
-			prachy: s.p.prachy + 0.10*palac + this.mir('apollo', -consts.mir.apollo),
+			skola:  s.p.skola  + this.mir('antena', consts.mir.antena) + this.mir('dmnt', -consts.mir.dmnt2) + consts.rel.mirror*this.hasRelic('mirror'),
+			prachy: s.p.prachy + 0.10*palac + this.mir('apollo', -consts.mir.apollo) + consts.rel.AoE2*this.hasRelic('AoE2'),
 			drevo:  s.p.drevo  + 0.10*palac + surMiracle,
 			kamen:  s.p.kamen  + 0.05*palac + surMiracle,
 			syra:   s.p.syra   + 0.05*palac + surMiracle,
 			pivo:   s.p.pivo   + 0.05*palac + surMiracle,
-			udrzba: s.p.udrzba - 0.05*palac,
-			plat:   s.p.plat   - 0.05*palac,
-			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', consts.mir.delfin),
-			power:  s.p.power  + extraPower + this.mir('faust', consts.mir.faust1),
+			udrzba: s.p.udrzba - 0.05*palac - consts.rel.blackhole*this.hasRelic('blackhole'),
+			plat:   s.p.plat   - 0.05*palac - consts.rel.LotR*this.hasRelic('LotR'),
+			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', consts.mir.delfin) + consts.rel.eanasir*this.hasRelic('eanasir'),
+			power:  s.p.power  + extraPower + this.mir('faust', consts.mir.faust1) + consts.rel.hitler*this.hasRelic('hitler'),
 			dranc:  s.p.dranc               + this.mir('faust', -consts.mir.faust2)
 		};
 	},
+	hasRelic: r => s.odys.relics.indexOf(r) > -1,
 	//cost of a unit is dependent on building 'key' where it's trained
 	getUnitCost: function(key)  {
 		const lvl = this.getBlvl(key);
-		return s.p.cena - consts.trainingDiscount*lvl;
+		return s.p.cena - consts.trainingDiscount*lvl - consts.rel.helmet*this.hasRelic('helmet');
 	},
 
 	//get existing building object on its id
@@ -277,7 +278,7 @@ const game = {
 	realHappiness: function() {
 		return Math.round(this.happyBase() - this.popTotal() + this.happyHospoda() + this.happyMuzeum() + this.happySklad() + this.happyPalac());
 	},
-	happyBase: function() {return s.p.happy * (1 + this.mir('dmnt', consts.mir.dmnt1) + this.mir('helma', -consts.mir.helma));},
+	happyBase: function() {return s.p.happy * (1 + this.mir('dmnt', consts.mir.dmnt1) + this.mir('helma', -consts.mir.helma)) + consts.rel.venus*this.hasRelic('venus');},
 	happyHospoda: function() {return s.hospoda * 150;},
 	pridelHospoda: function() {return s.hospoda > 0 ? Math.round(buildings.hospoda.f(s.hospoda)) : 0;},
 	happyMuzeum: function() {return this.getBlvl('muzeum') * 100;},
@@ -320,7 +321,7 @@ const game = {
 
 	//get percent modifier of miracle
 	mir: function(miracle, p) {
-		return this.getBlvl('kostel') * p * (s.miracle === miracle);
+		return (this.getBlvl('kostel') + consts.rel.necro*this.hasRelic('necro')) * p * (s.miracle === miracle);
 	},
 
 	//activate miracle

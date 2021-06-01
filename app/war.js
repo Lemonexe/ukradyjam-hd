@@ -341,7 +341,7 @@ console.log('P='+(P*100).toFixed(2)+'%, lootable: '+lootable.join(','));
 		const bf = s.battlefield;
 		if(!bf) {return;}
 		
-		if(bf.stroke % 3 === 0) {this.stroke1();}
+		if(bf.stroke % 3 === 0) {this.stroke1(); this.stroke1(true);}
 		else if(bf.stroke % 3 === 1) {this.stroke2();}
 		else {this.stroke3();}
 		bf.stroke++;
@@ -353,11 +353,12 @@ console.log('P='+(P*100).toFixed(2)+'%, lootable: '+lootable.join(','));
 	};
 
 	//1st stroke: units advance on the map
-	this.stroke1 = function() {
+	this.stroke1 = function(skyOnly) {//function is called for second time, this time only for sky units
 		const bf = s.battlefield;
+		const iterationOrder = [2, 3, 1, 4, 0, 5];
 		//iterate every row
 		for(let y = 0; y < bf.rows; y++) {
-			const iterationOrder = [2, 3, 1, 4, 0, 5];
+			if(skyOnly && y >= bf.air) {continue;}
 			//iterate every column, but ordered by iterationOrder
 			for(let i = 0; i < 6; i++) {
 				let x = iterationOrder[i];
@@ -365,7 +366,7 @@ console.log('P='+(P*100).toFixed(2)+'%, lootable: '+lootable.join(','));
 				let spawn = left ? 0 : 5; //x coordinate of spawn cells
 				let dir = left ? 1 : -1; //x direction of travel
 				let own = (y < bf.air) ? !left : left; //sky units spawn on the other side and move the other way
-				
+
 				//try to move inward (if not already on frontline cells)
 				if((x < 2 || x > 3) && bf.map[y][x] && !bf.map[y][x+dir]) {
 					bf.map[y][x+dir] = bf.map[y][x];
@@ -424,6 +425,7 @@ console.log('P='+(P*100).toFixed(2)+'%, lootable: '+lootable.join(','));
 			}
 		}
 
+		if(skyOnly) {return;}
 		//control for end - whoever loses all ground units is defeated
 		const BFsum = this.getBFsum(); //has to be called again!
 		//a draw is also a victory, that's why groundR (enemy) is checked first

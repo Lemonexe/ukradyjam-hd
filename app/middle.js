@@ -60,8 +60,9 @@ app.controller('middle', function($scope, $interval) {
 	$scope.WPgroups = ['Eco', 'Pol', 'Wis', 'Arm'];
 	$scope.WPgroupNames = ['Ekonomika', 'Politika', 'Vzdělávání', 'Armáda'];
 
-	//tab addresses to be opened when you click on resources in top bar
+	//tab addresses to be opened when you click on resources in top bar and their tooltips
 	$scope.mineNames = ['advisorEco', 'islandPila', 'islandKamen', 'islandSyra', 'islandPivo'];
+	$scope.surNames = ['zlato', 'dřevo', 'kamení', 'sýra', 'pivo'];
 
 	//merge multiple styles objects ('styles' array) in ng-style
 	$scope.mergeStyles = function(styles) {
@@ -249,6 +250,11 @@ app.controller('middle', function($scope, $interval) {
 			//default behavior - switch tab
 			$scope.tab();
 			$scope.ctrl2.showBuildingList = false;
+		}
+		//well yeh it's also for delete. Sue me!
+		if(event.keyCode === 46 || event.key === 'Delete') {
+			s.messages = [];
+			s.hasOwnProperty('tooltip') && (s.tooltip.visible = false);
 		}
 	};
 

@@ -38,7 +38,7 @@ var get_HACKER_achievement = function() {
 
 <div ng-repeat="m in s.messages track by $index" class="popup" ng-style="getPopupStyle($index)">
 	<p ng-repeat="l in m track by $index">{{l}}</p>
-	<p style="text-align: center;"><input type="button" ng-click="s.messages.splice($index, 1)" value="OK" tooltip="Esc"></p>
+	<p style="text-align: center;"><input type="button" ng-click="s.messages.splice($index, 1)" value="OK" tooltip="Esc zavře, Del zavře VŠECHNY zprávy"></p>
 </div>
 
 <!-- GAME BOX -->
@@ -105,7 +105,7 @@ var get_HACKER_achievement = function() {
 		<div id="topBar" ng-style="style.gameWidth">
 			<div id="suroviny" ng-style="style.suroviny">
 				<div ng-repeat="i in icons" ng-class="{thisIsBad: isOverflow($index)}" ng-click="accessMine(mineNames[$index])"
-					tooltip="{{(isOverflow($index) ? 'Je třeba dostavět sklad, kapacita je zcela naplněna!' : '')}}">
+					tooltip="{{(isOverflow($index) ? 'Je třeba dostavět sklad, kapacita je zcela naplněna!' : surNames[$index])}}">
 					<img ng-src="res/GUI/icon_{{i}}.png">{{s.sur[$index].addk(1e4, 1e7)}}&nbsp;
 				</div>
 			</div>
@@ -223,9 +223,11 @@ var get_HACKER_achievement = function() {
 				<h2>Strategický přehled</h2>
 				<p>Generál naplánuje všechna slavná vojenská tažení a možná někdy i vyhraje.</p>
 				<battle-management></battle-management>
-				<hr>
-				<div ng-show="!generalView">
-					<p><span class="strong">Přehled armády ve městě</span> <a class="fakeLink" ng-click="generalView = true">zobrazit záznamy bitev</a></p>
+				<div class="subTabContainer">
+					<span class="subTab" ng-class="{subTabActive: !ctrl2.generalView}" ng-click="ctrl2.generalView = false">Armáda ve městě</span>
+					<span class="subTab" ng-class="{subTabActive: ctrl2.generalView}" ng-click="ctrl2.generalView = true">Záznamy bitev</span>
+				</div>
+				<div ng-show="!ctrl2.generalView">
 					<p>
 						<span class="tip" tooltip="násobí útok všech našich jednotek">Síla armády: {{game.eff().power.toPercent()}}</span>,
 						<span class="tip" tooltip="násobí vydrancované suroviny">účinnost drancování: {{game.eff().dranc.toPercent()}}</span>
@@ -245,10 +247,7 @@ var get_HACKER_achievement = function() {
 						</tr>
 					</table>
 				</div>
-				<div ng-show="generalView">
-					<p><span class="strong">Záznamy bitev</span> <a class="fakeLink" ng-click="generalView = false">zobrazit přehled armády</a></p>
-					<battle-reports></battle-reports>
-				</div>
+				<battle-reports ng-show="ctrl2.generalView"></battle-reports>
 			</div>
 
 			<div ng-switch-when="advisorScience" ng-style="screenStyle()">
@@ -438,7 +437,7 @@ var get_HACKER_achievement = function() {
 				<div ng-if="s.mirCountdown > 0">
 					<p><b>{{miracles[s.miracle].name}}</b>, nad námi bude opatrovat ještě {{s.mirCountdown}} cyklů.</p>
 					<p>{{miracles[s.miracle].flavor}}</p>
-					<p>{{miracles[s.miracle].description(game.getBlvl('kostel'))}}</p>
+					<p>{{miracles[s.miracle].description(game.getBlvl('kostel')+consts.rel.necro*game.hasRelic('necro'))}}</p>
 				</div>
 
 				<div ng-if="s.mirCountdown === 0 && s.mirCooldown > 0">

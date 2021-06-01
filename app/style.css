@@ -148,6 +148,21 @@ td {
 }
 table.compactTable td {padding: 0px; margin: 0px;}
 table.compactTable p {padding-right: 0px;}
+.subTabContainer {
+	margin: 10px; margin-left: 20px; margin-right: 20px;
+	border-bottom: 2px solid #998855;
+	text-align: center;
+}
+.subTab {
+	position: relative; top: 0.5px;
+	padding: 2px;
+	padding-left: 6px; padding-right: 6px;
+	border: 2px solid #998855;
+	border-bottom: none;
+	font-size: 18px;
+	color: #885533;
+}
+.subTabActive {background-color: #eeddaa;}
 .thisIsBad {
 	font-weight: bold;
 	color: #880000;

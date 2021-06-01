@@ -25,6 +25,17 @@ const consts = {
 		had:    0.125, //-all suroviny
 		helma:  0.20   //-happy
 	},
+	rel: { //relic effects to be used in game.eff()
+		helmet:   0.1,  //-cena
+		necro:    2,    //+mir effect
+		eanasir:  0.1,  //+obchod
+		AoE2:     0.2,  //+prachy
+		LotR:     0.1,  //-plat
+		hitler:   0.1,  //+power
+		venus:  400,    //+happy (abs)
+		blackhole: 0.1, //-udrzba
+		mirror:    0.2  //+skola
+	},
 
 	nukeCooldown: 16, //base value of waiting time for new nuke
 	nukePrice: [5e3, 0, 0, 5e3, 0], //as sur
@@ -122,6 +133,7 @@ const units = {
 	'train': which building? Training GUI directive in all buildings automatically infers which units are trained there
 	'pop': cost in people
 	'bonus': {kop: 0.6} means +60% attack bonus against 'kop'
+	'actsAs': 'kop' means that bonuses against this unit will be as if it was 'kop'
 	OPTIONAL 'effect': {arc: 'grayArc', splat: 'bloodSpatter'} (defaults) specifies graphical effect for ranged attack
 	*/
 	kop: {class:'infantry', img: 'kopinik.png', train: 'kasarna',
@@ -270,26 +282,26 @@ const miracles = {
 
 //reward from odysseia
 const relics = {
-	helmet: {name: 'Helma krále Leónida', img: 'spartahelmet.png',
-		flavor: 'Odkaz tříset hrdinných reků spartských naplňuje naše ovčany vlasteneckou inspirací, aby se taky šli někde nechat povraždit.', effect: 'cena jednotek -10%'},
-	necro: {name: 'Necrocomicon', img: 'necrocomicon.png',
-		flavor: 'Prokletá kniha pradávných bytostí chaosu, která obsahuje především dost podivný černý humor. To nám velice pomůže při našich zvrácených rituálech.', effect: 'chrám o 2 úrovně účinnější'},
-	eanasir: {name: 'Stížnost na Ea-Nasira', img: 'ea-nasir.png',
-		flavor: 'Do kamene tesaná reklamace má fakt odstrašující účinek na šejdíře prodávající nekvalitní měď. Nikdo nechce mít navždy zničenou reputaci jako Ea-Nasir!', effect: 'účinnost obchodu +10%'},
-	AoE2: {name: 'Relikvie z Doby Císařství', img: 'AoE2.png',
-		flavor: 'Na první pohled jenom zdobená skříňka, ale jak jsme ji přinesli dovnitř – zázrak! Začaly se z ní prostě odsypávat zlaťáky! Nyní veřejnosti nepřístupná...', effect: 'daňový výběr +20%'},
-	LotR: {name: 'Prsten Pána', img: 'LotR.png',
-		flavor: 'Ultimátní artefakt moci, je na něm vyryto: "Jeden pán vládne všem, jeden jim makat káže, jeden všechny přivede, k lopatě je přiváže"', effect: 'těžba všech surovin +10%'},
-	hitler: {name: 'Hitlerův mozek v lahvi', img: 'brain.png', special: 'nazi',
-		flavor: 'Válečníkům z budoucnosti propůjčilo jejich božstvo tento mozek, který neustále jen chrlí rozkazy a plamenné projevy. Parádní věcička na dobývání světa!', effect: 'síla jednotek +10%'},
-	venus: {name: 'Věstonická afrodita', img: 'venus.png', special: 'cavemen',
-		flavor: 'Nezvratný důkaz, že ještě před neolitickou revolucí mělo lidstvo kozy.', effect: 'vygebenost +400'},
-	blackhole: {name: 'Černá díra', img: 'blackhole.png', special: 'ufo',
-		flavor: 'Velice atraktivní exponát. Je to taková zvláštní tma, která je tak nenasytná, že může sežrat všechen náš komunální odpad!', effect: 'údržba města -10%'},
-	undefined: {name: 'undefined_$relic', img: 'undefinedRelic.png', special: 'undefined',
-		flavor: 'Error: undefined_$relic.effect is not a function', effect: 'undefined'},
-	mirror: {name: 'Dimenzionální zrcadlo', img: 'mirror.png', special: 'mirror',
-		flavor: 'Kouzelné zrcátko umí překrucovat ksicht do pitoreskních podob, což je klíč k poznání reflexe duality hmotného jsoucna a stínu lidského ega. Poučné!', effect: 'účinnost školství +20%'}
+	helmet: {name: 'Helma krále Leónida', img: 'spartahelmet.png', effect: 'cena jednotek -'+consts.rel.helmet.toPercent(),
+		flavor: 'Odkaz tříset hrdinných reků spartských naplňuje naše ovčany vlasteneckou inspirací, aby se taky šli někde nechat povraždit.'},
+	necro: {name: 'Necrocomicon', img: 'necrocomicon.png', effect: 'chrám o '+consts.rel.necro+' úrovně účinnější',
+		flavor: 'Prokletá kniha pradávných bytostí chaosu, která obsahuje především dost podivný černý humor. To nám velice pomůže při našich zvrácených rituálech.'},
+	eanasir: {name: 'Stížnost na Ea-Nasira', img: 'ea-nasir.png', effect: 'účinnost obchodu +'+consts.rel.eanasir.toPercent(),
+		flavor: 'Do kamene tesaná reklamace má fakt odstrašující účinek na šejdíře prodávající nekvalitní měď. Nikdo nechce mít navždy zničenou reputaci jako Ea-Nasir!'},
+	AoE2: {name: 'Relikvie z Doby Císařství', img: 'AoE2.png', effect: 'daňový výběr +'+consts.rel.AoE2.toPercent(),
+		flavor: 'Na první pohled jenom zdobená skříňka, ale jak jsme ji přinesli dovnitř – zázrak! Začaly se z ní prostě odsypávat zlaťáky! Nyní veřejnosti nepřístupná...'},
+	LotR: {name: 'Prsten Pána', img: 'LotR.png', effect: 'platy dělníků -'+consts.rel.LotR.toPercent(),
+		flavor: 'Ultimátní artefakt moci, je na něm vyryto: "Jeden pán vládne všem, jeden jim makat káže, jeden všechny přivede, k lopatě je přiváže"'},
+	hitler: {name: 'Hitlerův mozek v lahvi', img: 'brain.png', special: 'nazi', effect: 'síla jednotek +'+consts.rel.hitler.toPercent(),
+		flavor: 'Válečníkům z budoucnosti propůjčilo jejich božstvo tento mozek, který neustále jen chrlí rozkazy a plamenné projevy. Parádní věcička na dobývání světa!'},
+	venus: {name: 'Věstonická afrodita', img: 'venus.png', special: 'cavemen', effect: 'vygebenost +'+consts.rel.venus,
+		flavor: 'Nezvratný důkaz, že ještě před neolitickou revolucí mělo lidstvo kozy.'},
+	blackhole: {name: 'Černá díra', img: 'blackhole.png', special: 'ufo', effect: 'údržba města -'+consts.rel.blackhole.toPercent(),
+		flavor: 'Velice atraktivní exponát. Je to taková zvláštní tma, která je tak nenasytná, že může sežrat všechen náš komunální odpad!'},
+	undefined: {name: 'undefined_$relic', img: 'undefinedRelic.png', special: 'undefined', effect: 'undefined',
+		flavor: 'Error: undefined_$relic.effect is not a function'},
+	mirror: {name: 'Dimenzionální zrcadlo', img: 'mirror.png', special: 'mirror', effect: 'účinnost školství +'+consts.rel.mirror.toPercent(),
+		flavor: 'Kouzelné zrcátko umí překrucovat ksicht do pitoreskních podob, což je klíč k poznání reflexe duality hmotného jsoucna a stínu lidského ega. Poučné!'}
 };
 
 const achievements = {

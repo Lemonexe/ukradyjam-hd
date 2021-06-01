@@ -1,13 +1,4 @@
 LOTS OF NEW IMAGES see _dev/todo images.md
 
-tooltip on suroviny in top bar
-
-letadla dvakrát větší movement speed když je volno (utilize Faust better)
-
-close ALL popups
-
-nicer tabs in army advisor
-
 ODYSSEIA
-	relic effects
 	balancing
