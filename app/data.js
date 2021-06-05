@@ -55,7 +55,9 @@ const consts = {
 		rateRelic: 6e-3, //probability modifier for relic drop
 		scoreWave: 1.15, //score modifier per wave
 		sizeFun: [10, 150, 500], //function players size -> odys size as [min, max, delay]
-		rowsFun: [1, 0.37] //function odys wave size -> ground rows as [proportion, power]
+		rowsFun: [1, 0.37], //function odys wave size -> ground rows as [proportion, power]
+		retreatWave: 10, //from this island onwards it is possible to honorably return
+		retreatribute: 0.2, //percentage tribute to the great Dolphin, ruler of ponds
 	},
 
 	//misc

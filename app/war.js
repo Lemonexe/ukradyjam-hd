@@ -78,7 +78,7 @@ function War() {
 
 	//terminate battle, either as a victory (true) or defeat (false)
 	this.endBattle = function(victory) {
-		const bf = s.battlefield, sbr = s.battleReports;
+		const bf = s.battlefield;
 		//withdraw all units from map to reserve
 		for(let y = 0; y < bf.rows; y++) {for(let x = 0; x < 6; x++) {
 			if(bf.map[y][x]) {
@@ -106,8 +106,7 @@ function War() {
 			victory ? this.winOdys() : this.loseOdys();
 		}
 
-		bf.report && sbr.unshift(bf.report);
-		sbr.length > consts.maxReports && sbr.pop();
+		bf.report && this.addReport(bf.report);
 		s.battlefield = false;
 	};
 
@@ -194,14 +193,16 @@ function War() {
 		this.createOdysArmy();
 	};
 
-	//when odysseia heroes are spent and depleted, you get the reward
-	this.loseOdys = function() {
+	//when odysseia heroes are spent and depleted, or when they honorably retreat, you get the reward
+	this.loseOdys = function(retreat) {
 		const so = s.odys;
-		s.army = this.migrateArmyObj(so.army, s.army); //save air if there's some left
+		s.army = this.migrateArmyObj(so.army, s.army); //save air if there's some left, or whole army if exiting
 		this.logArmyObj(s.battlefield.deadP, so.dead); //accumulate player casualties from this battle
 
-		//extra score from enemy casualties in this battle
-		so.score += (so.wave > 1) * Math.round(this.armyGroupSum(s.battlefield.deadE) * consts.odys.scoreWave**(so.wave-1));
+		//extra score from enemy casualties in this battle, score penalization for retreat
+		(so.wave > 1 && !retreat) && (so.score += Math.round(this.armyGroupSum(s.battlefield.deadE) * consts.odys.scoreWave**(so.wave-1)));
+		let scoreTribute = Math.ceil(so.score * consts.odys.retreatribute);
+ 		retreat && (so.score -= scoreTribute);
 
 		//loot sur & WP
 		let eff = game.eff().dranc;
@@ -225,13 +226,19 @@ function War() {
 		so.relics.length === Object.keys(relics).length && game.achieve('relics'); //all relix
 
 		//report
-		let msg = [`Poslední hrdinové padli na ${so.wave}. ostrově a celkem dosáhli epického skóre ${so.score}`];
-		so.score > 0 && msg.push(
-			`Ze svého posledního tábora nám ještě stihli poslat ${dranc[0].toFixed(0)} zlata, ${dranc[1].toFixed(0)} dřeva, ${dranc[2].toFixed(0)} kamení, ${dranc[3].toFixed(0)} sýry a ${dranc[4].toFixed(0)} piva.`);
-		so.score > 0 && msg.push(`Dozvěděli jsme se také nové poznatky o světě za obzorem v hodnotě ${drancWP.toFixed()} výzkumných bodů.`);
+		let msgPart1 = retreat ? `Hrdinové se stáhli z ${so.wave-1}. ostrova a celkem dosáhli epického skóre ${so.score}, dalších ${scoreTribute} bodů museli obětovat delfínům` :
+			`Poslední hrdinové padli na ${so.wave}. ostrově a celkem dosáhli epického skóre ${so.score}`;
+		let msgPart2 = retreat ? 'Přitáhli s sebou' : 'Ze svého posledního tábora nám ještě stihli poslat';
+		let msg = [msgPart1];
+		if(so.score > 0) {
+			msg.push(msgPart2+` ${dranc[0].toFixed(0)} zlata, ${dranc[1].toFixed(0)} dřeva, ${dranc[2].toFixed(0)} kamení, ${dranc[3].toFixed(0)} sýry a ${dranc[4].toFixed(0)} piva.`);
+			msg.push(`Dozvěděli jsme se také nové poznatky o světě za obzorem v hodnotě ${drancWP.toFixed()} výzkumných bodů.`);
+		}
 		drancRel && msg.push('A dokonce jsme uloupili velice vzácnou relikvii zvanou ' + relics[drancRel].name + (relics[drancRel].special ? ', kterou u sebe měli '+odyssets[relics[drancRel].special].name : '') + '!');
 		game.msg(msg);
-		s.battlefield.report = {odys:true, lvl: so.wave, score: so.score, dranc: dranc, drancWP: drancWP, relic: drancRel, deadP: this.filterArmyObj(so.dead)};
+		let report = {odys:true, lvl: so.wave, score: so.score, dranc: dranc, drancWP: drancWP, relic: drancRel, deadP: this.filterArmyObj(so.dead)};
+		if(retreat) {this.addReport(report);} //add now
+		else {s.battlefield.report = report;} //add l8r
 		
 		//reset odysseia state variables
 		so.wave = 0;
@@ -240,6 +247,14 @@ function War() {
 		so.race = 'myth';
 	};
 
+	//add a battle report object to battleReports
+	this.addReport = function(report) {
+		const sbr = s.battleReports;
+		sbr.unshift(report);
+		sbr.length > consts.maxReports && sbr.pop();
+	};
+
+/* BATTLE FUNCTIONS GENERIC */
 	//generate an empty army object with same keys as the template
 	this.newArmyObj = function(templ) {
 		if(!templ) {return {kop: 0, luk: 0, hop: 0, sln: 0, trj: 0, obr: 0, baz: 0, bal: 0, gyr: 0};}
@@ -280,6 +295,7 @@ function War() {
 	this.groundArmySum = obj => Object.keys(obj).reduce((sum, k) => sum + obj[k]*(units[k].class === 'infantry' || units[k].class === 'ranged'), 0);
 	this.armyGroupSum = obj => Object.keys(obj).reduce((sum, k) => sum + obj[k] / units[k].group, 0);
 
+/* BATTLE FUNCTIONS SPECIFIC */
 	//choose a group from reserves to put on the battlefield
 	this.createGroup = function(unitSet, own) {
 		let res = own ? s.battlefield.reserveP : s.battlefield.reserveE;
