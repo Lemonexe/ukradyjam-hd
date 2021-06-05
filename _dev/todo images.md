@@ -36,35 +36,3 @@
 	Namísto toho, aby byly statický jako součást CITY.png, tak by tam byly jednotlivé objekty, např:  
 	_stromy (či remízky), davy ovcí, stáda demonstrantů, eventuelně fontány, sochy, lodě a takový podobný nesmysly_  
 	Některé by tam byly od začátku, jiné bys dostával za stavbu radnice nebo vynálezy techů a mohl bys to libovolně přetahovat po městě :)
-
-### v1.2.0
-
-**res/env/odysseia.png** `asi 96x96 ? Nebo klidně 200x70`
-	lochneska? Požární siréna?
-
-**mythical unit set**
-myth_hyd.png
-myth_ker.png
-myth_med.png
-myth_min.png
-myth_pegas.png
-
-**time-travelling nazis**
-nazi_air.png
-nazi_hitler.png
-nazi_moto.png
-nazi_wehr.png
-
-**cavemen**
-cave_club.png
-
-
-**all the relics!**
-100x100
-	Helma krále Leónida  
-	Necrocomicon  
-	Prsten Pána  
-	Hitlerův mozek v lahvi  
-	Věstonická afrodita  
-	Černá díra  
-	Dimenzionální zrcadlo
