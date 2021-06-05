@@ -9,7 +9,7 @@
 // Do not execute this function unless you are a skilled H4CK0R!!!
 var get_HACKER_achievement = function() {
 	//Doufáme, že kyberútočník zapomene napsat závorky()
-	game.achieve('hacker'); game.hackTheSystem();
+	game.hackTheSystem();
 };
 		</script>
 		<script src="libs/angular.min.js"></script>
@@ -92,11 +92,11 @@ var get_HACKER_achievement = function() {
 		<p>Tento seznam pouze shrnuje nejvýznamější změny v důležitých verzích. Pokud Vás zajímá zdrojový kód aplikace včetně jeho vývoje,
 			navštivte GitHub <a href="https://github.com/Lemonexe/ukradyjam-hd" target="_blank">repozitář</a>.</p>
 		<ul>
-			<li><b>1.2.0</b> (??.??.2021) přidána Odysseia</li>
-			<li><b>1.1.6</b> (26.04.2020) přidán Oktoberfest, balancování</li>
-			<li><b>1.1.0</b> (07.06.2019) zvětšeno bojiště, balancování</li>
+			<li><b>1.2.0</b> (05.06.2021) přidána <b>Odysseia</b></li>
+			<li><b>1.1.6</b> (26.04.2020) přidán Oktoberfest</li>
+			<li><b>1.1.0</b> (07.06.2019) zvětšeno bojiště</li>
 			<li><b>1.0.3</b> (14.05.2019) poslední výzkum</li>
-			<li><b>1.0.0</b> (04.05.2019) oficiální release</li>
+			<li><b>1.0.0</b> (04.05.2019) <b>oficiální release</b></li>
 			<li><b>0.2.0</b> (21.04.2019) přidána válka</li>
 		</ul>
 	</div>
@@ -161,7 +161,7 @@ var get_HACKER_achievement = function() {
 				<img src="res/env/polis_E.png" ng-style="islandPos('enemyPolis')" ng-click="tab('islandPolis')" tooltip="Nepřátelská vesnice" class="clickImg">
 				<span ng-style="islandPos('enemyPolisName')" class="strong clickImg" ng-click="tab('islandPolis')">{{(s.battlefield && s.odys.wave === 0) ? '🔥' : '&nbsp;'}}Polis</span>
 
-				<img ng-if="s.p.unlockOdysseia" src="res/GUI/darkritual.png" ng-style="islandPos('odysseia')" ng-click="tab('islandOdysseia')" tooltip="Hic sunt leones" class="clickImg">
+				<img ng-if="s.p.unlockOdysseia" src="res/env/odysseia.png" ng-style="islandPos('odysseia')" ng-click="tab('islandOdysseia')" tooltip="Hic sunt leones" class="clickImg">
 			</div>
 
 		<!-- BATTLE -->
@@ -417,9 +417,7 @@ var get_HACKER_achievement = function() {
 				<p>Muzeum zlepšuje dopravní obslužnost města, což obyvatelé přijímají s povděkem a ocení to zvýšením své vygebenosti o 100 za každou úroveň.</p>
 				<div ng-if="s.odys.relics.length > 0">
 					<p>Protože je tohle sklepení jinak dost nevyužité, můžeme tady třeba uskladnit různé suvenýry, co jsme přitáhli z našich válečných expedic do odlehlých dálav:</p>
-<div style="width:560px; height: 230px; background-color: purple">HERE BE RELIC ICONS.<br>MEANWHILE A LIST OF RELIX:<br>
-	<span ng-repeat="r in s.odys.relics" ng-mouseover="ctrl2.relicSelect=r" ng-mouseleave="ctrl2.relicSelect=false">{{relics[r].name}}, </span>
-</div>
+					<img class="relic buildOption" ng-repeat="r in s.odys.relics" ng-src="res/relics/{{relics[r].img}}" ng-mouseover="ctrl2.relicSelect=r" ng-mouseleave="ctrl2.relicSelect=false">
 					<div ng-if="ctrl2.relicSelect" style="text-align: center">
 						<p><b>{{relics[ctrl2.relicSelect].name}}</b></p><p>{{relics[ctrl2.relicSelect].flavor}}</p><p>{{relics[ctrl2.relicSelect].effect}}</p>
 					</div>

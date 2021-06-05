@@ -168,6 +168,7 @@ table.compactTable p {padding-right: 0px;}
 	color: #880000;
 	animation: blinker 1s linear infinite;
 }
+.relic {margin: 7px;}
 .clickImg {cursor: pointer;}
 .building {cursor: move;}
 .tip {cursor: help;}

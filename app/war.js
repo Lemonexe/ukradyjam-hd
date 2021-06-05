@@ -150,7 +150,6 @@ function War() {
 			let [min, max, delay] = consts.odys.sizeFun;
 			let sizeP = this.armyGroupSum(so.army);
 			so.size = min + max * sizeP / (sizeP + delay);
-console.log('odyssey start with army groups: ' + sizeP.toFixed() +'/'+ so.size.toFixed());
 			this.createOdysArmy();
 		}
 		this.initBattle('odys');
@@ -162,7 +161,6 @@ console.log('odyssey start with army groups: ' + sizeP.toFixed() +'/'+ so.size.t
 		let size = so.size * Math.rnd50(); //randomized size of current wave
 		so.scoreToGet = Math.round(size * consts.odys.scoreWave**(so.wave-1)); //score to get for this wave
 		let [a,b] = consts.odys.rowsFun; so.rows = Math.round(a*size**b); //get number of rows
-console.log('current wave score: ' + so.scoreToGet.toFixed() + ' size: ' + size.toFixed() + ' rows:'+so.rows);
 		let us = odyssets[so.race].units; //unit set
 		so.armyE = {};
 		//determine compositions
@@ -203,12 +201,12 @@ console.log('current wave score: ' + so.scoreToGet.toFixed() + ' size: ' + size.
 		this.logArmyObj(s.battlefield.deadP, so.dead); //accumulate player casualties from this battle
 
 		//extra score from enemy casualties in this battle
-console.log('score: '+so.score+', extra score '+Math.round(this.armyGroupSum(s.battlefield.deadE) * consts.odys.scoreWave**(so.wave-1)));
 		so.score += (so.wave > 1) * Math.round(this.armyGroupSum(s.battlefield.deadE) * consts.odys.scoreWave**(so.wave-1));
 
 		//loot sur & WP
-		let drancWP = Math.round(so.score * consts.odys.rateWP * Math.rnd50());
-		let d = so.score * consts.odys.rateDranc;
+		let eff = game.eff().dranc;
+		let drancWP = Math.round(so.score * consts.odys.rateWP * eff * Math.rnd50());
+		let d = so.score * eff * consts.odys.rateDranc;
 		let dranc = new Array(5).fill(0).map(s => d * Math.rnd50());
 		dranc[0] = dranc[0]*consts.goldValue; //more gold than other resources according to a fixed ratio
 		s.sur = s.sur.map((s,i) => s + dranc[i]);
@@ -221,7 +219,6 @@ console.log('score: '+so.score+', extra score '+Math.round(this.armyGroupSum(s.b
 		let P = 1 - (1 - consts.odys.rateRelic)**so.score; //probability to loot a relic
 		if(Math.random() < P && lootable.length > 0) {drancRel = lootable[Math.floor(Math.random() * lootable.length)];}
 		so.relics.length === 0 && so.wave > 1 && (drancRel = 'helmet'); //starter pack relic
-console.log('P='+(P*100).toFixed(2)+'%, lootable: '+lootable.join(','));
 
 		drancRel && so.relics.push(drancRel);
 		drancRel && game.achieve('indiana'); //first relic

@@ -5,3 +5,6 @@ console.clear(); Object.keys(units).forEach(o => {let u = units[o];console.log(u
 
 enemy armies groups
 console.clear(); enemyArmies.forEach(e => console.log(e.ground, Object.keys(e.army).reduce((s,o) => s+e.army[o]/units[o].group, 0)));
+
+writes a list of missing achievements to console
+Object.keys(achievements).filter(item => s.achievements.indexOf(item) === -1).forEach(item => console.log(achievements[item].name + ': ' + achievements[item].description))

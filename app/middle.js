@@ -209,7 +209,7 @@ app.controller('middle', function($scope, $interval) {
 			myPolisName: [240, 370, 0, 220],
 			enemyPolis: [460, 150, 64, 64],
 			enemyPolisName: [460, 150, 0, 100],
-			odysseia: [0, 0, 96, 96]
+			odysseia: [0, 0, 80, 200]
 		};
 		let pos = objectPositions[arg];
 		return {'position': 'absolute',

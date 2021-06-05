@@ -31,10 +31,10 @@ const consts = {
 		eanasir:  0.1,  //+obchod
 		AoE2:     0.2,  //+prachy
 		LotR:     0.1,  //-plat
-		hitler:   0.1,  //+power
+		hitler:   0.2,  //+power
 		venus:  400,    //+happy (abs)
 		blackhole: 0.1, //-udrzba
-		mirror:    0.2  //+skola
+		mirror:    0.3  //+skola
 	},
 
 	nukeCooldown: 16, //base value of waiting time for new nuke
@@ -50,9 +50,9 @@ const consts = {
 
 	//odysseia
 	odys: {
-		rateWP: 80, //WP reward per score
-		rateDranc: 500, //sur reward per score
-		rateRelic: 5e-3, //probability modifier for relic drop
+		rateWP: 100, //WP reward per score
+		rateDranc: 350, //sur reward per score
+		rateRelic: 6e-3, //probability modifier for relic drop
 		scoreWave: 1.15, //score modifier per wave
 		sizeFun: [10, 150, 500], //function players size -> odys size as [min, max, delay]
 		rowsFun: [1, 0.37] //function odys wave size -> ground rows as [proportion, power]
@@ -190,11 +190,11 @@ const units = {
 		group: 10, att: 15, hp: 30
 	},
 //ODYSSEIA UNITS
-	myth_min:    {class: 'infantry', img: 'odys/myth_min.png', name: 'Minotaur', group: 20, att: 9, hp: 55, bonus: {sln: 0.5}},
-	myth_med:    {class: 'ranged', img: 'odys/myth_med.png', name: 'Medúza', group: 20, att: 5, hp: 17, actsAs: 'luk', bonus: {hop: 0.4}},
+	myth_min:    {class: 'infantry', img: 'odys/myth_min.png', name: 'Minotaur', group: 20, att: 9, hp: 58, bonus: {sln: 0.5}},
+	myth_med:    {class: 'ranged', img: 'odys/myth_med.png', name: 'Medúza', group: 20, att: 5, hp: 21, actsAs: 'luk', bonus: {hop: 0.4}},
 	myth_ker:    {class: 'infantry', img: 'odys/myth_ker.png', name: 'Kerberos', group: 33, att: 10, hp: 20, actsAs: 'kop', bonus: {kop: 0.3, luk: 0.3}},
 	myth_hyd:    {class: 'infantry', img: 'odys/myth_hyd.png', name: 'Hydra', group: 1, att: 130, hp: 1700, actsAs: 'sln'},
-	myth_pegas:  {class: 'antibomber', img: 'odys/myth_pegas.png', name: 'Pegas', group: 10, att: 12, hp: 45},
+	myth_pegas:  {class: 'antibomber', img: 'odys/myth_pegas.png', name: 'Pegas', group: 10, att: 11, hp: 41},
 
 	cave_club:   {class: 'infantry', img: 'odys/cave_club.png', name: 'Lovec mamutů', group: 50, att: 7, hp: 15, trample: true, actsAs: 'sln'},
 	cave_prase:  {class: 'infantry', img: 'odys/cave_prase.png', name: 'Muž na praseti', group: 10, att: 17, hp: 95, trample: true, actsAs: 'sln'},
@@ -202,14 +202,14 @@ const units = {
 	nazi_wehr:   {class: 'ranged', img: 'odys/nazi_wehr.png', name: 'Wehrmacht', group: 20, att: 7, hp: 18, actsAs: 'baz', bonus: {kop: 1, luk: 0.7, hop: 0.5, sln: 0.5}},
 	nazi_moto:   {class: 'infantry', img: 'odys/nazi_moto.png', name: 'Sajdkára', group: 10, att: 22, hp: 88, actsAs: 'trj', bonus: {kop: 0.5, luk: 0.5, hop: 0.3}},
 	nazi_hitler: {class: 'infantry', img: 'odys/nazi_hitler.png', name: 'Klon Hitlera', group: 1, att: 180, hp: 1300},
-	nazi_stuka:  {class: 'bomber', img: 'odys/nazi_air.png', name: 'Štuka', group: 1, att: 65, hp: 380, effect: {arc: 'grayLine', splat: 'explosion'}, bonus: {trj: 1.5, obr: 2, gyr: 1.5, bal: 1.5}},
+	nazi_stuka:  {class: 'bomber', img: 'odys/nazi_air.png', name: 'Štuka', group: 1, att: 70, hp: 340, effect: {arc: 'grayLine', splat: 'explosion'}, bonus: {trj: 1.5, obr: 2, gyr: 1.5, bal: 1.5}},
 
 	ufo_trash:   {class: 'infantry', img: 'odys/ufo_trash.png', name: 'Vetřelec', group: 10, att: 12, hp: 60, actsAs: 'kop'},
 	ufo_tank:    {class: 'infantry', img: 'odys/ufo_tank.png', name: 'Predátor', group: 10, att: 10, hp: 120, actsAs: 'sln'},
 	ufo_ranged:  {class: 'ranged', img: 'odys/ufo_ranged.png', name: 'Narušitel', group: 10, att: 9, hp: 46, effect: {arc: 'cyanArc', splat: 'cyanSplatter'}, actsAs: 'luk', bonus: {trj: 0.4, obr: 0.6}},
-	ufo_air:     {class: 'bomber', img: 'odys/ufo_air.png', name: 'Mateřská loď', group: 1, att: 100, hp: 570, effect: {arc: 'cyanLine', splat: 'cyanSplatter'}, bonus: {sln: 2.5, trj: 2, obr: 3}},
+	ufo_air:     {class: 'bomber', img: 'odys/ufo_air.png', name: 'Mateřská loď', group: 1, att: 100, hp: 550, effect: {arc: 'cyanLine', splat: 'cyanSplatter'}, bonus: {sln: 2.5, trj: 2, obr: 3}},
 
-	undefined:   {class: 'infantry', img: 'odys/undefined.png', name: '$undefined', group: 999, att: 0.12, hp: 0.42},
+	undefined:   {class: 'infantry', img: 'odys/undefined.png', name: '$undefined', group: 999, att: 0.12, hp: 0.37},
 };
 
 //table of enemy armies - when you defeat enemy, you get resources multiplied by dranc and the next army is loaded
@@ -282,7 +282,7 @@ const miracles = {
 
 //reward from odysseia
 const relics = {
-	helmet: {name: 'Helma krále Leónida', img: 'spartahelmet.png', effect: 'cena jednotek -'+consts.rel.helmet.toPercent(),
+	helmet: {name: 'Přilba krále Leónida', img: 'spartahelmet.png', effect: 'cena jednotek -'+consts.rel.helmet.toPercent(),
 		flavor: 'Odkaz tříset hrdinných reků spartských naplňuje naše ovčany vlasteneckou inspirací, aby se taky šli někde nechat povraždit.'},
 	necro: {name: 'Necrocomicon', img: 'necrocomicon.png', effect: 'chrám o '+consts.rel.necro+' úrovně účinnější',
 		flavor: 'Prokletá kniha pradávných bytostí chaosu, která obsahuje především dost podivný černý humor. To nám velice pomůže při našich zvrácených rituálech.'},
@@ -293,12 +293,12 @@ const relics = {
 	LotR: {name: 'Prsten Pána', img: 'LotR.png', effect: 'platy dělníků -'+consts.rel.LotR.toPercent(),
 		flavor: 'Ultimátní artefakt moci, je na něm vyryto: "Jeden pán vládne všem, jeden jim makat káže, jeden všechny přivede, k lopatě je přiváže"'},
 	hitler: {name: 'Hitlerův mozek v lahvi', img: 'brain.png', special: 'nazi', effect: 'síla jednotek +'+consts.rel.hitler.toPercent(),
-		flavor: 'Válečníkům z budoucnosti propůjčilo jejich božstvo tento mozek, který neustále jen chrlí rozkazy a plamenné projevy. Parádní věcička na dobývání světa!'},
+		flavor: 'Válečníkům z budoucnosti propůjčilo jejich božstvo tento mozek, který neustále jen vztekle chrlí rozkazy a plamenné projevy. Parádní věcička na dobývání světa!'},
 	venus: {name: 'Věstonická afrodita', img: 'venus.png', special: 'cavemen', effect: 'vygebenost +'+consts.rel.venus,
 		flavor: 'Nezvratný důkaz, že ještě před neolitickou revolucí mělo lidstvo kozy.'},
 	blackhole: {name: 'Černá díra', img: 'blackhole.png', special: 'ufo', effect: 'údržba města -'+consts.rel.blackhole.toPercent(),
-		flavor: 'Velice atraktivní exponát. Je to taková zvláštní tma, která je tak nenasytná, že může sežrat všechen náš komunální odpad!'},
-	undefined: {name: 'undefined_$relic', img: 'undefinedRelic.png', special: 'undefined', effect: 'undefined',
+		flavor: 'Velice atraktivní exponát. Je to taková zvláštní tma, která všechno vcucává a je přitom tak nenasytná, že může sežrat všechen náš komunální odpad!'},
+	undefined: {name: 'undefined_$relic', img: 'undefinedRelic.png', special: 'undefined', effect: 'Please download at least 5 GB of RAM to fix this!',
 		flavor: 'Error: undefined_$relic.effect is not a function'},
 	mirror: {name: 'Dimenzionální zrcadlo', img: 'mirror.png', special: 'mirror', effect: 'účinnost školství +'+consts.rel.mirror.toPercent(),
 		flavor: 'Kouzelné zrcátko umí překrucovat ksicht do pitoreskních podob, což je klíč k poznání reflexe duality hmotného jsoucna a stínu lidského ega. Poučné!'}

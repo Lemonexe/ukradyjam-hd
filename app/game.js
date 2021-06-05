@@ -403,6 +403,7 @@ const game = {
 
 	//a beautiful hackertype sequence
 	hackTheSystem: function() {
+		this.achieve('hacker');
 		forceDigest();
 		//What a nice piece of source code...
 		let source = String(angular.module);
@@ -426,9 +427,6 @@ const game = {
 		//MUHAHAHA!!!
 		window.setTimeout(() => console.log('%cUKRADYJAM WAS HACKED !!!', 'color: #AA0000; font-size: 24px; font-weight: bold'), tc+1000);
 	},
-
-	//hidden function, never executed - writes a list of missing achievements to console
-	revealAchievements: () => Object.keys(achievements).filter(item => s.achievements.indexOf(item) === -1).forEach(item => console.log(achievements[item].name + ': ' + achievements[item].description)),
 
 	//xD
 	asdf: 'lol'
