@@ -94,7 +94,7 @@ function War() {
 
 		//finish
 		if(bf.type === 'polis') {
-			bf.report = {victory: victory, lvl: s.enemyLevel+1, cycles: bf.cycles, deadP: this.filterArmyObj(bf.deadP), deadE: this.filterArmyObj(bf.deadE)};
+			bf.report = {victory: victory, name: s.name, lvl: s.enemyLevel+1, cycles: bf.cycles, deadP: this.filterArmyObj(bf.deadP), deadE: this.filterArmyObj(bf.deadE)};
 
 			victory && game.achieve('GG');
 			victory && (this.armySum(bf.logP) === bf.logP.trj + bf.logP.obr + bf.logP.bal + bf.logP.gyr) && game.achieve('blitz');
@@ -194,7 +194,7 @@ function War() {
 	};
 
 	//when odysseia heroes are spent and depleted, or when they honorably retreat, you get the reward
-	this.loseOdys = function(retreat) {
+	this.loseOdys = function(retreat, payTribute) {
 		const so = s.odys;
 		s.army = this.migrateArmyObj(so.army, s.army); //save air if there's some left, or whole army if exiting
 		this.logArmyObj(s.battlefield.deadP, so.dead); //accumulate player casualties from this battle
@@ -202,11 +202,11 @@ function War() {
 		//extra score from enemy casualties in this battle, score penalization for retreat
 		(so.wave > 1 && !retreat) && (so.score += Math.round(this.armyGroupSum(s.battlefield.deadE) * consts.odys.scoreWave**(so.wave-1)));
 		let scoreTribute = Math.ceil(so.score * consts.odys.retreatribute);
- 		retreat && (so.score -= scoreTribute);
+ 		retreat && payTribute && (so.score -= scoreTribute);
 
 		//loot sur & WP
 		let eff = game.eff().dranc;
-		let drancWP = Math.round(so.score * consts.odys.rateWP * eff * Math.rnd50());
+		let drancWP = Math.round(so.score * consts.odys.rateWP * consts.odys.waveWP**so.wave * eff * Math.rnd50());
 		let d = so.score * eff * consts.odys.rateDranc;
 		let dranc = new Array(5).fill(0).map(s => d * Math.rnd50());
 		dranc[0] = dranc[0]*consts.goldValue; //more gold than other resources according to a fixed ratio
@@ -226,9 +226,9 @@ function War() {
 		so.relics.length === Object.keys(relics).length && game.achieve('relics'); //all relix
 
 		//report
-		let msgPart1 = retreat ? `Hrdinové se stáhli z ${so.wave-1}. ostrova a celkem dosáhli epického skóre ${so.score}, dalších ${scoreTribute} bodů museli obětovat delfínům` :
+		let msgPart1 = retreat && payTribute ? `Hrdinové se stáhli z ${so.wave-1}. ostrova a celkem dosáhli epického skóre ${so.score}, dalších ${scoreTribute} bodů museli obětovat delfínům` :
 			`Poslední hrdinové padli na ${so.wave}. ostrově a celkem dosáhli epického skóre ${so.score}`;
-		let msgPart2 = retreat ? 'Přitáhli s sebou' : 'Ze svého posledního tábora nám ještě stihli poslat';
+		let msgPart2 = retreat && payTribute ? 'Přitáhli s sebou' : 'Ze svého posledního tábora nám ještě stihli poslat';
 		let msg = [msgPart1];
 		if(so.score > 0) {
 			msg.push(msgPart2+` ${dranc[0].toFixed(0)} zlata, ${dranc[1].toFixed(0)} dřeva, ${dranc[2].toFixed(0)} kamení, ${dranc[3].toFixed(0)} sýry a ${dranc[4].toFixed(0)} piva.`);
@@ -236,9 +236,9 @@ function War() {
 		}
 		drancRel && msg.push('A dokonce jsme uloupili velice vzácnou relikvii zvanou ' + relics[drancRel].name + (relics[drancRel].special ? ', kterou u sebe měli '+odyssets[relics[drancRel].special].name : '') + '!');
 		game.msg(msg);
-		let report = {odys:true, lvl: so.wave, score: so.score, dranc: dranc, drancWP: drancWP, relic: drancRel, deadP: this.filterArmyObj(so.dead)};
-		if(retreat) {this.addReport(report);} //add now
-		else {s.battlefield.report = report;} //add l8r
+		let report = {odys:true, name: s.name, lvl: so.wave, score: so.score, dranc: dranc, drancWP: drancWP, relic: drancRel, deadP: this.filterArmyObj(so.dead)};
+		if(retreat) {this.addReport(report);} //add now (endBattle is not executed at all)
+		else {s.battlefield.report = report;} //add l8r (when endBattle continues execution)
 		
 		//reset odysseia state variables
 		so.wave = 0;

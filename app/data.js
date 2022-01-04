@@ -50,7 +50,8 @@ const consts = {
 
 	//odysseia
 	odys: {
-		rateWP: 100, //WP reward per score
+		rateWP: 120, //WP reward per score
+		waveWP: 1.07, //WP exponential modifier per wave
 		rateDranc: 350, //sur reward per score
 		rateRelic: 6e-3, //probability modifier for relic drop
 		scoreWave: 1.15, //score modifier per wave
@@ -238,12 +239,12 @@ const enemyArmies = [
 
 //table of possible odyssey army sets, with planned composition of unit groups (number is weight), which will however be slightly randomized
 const odyssets = {
-	myth: {name: 'mythologické nestvůry', wt: 40, units: {'myth_min': 25, 'myth_med': 25, 'myth_ker': 30, 'myth_hyd': 8, 'myth_pegas': 12}},
-	cavemen: {name: 'jeskynní muži', wt: 17, units: {'cave_club': 70, 'cave_prase': 30}},
-	nazi: {name: 'náckové se strojem času', wt: 14, units: {'nazi_wehr': 45, 'nazi_moto': 32, 'nazi_hitler': 8, 'nazi_stuka': 15}},
-	ufo: {name: 'vetřelci z hvězdných sfér', wt: 12, units: {'ufo_trash': 35, 'ufo_tank': 30, 'ufo_ranged': 25, 'ufo_air': 10}},
-	mirror: {name: 'zrcadloví lidé', wt: 10, units: {kop: 10, luk: 12, hop: 12, sln: 10, trj: 10, obr: 5, baz: 15, bal: 9, gyr: 8}},
-	undefined: {name: '{{$undefined}}', wt: 7, units: {'undefined': 1}}
+	myth: {name: 'mythologické nestvůry', wt: 35, units: {'myth_min': 25, 'myth_med': 25, 'myth_ker': 30, 'myth_hyd': 8, 'myth_pegas': 12}},
+	cavemen: {name: 'jeskynní muži', wt: 18, units: {'cave_club': 70, 'cave_prase': 30}},
+	nazi: {name: 'náckové se strojem času', wt: 15, units: {'nazi_wehr': 45, 'nazi_moto': 32, 'nazi_hitler': 8, 'nazi_stuka': 15}},
+	ufo: {name: 'vetřelci z hvězdných sfér', wt: 13, units: {'ufo_trash': 35, 'ufo_tank': 30, 'ufo_ranged': 25, 'ufo_air': 10}},
+	mirror: {name: 'zrcadloví lidé', wt: 11, units: {kop: 10, luk: 12, hop: 12, sln: 10, trj: 10, obr: 5, baz: 15, bal: 9, gyr: 8}},
+	undefined: {name: '{{$undefined}}', wt: 8, units: {'undefined': 1}}
 };
 
 //description is a function of kostel lvl
@@ -325,7 +326,7 @@ const achievements = {
 		flavor: 'Který z nevyzpytatelných olympských bohů nás bude obtěžovat dnes?'},
 	palac: {name: 'Řekněte čapíčapíčapíčapíčapí hnízdo', description: 'postavit palác',
 		flavor: 'Je to kampaň a účelovka. Nic jsem nezpronevěřil, a ta částka taky nesouhlasí.'},
-	indiana: {name: 'Indiana Jones', description: 'ukrást svatou relikvii',
+	indiana: {name: 'Indiana Jones', description: 'přivézt do muzea svatou relikvii',
 		flavor: 'Archeologie bývala větší sranda, když to znamenalo vraždit hromady příšer.'},
 //ENDGAME
 	nuke: {name: 'Now we are all sons of bitches', description: 'použít zbraň hromadného ničení',

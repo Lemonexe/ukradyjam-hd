@@ -8,10 +8,10 @@ Jedná se o čistě frontendovou aplikaci napsanou v HTML/CSS/JS za pomoci frame
 
 Děkuji [@M4ch](https://github.com/M4ch) za vytvoření značné části grafiky!
 
-## Struktura aplikace
-
 :grey_exclamation: _POZOR: za žádných okolností ve hře nevolejte funkci_ `get_HACKER_achievement()`, _aby nebyl Ukradyjam nahackován_ :grey_exclamation:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_(to se NEDĚLÁ tak, že se stiskne F12, vybere konzole, napíše se výše uvedený výraz včetně `()` a stiskne se Enter)_
+
+## Struktura aplikace
 
 Téměř veškeré HTML je v **index.html** (angular HTML), veškeré statické CSS je v **app/style.css** (dynamické je pak nastaveno v příslušných Angular controllerech – viz *middle.js*)
 

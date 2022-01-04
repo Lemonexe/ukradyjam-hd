@@ -4,12 +4,12 @@
 	<li ng-repeat="report in battleReports">
 		<div ng-if="report.victory && !report.odys">
 			<span ng-click="viewSwitch($index)" class="clickImg" style="font-weight: bold; color: #0000bb;">Vítězství!</span><br>
-			Rozdrtili jsme armádu Polisu (úroveň {{report.lvl}}) za {{report.cycles}} kol<br>
+			Armáda {{report.name}} rozdrtila Polis (úroveň {{report.lvl}}) za {{report.cycles}} kol<br>
 			Vydrancováno: <span ng-repeat="i in icons"><img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">{{report.dranc[$index].addk(1e4, 1e7)}}&nbsp;</span>
 		</div>
 		<div ng-if="!report.victory && !report.odys">
 			<span ng-click="viewSwitch($index)" class="clickImg" style="font-weight: bold; color: #bb0000;">Porážka!</span><br>
-			Polis (úroveň {{report.lvl}}) zničil naši armádu za {{report.cycles}} kol
+			Polis (úroveň {{report.lvl}}) zničil armádu {{report.name}} za {{report.cycles}} kol
 		</div>
 		<div ng-if="report.odys">
 			<span ng-click="viewSwitch($index)" class="clickImg" style="font-weight: bold; color: #008800;">Odysseia</span><br>

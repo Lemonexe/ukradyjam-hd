@@ -437,6 +437,7 @@ app.controller('middle', function($scope, $interval) {
 
 	$scope.armySum = game.war.armySum;
 	$scope.extraFlavor = key => (key === 'bal' && s.p.powerBal) ? '. Aby to nebylo málo, nově má ve výzbroji i skleněný Paprsek Smrti™' : '';
+	$scope.odysDraw = () => s.odys.wave > 1 && s.odys.army && game.war.groundArmySum(s.odys.army) === 0; //for extremely rare event that odys ends up as a draw
 
 
 

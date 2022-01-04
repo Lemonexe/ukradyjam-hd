@@ -186,7 +186,7 @@ var get_HACKER_achievement = function() {
 						<td>Platy dělníků:</td>
 						<td>{{demMulti([(game.popTotal() - s.pop[0]), -consts.wage], [game.eff().plat])}}</td>
 					</tr>
-					<tr class="tip" tooltip="za všechny budovy, roste exponenciálně s úrovní">
+					<tr class="tip" tooltip="za všechny budovy, roste exponenciálně s úrovní budov">
 						<td>Údržba města:</td>
 						<td>{{demMulti([-game.moneyMaintenance()/game.eff().udrzba], [game.eff().udrzba])}}</td>
 					</tr>
@@ -515,10 +515,11 @@ var get_HACKER_achievement = function() {
 					<p>Naši hrdinové přečkali nástrahy {{s.odys.wave-1}}. ostrova a celkem vymlátili epické skóre {{s.odys.score}}</p>
 					<p>Pomocí palubní palác-antény nám hlasí, že další ostrov obývají {{odyssets[s.odys.race].name}}.
 					Naše družina jen čeká na pokyn k dalšímu vylodění!</p>
-					<p ng-if="s.odys.wave > consts.odys.retreatWave">Vojáci už se velice dlouho vlekou od ostrova k ostrovu. Jsou vyčerpaní, zubožení a hlavně obtížení skvostnou kořistí!
+					<p ng-if="s.odys.wave > consts.odys.retreatWave && !odysDraw()">Vojáci už se velice dlouho vlekou od ostrova k ostrovu. Jsou vyčerpaní, zubožení a hlavně obtížení skvostnou kořistí!
 						Vládce rybníků se nad nimi snad smiluje, když mu obětují {{consts.odys.retreatribute.toPercent()}} ze svého tučného lupu, a umožní jim bezpečný návrat domů.</p>
 					<p class="strong">⚓ <a class="fakeLink"  ng-click="game.war.advanceOdys()">Pokračovat v Odyssei</a></p>
-					<p ng-if="s.odys.wave > consts.odys.retreatWave">🏳️&nbsp;&nbsp;&nbsp;<a class="fakeLink" ng-click="game.war.loseOdys(true)">Návrat domů</a></p>
+					<p ng-if="s.odys.wave > consts.odys.retreatWave || odysDraw()">🏳️&nbsp;&nbsp;&nbsp;<a class="fakeLink" ng-click="game.war.loseOdys(true, !odysDraw())">Návrat domů</a></p>
+						<!-- retreat also possible when battle ends up as a draw (extremely rare occurence!!), then it ends honorably w/o the retreat penalty-->
 				</div>
 				<!-- is odysseia battle -->
 				<battle-management type="odys"></battle-management>
@@ -534,7 +535,7 @@ var get_HACKER_achievement = function() {
 </div>
 
 <div id="footer" ng-style="style.footer">
-	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> v letech 2019-2021 za použití <a href="https://angularjs.org/" target="_blank">AngularJS</a><br>
+	Vytvořil <a href="http://jira.zby.cz/">Jiří Zbytovský</a> v letech 2019-2022 za použití <a href="https://angularjs.org/" target="_blank">AngularJS</a><br>
 	Za pomoc s grafikou děkuji Martinu Machovi
 </div>
 

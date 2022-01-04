@@ -180,7 +180,8 @@ const compatibility = [
 	{v: [1, 2, 0], f: function(s) {
 		s.odys = S().odys;
 		s.battleReports = s.battleReports.slice(0, consts.maxReports);
-	}}
+	}},
+	{v: [1, 2, 1], f: (s) => {s.battleReports.forEach(r => r.name = s.name);}}
 ];
 
 //these images will be used in canvas, and therefore need to be preloaded
