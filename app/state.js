@@ -11,7 +11,8 @@ const S = () => ({
 		tab: 'city',
 		parentTab: 'city', //city or island
 		zoom: 600,
-		drawBattleGrid: false
+		drawBattleGrid: false,
+		autoodys: false //autocontinue odys
 	},
 
 	//current state of tooltip
@@ -78,7 +79,8 @@ const S = () => ({
 		unlockNuke: false,
 		unlockOktoberfest: false,
 		unlockOdysseia: false,
-		unlockDoge: false
+		unlockDoge: false,
+		unlockAutoodys: false //unlock the chechbox to autocontinue odys
 	},
 
 	WP: 0, //výzkumné body

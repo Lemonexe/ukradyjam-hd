@@ -5,8 +5,8 @@ function forceDigest() {
 
 //because there is no ngOnResize directive, I have to trigger it from outside, from a normal event listener, and then force a digest cycle
 window.onresize = function() {
-	angular.element(document).scope().resize();
-	forceDigest();
+	const scope = angular.element(document).scope();
+	scope && typeof scope.resize === 'function' && scope.resize();
 };
 
 //save game before leaving

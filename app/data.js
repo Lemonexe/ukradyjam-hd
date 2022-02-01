@@ -59,6 +59,7 @@ const consts = {
 		rowsFun: [1, 0.37], //function odys wave size -> ground rows as [proportion, power]
 		retreatWave: 10, //from this island onwards it is possible to honorably return
 		retreatribute: 0.2, //percentage tribute to the great Dolphin, ruler of ponds
+		unlockAutoodys: 6 //enter wave x for the first time to unlock odys autocontinue
 	},
 
 	//misc

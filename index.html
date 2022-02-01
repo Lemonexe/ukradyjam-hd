@@ -75,6 +75,7 @@ var get_HACKER_achievement = function() {
 		<h1>Nastavení 🔧</h1>
 		<p>Velikost okna <select ng-model="ctrl.zoom" ng-options="x for x in zoomOptions" ng-change="resize()"></select></p>
 		<p>Zobrazit mřížku bitevního pole <input type="checkbox" ng-model="ctrl.drawBattleGrid"></p>
+		<p ng-if="s.p.unlockAutoodys">Pokračovat odysseu automaticky <input type="checkbox" ng-model="ctrl.autoodys"></p>
 		<p>Manuální save do souboru
 			<span fake-button onclick="saveService.manualSave()" download="Ukradyjam.json"
 				tooltip="stáhnout soubor s daty vaší říše">Uložit</span>
@@ -523,6 +524,7 @@ var get_HACKER_achievement = function() {
 				</div>
 				<!-- is odysseia battle -->
 				<battle-management type="odys"></battle-management>
+				<p ng-if="s.p.unlockAutoodys">Pokračovat automaticky na další ostrov <input type="checkbox" ng-model="ctrl.autoodys"></p>
 			</div>
 
 			<div ng-switch-when="battleTutorial" ng-style="screenStyle()">

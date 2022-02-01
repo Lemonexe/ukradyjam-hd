@@ -107,7 +107,9 @@ function War() {
 		}
 
 		bf.report && this.addReport(bf.report);
+		const autocontinueNow = bf.autocontinueNow;
 		s.battlefield = false;
+		if(autocontinueNow) {this.advanceOdys();}
 	};
 
 	//save remaining units by fleeing the fight
@@ -152,6 +154,11 @@ function War() {
 			this.createOdysArmy();
 		}
 		this.initBattle('odys');
+
+		if(!s.p.unlockAutoodys && so.wave >= consts.odys.unlockAutoodys) {
+			game.msg('Protože už jsou achajští rekové naučení na věčné skákání mezi ostrovy, mohou od nynějška pokračovat automaticky vpřed, pokud si přejete.');
+			s.p.unlockAutoodys = true;
+		}
 	};
 
 	//create an odyssey army consisting of unit sets defined in odyssets
@@ -191,6 +198,8 @@ function War() {
 		so.race = osk[i];
 
 		this.createOdysArmy();
+
+		if(s.ctrl.autoodys) {s.battlefield.autocontinueNow = true;}
 	};
 
 	//when odysseia heroes are spent and depleted, or when they honorably retreat, you get the reward
