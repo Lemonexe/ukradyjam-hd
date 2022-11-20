@@ -98,6 +98,7 @@ app.directive('resourceSlider', function() {
 		controller: ['$scope', function($scope) {
 			$scope.s = s;
 			$scope.icons = consts.surAliases;
+			$scope.popMax = s.pop[0] + s.pop[$scope.i];
 
 			//getter / setter function to distribute workers in s.pop
 			//WARNING: if you read the following line, you might consequently need to bleach your eyes

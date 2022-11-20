@@ -4,8 +4,6 @@ research archive
 
 secret achievement 99 luft ballons
 
-v dolech rozdělování lidí click on Coin → set to 0, click on Kamení → set to max
-
 ODYSSEIA TWEAKS
 	2nd completed odysseia = guaranteed random relic; since 3rd it will be standard
 
