@@ -418,9 +418,11 @@ var get_HACKER_achievement = function() {
 				<p>Muzeum zlepšuje dopravní obslužnost města, což obyvatelé přijímají s povděkem a ocení to zvýšením své vygebenosti o 100 za každou úroveň.</p>
 				<div ng-if="s.odys.relics.length > 0">
 					<p>Protože je tohle sklepení jinak dost nevyužité, můžeme tady třeba uskladnit různé suvenýry, co jsme přitáhli z našich válečných expedic do odlehlých dálav:</p>
-					<img class="relic buildOption" ng-repeat="r in s.odys.relics" ng-src="res/relics/{{relics[r].img}}" ng-mouseover="ctrl2.relicSelect=r" ng-mouseleave="ctrl2.relicSelect=false">
+					<img class="relic buildOption" ng-repeat="r in s.odys.relics" ng-src="res/relics/{{relics[r].img}}" ng-mouseover="ctrl2.relicSelect=r" ng-mouseleave="ctrl2.relicSelect=false" ng-click="relicClick(r)">
 					<div ng-if="ctrl2.relicSelect" style="text-align: center">
-						<p><b>{{relics[ctrl2.relicSelect].name}}</b></p><p>{{relics[ctrl2.relicSelect].flavor}}</p><p>{{relics[ctrl2.relicSelect].effect}}</p>
+						<p><b>{{relics[ctrl2.relicSelect].name}}</b></p>
+						<p>{{relics[ctrl2.relicSelect].flavor}}</p>
+						<p>→ {{relics[ctrl2.relicSelect].effect}}</p>
 					</div>
 				</div>
 			</div>
@@ -436,7 +438,7 @@ var get_HACKER_achievement = function() {
 				<div ng-if="s.mirCountdown > 0">
 					<p><b>{{miracles[s.miracle].name}}</b>, nad námi bude opatrovat ještě {{s.mirCountdown}} cyklů.</p>
 					<p>{{miracles[s.miracle].flavor}}</p>
-					<p>{{miracles[s.miracle].description(game.getBlvl('kostel')+consts.rel.necro*game.hasRelic('necro'))}}</p>
+					<p>→ {{miracles[s.miracle].description(game.getBlvl('kostel')+consts.rel.necro*game.hasRelic('necro'))}}</p>
 				</div>
 
 				<div ng-if="s.mirCountdown === 0 && s.mirCooldown > 0">

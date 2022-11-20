@@ -20,5 +20,3 @@ ODYSSEIA TWEAKS
 	display drop chance při finální zprávě
 
 	vzít s sebou jeden nuke, jinak vysvětlit že jim ten nuke nemůžeme dodat
-
-	?? relics tooltips
