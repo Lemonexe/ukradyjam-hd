@@ -213,6 +213,10 @@ table.compactTable p {padding-right: 0px;}
 	width: 100%;
 	text-align: center;
 }
+#githubLogo {
+	position: fixed; bottom: 0px; right: 0px;
+	margin-right: 4px;
+}
 #gameContainer {
 	position: absolute;
 	top: 25px;

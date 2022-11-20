@@ -36,3 +36,4 @@
 	Namísto toho, aby byly statický jako součást CITY.png, tak by tam byly jednotlivé objekty, např:  
 	_stromy (či remízky), davy ovcí, stáda demonstrantů, eventuelně fontány, sochy, lodě a takový podobný nesmysly_  
 	Některé by tam byly od začátku, jiné bys dostával za stavbu radnice nebo vynálezy techů a mohl bys to libovolně přetahovat po městě :)
+		Třeba za dopravní zklidnění by se tam objevily dopravní značky
