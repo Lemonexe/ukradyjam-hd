@@ -8,8 +8,6 @@ fix zaokrouhlování ceny – nejde koupit 214.3 když mám 214.2
 
 v dolech rozdělování lidí click on Coin → set to 0, click on Kamení → set to max
 
-auto select 1200 window je fuj, hlavně si pamatovat hodnotu v localStorage
-
 ODYSSEIA TWEAKS
 	2nd completed odysseia = guaranteed random relic; since 3rd it will be standard
 

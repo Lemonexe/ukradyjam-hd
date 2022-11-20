@@ -104,20 +104,7 @@ app.controller('middle', function($scope, $interval) {
 		$scope.style['buildingList']['max-height'] = (gh - 160) + 'px';
 		$scope.style['suroviny']['max-width'] = (gw - 210) + 'px';
 	};
-
-	//this is only triggered on game initiation, not on resize, that'd be annoying
-	function autoresize() {
-		let dim = getWindowDimensions();
-		$scope.zoomOptions.forEach(function(item) {
-			if(
-				item + 8  < dim.width &&
-				item + 76 < dim.height &&
-				item > $scope.ctrl.zoom
-			) {$scope.ctrl.zoom = item;}
-		});
-		$scope.resize();
-	}
-	autoresize();
+	$scope.resize();
 
 	//'i' is just an integer in this function
 	$scope.getPopupStyle = function(i) {
@@ -316,7 +303,7 @@ app.controller('middle', function($scope, $interval) {
 				$scope.s = s;
 				$scope.ctrl = s.ctrl;
 				$scope.initGame();
-				autoresize();
+				$scope.resize()
 				dinnerbone();
 			}
 		}
