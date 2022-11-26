@@ -355,6 +355,8 @@ const achievements = {
 		flavor: '300 naolejovaných svalnatců statečně čelí všem armádám světa a třeba i oslizlým ufonům z jiné dimenze - již bry i ve vašich amfiteátrech.'},
 	blitz: {secret: true, name: 'Blitzkrieg', description: 'vyhrát bitvu pouze se stroji', //(trj, obr, bal, gyr)
 		flavor: 'Válečný stroj naolejovaný olivovým olejem za sebou zanechá jen ruiny a mrtvoly!'},
+	luftballons: {secret: true, name: '99 Luftballons', description: 'dokončit bitvu s 99 balóny',
+		flavor: 'auf ihrem Weg zum Horizont 🎵🎈'},
 	stack: {secret: true, name: 'Stack Overflow', description: 'naplnit sklad k prasknutí', //(všechny 4 suroviny)
 		flavor: 'runtime error: out of memory'},
 	exodus: {secret: true, name: 'Půlnoční království', description: 'vyvolat exodus obyvatel', //(obyvatelstvo <=0, vygebenost <= 0)
