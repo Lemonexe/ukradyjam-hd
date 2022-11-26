@@ -270,6 +270,8 @@ app.directive('battleReports', () => ({
 				s.battleReports.splice(i, 1)
 			}
 		};
+		//link function to calculate relic drop chance, but rounddown the percent (100% is confusing)
+		$scope.odysRelicDropP = score => game.war.odysRelicDropP(score).toPercent();
 	}]
 }));
 

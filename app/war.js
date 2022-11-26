@@ -206,6 +206,9 @@ function War() {
 		if(s.ctrl.autoodys) {s.battlefield.autocontinueNow = true;}
 	};
 
+	//probability to loot a relic
+	this.odysRelicDropP = score => 1 - (1 - consts.odys.rateRelic)**score;
+
 	//when odysseia heroes are spent and depleted, or when they honorably retreat, you get the reward
 	this.loseOdys = function(retreat, payTribute) {
 		const so = s.odys;
@@ -230,7 +233,7 @@ function War() {
 		let drancRel = false;
 		//available relics for loot are those that player does not have && are not special, or are special but the special army has been overcome
 		let lootable = Object.keys(relics).filter(r => so.relics.indexOf(r) === -1 && (!relics[r].hasOwnProperty('special') || so.wavesHistory.indexOf(relics[r].special) > -1 ));
-		let P = 1 - (1 - consts.odys.rateRelic)**so.score; //probability to loot a relic
+		let P = this.odysRelicDropP(so.score);
 		if(Math.random() < P && lootable.length > 0) {drancRel = lootable[Math.floor(Math.random() * lootable.length)];}
 		so.relics.length === 0 && so.wave > 1 && (drancRel = 'helmet'); //starter pack relic
 
@@ -239,7 +242,8 @@ function War() {
 		so.relics.length === Object.keys(relics).length && game.achieve('relics'); //all relix
 
 		//report
-		let msgPart1 = retreat && payTribute ? `Hrdinové se stáhli z ${so.wave-1}. ostrova a celkem dosáhli epického skóre ${so.score}, dalších ${scoreTribute} bodů museli obětovat delfínům` :
+		let msgPart1 = retreat && payTribute ?
+			`Hrdinové se stáhli z ${so.wave-1}. ostrova a celkem dosáhli epického skóre ${so.score}, dalších ${scoreTribute} bodů museli obětovat delfínům` :
 			`Poslední hrdinové padli na ${so.wave}. ostrově a celkem dosáhli epického skóre ${so.score}`;
 		let msgPart2 = retreat && payTribute ? 'Přitáhli s sebou' : 'Ze svého posledního tábora nám ještě stihli poslat';
 		let msg = [msgPart1];
@@ -248,11 +252,12 @@ function War() {
 			msg.push(`Dozvěděli jsme se také nové poznatky o světě za obzorem v hodnotě ${drancWP.toFixed()} výzkumných bodů.`);
 		}
 		drancRel && msg.push('A dokonce jsme uloupili velice vzácnou relikvii zvanou ' + relics[drancRel].name + (relics[drancRel].special ? ', kterou u sebe měli '+odyssets[relics[drancRel].special].name : '') + '!');
+		msg.push(`(šance na uloupení relikvie byla ${P.toPercent()})`);
 		game.msg(msg);
 		let report = {odys:true, name: s.name, lvl: so.wave, score: so.score, dranc: dranc, drancWP: drancWP, relic: drancRel, deadP: this.filterArmyObj(so.dead)};
 		if(retreat) {this.addReport(report);} //add now (endBattle is not executed at all)
 		else {s.battlefield.report = report;} //add l8r (when endBattle continues execution)
-		
+
 		//reset odysseia state variables
 		so.wave = 0;
 		so.score = 0;

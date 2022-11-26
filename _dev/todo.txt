@@ -1,8 +1,4 @@
 LOTS OF NEW IMAGES see _dev/todo images.md
 
 ODYSSEIA TWEAKS
-	2nd completed odysseia = guaranteed random relic; since 3rd it will be standard
-
-	display drop chance při finální zprávě
-
 	vzít s sebou jeden nuke, jinak vysvětlit že jim ten nuke nemůžeme dodat

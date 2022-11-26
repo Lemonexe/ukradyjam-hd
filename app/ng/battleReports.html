@@ -13,7 +13,8 @@
 		</div>
 		<div ng-if="report.odys">
 			<span ng-click="viewSwitch($index)" class="clickImg" style="font-weight: bold; color: #008800;">Odysseia</span><br>
-			Naši hrdinové padli na {{report.lvl}}. ostrově a dosáhli epického skóre {{report.score}}<br>
+			Naši hrdinové padli na {{report.lvl}}. ostrově a dosáhli
+			<span tooltip="šance na relikvii {{odysRelicDropP(report.score)}}" style="cursor: help;">epického skóre {{report.score}}</span><br>
 			Kořist: <span ng-repeat="i in icons"><img ng-src="res/GUI/icon_{{i}}.png" width="16" height="16">{{report.dranc[$index].addk(1e4, 1e7)}}&nbsp;</span>
 			💡{{report.drancWP.addk(1e4, 1e7)}}
 			<span ng-if="report.relic"><br>Přivezli jsme také vzácný artefakt {{relics[report.relic].name}}</span>
