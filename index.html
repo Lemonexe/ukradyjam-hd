@@ -387,6 +387,7 @@ var get_HACKER_achievement = function() {
 					<div ng-if="s.ownNuke">
 						<p>Rachejtle jsou připraveny a bezpečně uloženy.</p>
 						<p>Nejlepší bude odpálit je během probíhající bitvy, aby ani sousedé nepřišli o tuto velkolepou podívanou! <i>(v okně generála nebo nepřátelské vesnice)</i></p>
+						<p ng-if="s.p.unlockOdysseia">Nebo je může naše čacká družina odvézt na "zkulturnění" exotických krajů.<br><i>Pak odpálit v okně generála nebo na odyseji</i></p>
 					</div>
 
 					<div ng-if="!s.ownNuke && s.nukeCooldown > 0">
@@ -523,17 +524,22 @@ var get_HACKER_achievement = function() {
 				<!-- no can do, is polis battle -->
 				<p ng-if="s.battlefield && s.odys.wave === 0">Avšak nemůžeme přeci posílat vojáky na nějaký nesmyslný výlet do zámoří, zatímco doma nám zuří totální válka!</p>
 				<!-- can start, is peace -->
-				<p ng-if="!s.battlefield && s.odys.wave === 0" class="strong" ng-click="game.war.advanceOdys()" tooltip="Pozor, naše armáda tam možná heroicky zhyne tragickou smrtí!">⚓ <a class="fakeLink">Vydat se na Odysseu</a></p>
+				<p ng-if="!s.battlefield && s.odys.wave === 0" class="strong" ng-click="game.war.advanceOdys()" tooltip="Pozor, naše armáda tam nejspíše heroicky zhyne tragickou smrtí!">⚓ <a class="fakeLink">Vydat se na Odysseu</a></p>
 				<!-- is odysseia lobby -->
-				<div ng-if="!s.battlefield && s.odys.wave > 0">
+				<div ng-if="!s.battlefield && s.odys.wave > 0 && !odysDraw()">
 					<p>Naši hrdinové přečkali nástrahy {{s.odys.wave-1}}. ostrova a celkem vymlátili epické skóre {{s.odys.score}}</p>
 					<p>Pomocí palubní palác-antény nám hlasí, že další ostrov obývají {{odyssets[s.odys.race].name}}.
 					Naše družina jen čeká na pokyn k dalšímu vylodění!</p>
-					<p ng-if="s.odys.wave > consts.odys.retreatWave && !odysDraw()">Vojáci už se velice dlouho vlekou od ostrova k ostrovu. Jsou vyčerpaní, zubožení a hlavně obtížení skvostnou kořistí!
+					<p ng-if="s.odys.ownNuke">☢ Stále s sebou vezou novoroční ohňostroj <i>pro tu perfektní kulturní příležitost...</i></p>
+					<p ng-if="s.odys.wave > consts.odys.retreatWave">Vojáci už se velice dlouho vlekou od ostrova k ostrovu. Jsou vyčerpaní, zubožení a hlavně obtížení skvostnou kořistí!
 						Vládce rybníků se nad nimi snad smiluje, když mu obětují {{consts.odys.retreatribute.toPercent()}} ze svého tučného lupu, a umožní jim bezpečný návrat domů.</p>
 					<p class="strong">⚓ <a class="fakeLink"  ng-click="game.war.advanceOdys()">Pokračovat v Odyssei</a></p>
-					<p ng-if="s.odys.wave > consts.odys.retreatWave || odysDraw()">🏳️&nbsp;&nbsp;&nbsp;<a class="fakeLink" ng-click="game.war.loseOdys(true, !odysDraw())">Návrat domů</a></p>
-						<!-- retreat also possible when battle ends up as a draw (extremely rare occurence!!), then it ends honorably w/o the retreat penalty-->
+					<p ng-if="s.odys.wave > consts.odys.retreatWave">🏳️&nbsp;&nbsp;&nbsp;<a class="fakeLink" ng-click="game.war.loseOdys(true, true)">Návrat domů</a></p>
+				</div>
+				<!-- retreat is possible when battle ends up as a draw (extremely rare occurence!!), then it ends honorably w/o the retreat penalty -->
+				<div ng-if="!s.battlefield && s.odys.wave > 0 && odysDraw()">
+					<p>Naši hrdinové zvítězili na {{s.odys.wave-1}}. ostrově, avšak nezbyl přitom ani jediný naživu.<br>Bohové vám gratulují, to se moc často nestává!</p>
+					<p>🏳️&nbsp;&nbsp;&nbsp;<a class="fakeLink" ng-click="game.war.loseOdys(true, false)">Prohlásit odysseu za ukončenou</a></p>
 				</div>
 				<!-- is odysseia battle -->
 				<battle-management type="odys"></battle-management>

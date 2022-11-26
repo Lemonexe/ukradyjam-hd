@@ -154,6 +154,7 @@ function War() {
 			let sizeP = this.armyGroupSum(so.army);
 			so.size = min + max * sizeP / (sizeP + delay);
 			this.createOdysArmy();
+			s.ownNuke && (s.odys.ownNuke = !(s.ownNuke = false)); //give our soldiers a nuke for the road
 		}
 		this.initBattle('odys');
 
@@ -183,7 +184,9 @@ function War() {
 	//when another odysseia wave has been overcome, prepare next onslaught
 	this.winOdys = function() {
 		const so = s.odys, os = odyssets;
-		game.msg([`Naši dobrodruhové už dobyli ${so.wave}. ostrov, kde vymlátili další epické skóre ${so.scoreToGet}`, 'Dejte jim pokyn, a budou pokračovat! Zpět ni krok!']);
+		const msg = [`Naši dobrodruhové už dobyli ${so.wave}. ostrov, kde vymlátili další epické skóre ${so.scoreToGet}`];
+		!s.ctrl.autoodys && msg.push('Dejte jim pokyn, a budou pokračovat! Zpět ni krok!');
+		game.msg(msg);
 		so.wave++;
 		so.wavesHistory.push(so.race);
 		so.score += so.scoreToGet;
@@ -203,6 +206,9 @@ function War() {
 
 		if(s.ctrl.autoodys) {s.battlefield.autocontinueNow = true;}
 	};
+
+	//probability to loot a relic
+	this.odysRelicDropP = score => 1 - (1 - consts.odys.rateRelic)**score;
 
 	//when odysseia heroes are spent and depleted, or when they honorably retreat, you get the reward
 	this.loseOdys = function(retreat, payTribute) {
@@ -228,7 +234,7 @@ function War() {
 		let drancRel = false;
 		//available relics for loot are those that player does not have && are not special, or are special but the special army has been overcome
 		let lootable = Object.keys(relics).filter(r => so.relics.indexOf(r) === -1 && (!relics[r].hasOwnProperty('special') || so.wavesHistory.indexOf(relics[r].special) > -1 ));
-		let P = 1 - (1 - consts.odys.rateRelic)**so.score; //probability to loot a relic
+		let P = this.odysRelicDropP(so.score);
 		if(Math.random() < P && lootable.length > 0) {drancRel = lootable[Math.floor(Math.random() * lootable.length)];}
 		so.relics.length === 0 && so.wave > 1 && (drancRel = 'helmet'); //starter pack relic
 
@@ -237,7 +243,8 @@ function War() {
 		so.relics.length === Object.keys(relics).length && game.achieve('relics'); //all relix
 
 		//report
-		let msgPart1 = retreat && payTribute ? `Hrdinové se stáhli z ${so.wave-1}. ostrova a celkem dosáhli epického skóre ${so.score}, dalších ${scoreTribute} bodů museli obětovat delfínům` :
+		let msgPart1 = retreat && payTribute ?
+			`Hrdinové se stáhli z ${so.wave-1}. ostrova a celkem dosáhli epického skóre ${so.score}, dalších ${scoreTribute} bodů museli obětovat delfínům` :
 			`Poslední hrdinové padli na ${so.wave}. ostrově a celkem dosáhli epického skóre ${so.score}`;
 		let msgPart2 = retreat && payTribute ? 'Přitáhli s sebou' : 'Ze svého posledního tábora nám ještě stihli poslat';
 		let msg = [msgPart1];
@@ -246,16 +253,20 @@ function War() {
 			msg.push(`Dozvěděli jsme se také nové poznatky o světě za obzorem v hodnotě ${drancWP.toFixed()} výzkumných bodů.`);
 		}
 		drancRel && msg.push('A dokonce jsme uloupili velice vzácnou relikvii zvanou ' + relics[drancRel].name + (relics[drancRel].special ? ', kterou u sebe měli '+odyssets[relics[drancRel].special].name : '') + '!');
+		msg.push(`(šance na uloupení relikvie byla ${P.toPercent()})`);
 		game.msg(msg);
 		let report = {odys:true, name: s.name, lvl: so.wave, score: so.score, dranc: dranc, drancWP: drancWP, relic: drancRel, deadP: this.filterArmyObj(so.dead)};
 		if(retreat) {this.addReport(report);} //add now (endBattle is not executed at all)
 		else {s.battlefield.report = report;} //add l8r (when endBattle continues execution)
-		
+
+		retreat && payTribute && (s.ownNuke = s.ownNuke || so.ownNuke); //bring the nuke home if it survived && our soldiers came home (but only one can be in town)
+
 		//reset odysseia state variables
 		so.wave = 0;
 		so.score = 0;
 		so.wavesHistory = [];
 		so.race = 'myth';
+		so.ownNuke = false;
 	};
 
 	//add a battle report object to battleReports
@@ -603,8 +614,8 @@ function War() {
 	this.nukeInit = function() {
 		const bf = s.battlefield;
 		if(!bf) {return;}
-		s.ownNuke = false; //deplete current fireworks supply
-		s.nukeCooldown = consts.nukeCooldown - game.getBlvl('zkusebna'); //set countdown to buy another one
+		s.odys.wave > 0 ? (s.odys.ownNuke = false) : (s.ownNuke = false); //deplete current fireworks supply
+		s.odys.wave === 0 && (s.nukeCooldown = consts.nukeCooldown - game.getBlvl('zkusebna')); //set countdown to buy another one
 		s.ctrl.tab = 'battle'; //switch to battle
 		bf.nukeDuration = 5; //draw whiteflash
 		bf.scheduledNuke = true; //schedule the actual killing for next stroke
