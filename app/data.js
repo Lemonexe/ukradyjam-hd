@@ -63,6 +63,7 @@ const consts = {
 	},
 
 	//misc
+	researchArchiveMin: 4, //researchArchive will appear when this many researches are done
 	maxMessages: 20,
 	maxReports: 10,
 	backAchieve: 24*3600e3,
@@ -287,24 +288,34 @@ const miracles = {
 //reward from odysseia
 const relics = {
 	helmet: {name: 'Přilba krále Leónida', img: 'spartahelmet.png', effect: 'cena jednotek -'+consts.rel.helmet.toPercent(),
+		tooltip: 'This. is. SPARTAAAAA !!!',
 		flavor: 'Odkaz tříset hrdinných reků spartských naplňuje naše ovčany vlasteneckou inspirací, aby se taky šli někde nechat povraždit.'},
 	necro: {name: 'Necrocomicon', img: 'necrocomicon.png', effect: 'chrám o '+consts.rel.necro+' úrovně účinnější',
+		tooltip: 's čerty nejsou žerty..',
 		flavor: 'Prokletá kniha pradávných bytostí chaosu, která obsahuje především dost podivný černý humor. To nám velice pomůže při našich zvrácených rituálech.'},
 	eanasir: {name: 'Stížnost na Ea-Nasira', img: 'ea-nasir.png', effect: 'účinnost obchodu +'+consts.rel.eanasir.toPercent(),
+		tooltip: 'NANNI???',
 		flavor: 'Do kamene tesaná reklamace má fakt odstrašující účinek na šejdíře prodávající nekvalitní měď. Nikdo nechce mít navždy zničenou reputaci jako Ea-Nasir!'},
 	AoE2: {name: 'Relikvie z Doby Císařství', img: 'AoE2.png', effect: 'daňový výběr +'+consts.rel.AoE2.toPercent(),
+		tooltip: 'Wolololo',
 		flavor: 'Na první pohled jenom zdobená skříňka, ale jak jsme ji přinesli dovnitř – zázrak! Začaly se z ní prostě odsypávat zlaťáky! Nyní veřejnosti nepřístupná...'},
 	LotR: {name: 'Prsten Pána', img: 'LotR.png', effect: 'platy dělníků -'+consts.rel.LotR.toPercent(),
+		tooltip: 'ty stromy jsou dřevěné, bude pod nimi hodně hélia!',
 		flavor: 'Ultimátní artefakt moci, je na něm vyryto: "Jeden pán vládne všem, jeden jim makat káže, jeden všechny přivede, k lopatě je přiváže"'},
 	hitler: {name: 'Hitlerův mozek v lahvi', img: 'brain.png', special: 'nazi', effect: 'síla jednotek +'+consts.rel.hitler.toPercent(),
+		tooltip: 'DAS WAR EIN BEFEHL !!!',
 		flavor: 'Válečníkům z budoucnosti propůjčilo jejich božstvo tento mozek, který neustále jen vztekle chrlí rozkazy a plamenné projevy. Parádní věcička na dobývání světa!'},
 	venus: {name: 'Věstonická afrodita', img: 'venus.png', special: 'cavemen', effect: 'vygebenost +'+consts.rel.venus,
+		tooltip: 'absolute waifu material',
 		flavor: 'Nezvratný důkaz, že ještě před neolitickou revolucí mělo lidstvo kozy.'},
 	blackhole: {name: 'Černá díra', img: 'blackhole.png', special: 'ufo', effect: 'údržba města -'+consts.rel.blackhole.toPercent(),
+		tooltip: '⬛⬛⬛⬛⬛',
 		flavor: 'Velice atraktivní exponát. Je to taková zvláštní tma, která všechno vcucává a je přitom tak nenasytná, že může sežrat všechen náš komunální odpad!'},
 	undefined: {name: 'undefined_$relic', img: 'undefinedRelic.png', special: 'undefined', effect: 'Please download at least 5 GB of RAM to fix this!',
+		tooltip: ' ',
 		flavor: 'Error: undefined_$relic.effect is not a function'},
 	mirror: {name: 'Dimenzionální zrcadlo', img: 'mirror.png', special: 'mirror', effect: 'účinnost školství +'+consts.rel.mirror.toPercent(),
+		tooltip: 'Oldacrz ínlánoiznemid',
 		flavor: 'Kouzelné zrcátko umí překrucovat ksicht do pitoreskních podob, což je klíč k poznání reflexe duality hmotného jsoucna a stínu lidského ega. Poučné!'}
 };
 
@@ -345,6 +356,8 @@ const achievements = {
 		flavor: '300 naolejovaných svalnatců statečně čelí všem armádám světa a třeba i oslizlým ufonům z jiné dimenze - již bry i ve vašich amfiteátrech.'},
 	blitz: {secret: true, name: 'Blitzkrieg', description: 'vyhrát bitvu pouze se stroji', //(trj, obr, bal, gyr)
 		flavor: 'Válečný stroj naolejovaný olivovým olejem za sebou zanechá jen ruiny a mrtvoly!'},
+	luftballons: {secret: true, name: '99 Luftballons', description: 'dokončit bitvu s 99 balóny',
+		flavor: 'auf ihrem Weg zum Horizont 🎵🎈'},
 	stack: {secret: true, name: 'Stack Overflow', description: 'naplnit sklad k prasknutí', //(všechny 4 suroviny)
 		flavor: 'runtime error: out of memory'},
 	exodus: {secret: true, name: 'Půlnoční království', description: 'vyvolat exodus obyvatel', //(obyvatelstvo <=0, vygebenost <= 0)

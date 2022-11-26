@@ -1,0 +1,11 @@
+<ul>
+	<li ng-repeat="r in researched">
+		<span ng-click="viewSwitch($index)" class="fakeLink">{{researchMap[r].name}}</span>
+		<span ng-show="detailView === $index">
+			💡{{researchMap[r].cost}}
+			<p><b>Zadání:</b><br>{{researchMap[r].teaser}}</p>
+			<p><b>Výsledek:</b><br>{{researchMap[r].result}}</p>
+			<p>→ {{researchMap[r].effect}}</p>
+		</p>
+	</li>
+</ul>

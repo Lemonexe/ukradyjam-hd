@@ -92,6 +92,8 @@ function War() {
 		for(let key in bf.reserveP) {parentP[key] += bf.reserveP[key].positify();}
 		for(let key in bf.reserveE) {parentE[key] += bf.reserveE[key].positify();}
 
+		(bf.reserveP.bal === 99) && game.achieve('luftballons');
+
 		//finish
 		if(bf.type === 'polis') {
 			bf.report = {victory: victory, name: s.name, lvl: s.enemyLevel+1, cycles: bf.cycles, deadP: this.filterArmyObj(bf.deadP), deadE: this.filterArmyObj(bf.deadE)};

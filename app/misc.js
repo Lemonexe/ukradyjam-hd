@@ -35,7 +35,7 @@ Number.prototype.addk = function(t, M) {
 	let val = this.valueOf();
 	if(Math.abs(val) > (M ? M : 1e6)) {return Math.floor(val/1e6) + 'M';}
 	if(Math.abs(val) > (t ? t : 1e3)) {return Math.floor(val/1e3) + 'k';}
-	return val.toFixed(0);
+	return Math.floor(val).toFixed(0);
 };
 //return number as fixed(0) with sign always displayed if not (rounded to) zero
 Number.prototype.withSign = function() {

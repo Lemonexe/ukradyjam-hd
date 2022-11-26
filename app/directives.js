@@ -98,6 +98,7 @@ app.directive('resourceSlider', function() {
 		controller: ['$scope', function($scope) {
 			$scope.s = s;
 			$scope.icons = consts.surAliases;
+			$scope.popMax = s.pop[0] + s.pop[$scope.i];
 
 			//getter / setter function to distribute workers in s.pop
 			//WARNING: if you read the following line, you might consequently need to bleach your eyes
@@ -269,5 +270,20 @@ app.directive('battleReports', () => ({
 				s.battleReports.splice(i, 1)
 			}
 		};
+	}]
+}));
+
+app.directive('researchArchive', () => ({
+	restrict: 'E',
+	scope: {},
+	templateUrl: 'app/ng/researchArchive.html',
+	controller: ['$scope', function($scope) {
+		$scope.researched = s.research;
+		// hashmap of researches
+		$scope.researchMap = {};
+		research.forEach(o => {$scope.researchMap[o.id] = o;});
+		//which research should have details displayed
+		$scope.detailView = -1;
+		$scope.viewSwitch = (i) => ($scope.detailView = ($scope.detailView === i) ? -1 : i);
 	}]
 }));
