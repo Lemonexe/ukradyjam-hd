@@ -63,6 +63,7 @@ const consts = {
 	},
 
 	//misc
+	researchArchiveMin: 4, //researchArchive will appear when this many researches are done
 	maxMessages: 20,
 	maxReports: 10,
 	backAchieve: 24*3600e3,

@@ -272,3 +272,18 @@ app.directive('battleReports', () => ({
 		};
 	}]
 }));
+
+app.directive('researchArchive', () => ({
+	restrict: 'E',
+	scope: {},
+	templateUrl: 'app/ng/researchArchive.html',
+	controller: ['$scope', function($scope) {
+		$scope.researched = s.research;
+		// hashmap of researches
+		$scope.researchMap = {};
+		research.forEach(o => {$scope.researchMap[o.id] = o;});
+		//which research should have details displayed
+		$scope.detailView = -1;
+		$scope.viewSwitch = (i) => ($scope.detailView = ($scope.detailView === i) ? -1 : i);
+	}]
+}));

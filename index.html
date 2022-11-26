@@ -304,6 +304,17 @@ var get_HACKER_achievement = function() {
 					<span class="tip" tooltip="počet výzkumných bodů za jeden cyklus">Rychlost získávání bodů:
 					{{demMulti([game.rateWP()/game.eff().skola], [game.eff().skola]) }}</span>
 				</p>
+				<hr ng-if="s.research.length >= consts.researchArchiveMin">
+				<p ng-if="s.research.length >= consts.researchArchiveMin">
+					Ve školním kabinetu archivujeme všechny domácí úkoly, rukodělné výrobky, písemky atd. Je to tedy databáze inovativního know-how, které nadaní žáci vytvořili pod vedením našeho vědce.
+					<input type="button" ng-click="tab('researchArchive')" value="Navštívit kabinet">
+				</p>
+			</div>
+
+			<div ng-switch-when="researchArchive" ng-style="screenStyle()">
+				<escape></escape>
+				<h2>Školní kabinet</h2>
+				<research-archive></research-archive>
 			</div>
 
 			<div ng-switch-when="pristav" ng-style="screenStyle()">
