@@ -184,7 +184,12 @@ const game = {
 		const palac = this.getBlvl('palac');
 		const docks = this.getBlvl('pristav');
 		const surMiracle = this.mir('obr', consts.mir.obr) + this.mir('had', -consts.mir.had);
-		const extraPower = (arg === 'bal' && s.p.powerBal) ? s.p.powerBal : 0; //extra power for a specific unit
+		//extra power for a specific unit
+		const extraPower = () => {
+			if(arg === 'bal' && s.p.powerBal) return s.p.powerBal;
+			if(['hop','trj'].includes(arg) && s.odys.wave > 0) return consts.odys.hoptrjBonus;
+			return 0;
+		};
 		return {
 			skola:  s.p.skola  + this.mir('antena', consts.mir.antena) + this.mir('dmnt', -consts.mir.dmnt2) + consts.rel.mirror*this.hasRelic('mirror'),
 			prachy: s.p.prachy + 0.10*palac + this.mir('apollo', -consts.mir.apollo) + consts.rel.AoE2*this.hasRelic('AoE2'),
@@ -195,7 +200,7 @@ const game = {
 			udrzba: s.p.udrzba - 0.05*palac - consts.rel.blackhole*this.hasRelic('blackhole'),
 			plat:   s.p.plat   - 0.05*palac - consts.rel.LotR*this.hasRelic('LotR'),
 			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', consts.mir.delfin) + consts.rel.eanasir*this.hasRelic('eanasir'),
-			power:  s.p.power  + extraPower + this.mir('faust', consts.mir.faust1) + consts.rel.hitler*this.hasRelic('hitler'),
+			power:  s.p.power + extraPower() + this.mir('faust', consts.mir.faust1) + consts.rel.hitler*this.hasRelic('hitler'),
 			dranc:  s.p.dranc               + this.mir('faust', -consts.mir.faust2)
 		};
 	},
