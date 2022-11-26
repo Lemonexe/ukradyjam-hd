@@ -183,7 +183,9 @@ function War() {
 	//when another odysseia wave has been overcome, prepare next onslaught
 	this.winOdys = function() {
 		const so = s.odys, os = odyssets;
-		game.msg([`Naši dobrodruhové už dobyli ${so.wave}. ostrov, kde vymlátili další epické skóre ${so.scoreToGet}`, 'Dejte jim pokyn, a budou pokračovat! Zpět ni krok!']);
+		const msg = [`Naši dobrodruhové už dobyli ${so.wave}. ostrov, kde vymlátili další epické skóre ${so.scoreToGet}`];
+		!s.ctrl.autoodys && msg.push('Dejte jim pokyn, a budou pokračovat! Zpět ni krok!');
+		game.msg(msg);
 		so.wave++;
 		so.wavesHistory.push(so.race);
 		so.score += so.scoreToGet;
