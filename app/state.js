@@ -115,6 +115,7 @@ const S = () => ({
 		army: null, //player army currently waiting for next wave
 		armyE: null, //enemy next wave
 		dead: null, //cummulative casualties army object
+		ownNuke: false, //ownNuke for the current odysseia
 		wavesHistory: [], //array of defeated waves
 		relics: [] //array of IDs of collected relics
 	},

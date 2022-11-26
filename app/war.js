@@ -154,6 +154,7 @@ function War() {
 			let sizeP = this.armyGroupSum(so.army);
 			so.size = min + max * sizeP / (sizeP + delay);
 			this.createOdysArmy();
+			s.ownNuke && (s.odys.ownNuke = !(s.ownNuke = false)); //give our soldiers a nuke for the road
 		}
 		this.initBattle('odys');
 
@@ -258,11 +259,14 @@ function War() {
 		if(retreat) {this.addReport(report);} //add now (endBattle is not executed at all)
 		else {s.battlefield.report = report;} //add l8r (when endBattle continues execution)
 
+		retreat && payTribute && (s.ownNuke = s.ownNuke || so.ownNuke); //bring the nuke home if it survived && our soldiers came home (but only one can be in town)
+
 		//reset odysseia state variables
 		so.wave = 0;
 		so.score = 0;
 		so.wavesHistory = [];
 		so.race = 'myth';
+		so.ownNuke = false;
 	};
 
 	//add a battle report object to battleReports
@@ -610,8 +614,8 @@ function War() {
 	this.nukeInit = function() {
 		const bf = s.battlefield;
 		if(!bf) {return;}
-		s.ownNuke = false; //deplete current fireworks supply
-		s.nukeCooldown = consts.nukeCooldown - game.getBlvl('zkusebna'); //set countdown to buy another one
+		s.odys.wave > 0 ? (s.odys.ownNuke = false) : (s.ownNuke = false); //deplete current fireworks supply
+		s.odys.wave === 0 && (s.nukeCooldown = consts.nukeCooldown - game.getBlvl('zkusebna')); //set countdown to buy another one
 		s.ctrl.tab = 'battle'; //switch to battle
 		bf.nukeDuration = 5; //draw whiteflash
 		bf.scheduledNuke = true; //schedule the actual killing for next stroke

@@ -6,6 +6,7 @@
 </div>
 <div ng-if="s.battlefield && s.odys.wave > 0 && type !== 'polis'">
 	<p class="strong">🔥 <a class="fakeLink" ng-click="tab('battle')">PRÁVĚ PROBÍHÁ BITVA!</a> (ostrov {{s.odys.wave}}, kolo {{s.battlefield.cycles}})</p>
+	<p ng-if="s.odys.ownNuke">&nbsp;☢&nbsp;&nbsp;<a class="fakeLink tip" ng-click="game.war.nukeInit()" tooltip="Uspořádat novoroční ohňostroj">Ohňostroj</a></p>
 	<p>Aktuální nepřítel: {{odyssets[s.odys.race].name}}</p>
 	<p>Skóre: {{s.odys.score}}</p>
 </div>
