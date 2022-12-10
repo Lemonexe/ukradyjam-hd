@@ -1,7 +1,7 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 2, 4],
+	version: [1, 2, 5],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a constructor

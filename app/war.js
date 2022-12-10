@@ -204,7 +204,7 @@ function War() {
 
 		this.createOdysArmy();
 
-		if(s.ctrl.autoodys) {s.battlefield.autocontinueNow = true;}
+		if(s.ctrl.autoodys && so.wave <= consts.odys.retreatWave) {s.battlefield.autocontinueNow = true;}
 	};
 
 	//probability to loot a relic

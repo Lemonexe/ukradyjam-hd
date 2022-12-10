@@ -384,7 +384,7 @@ app.controller('middle', function($scope, $interval) {
 		return (i !== 0) ? (s.sur[i] >= game.storage()) : false;
 	};
 
-	$scope.relicClick = (r) => r === 'undefined' ? alert() : game.msg(relics[r].tooltip); // ng-click for relic icon in museum
+	$scope.relicClick = (r) => r === 'undefined' ? confirm() : game.msg(relics[r].tooltip); // ng-click for relic icon in museum
 
 	//how many achievements are there in total - but only: all non-secret + already unlocked secret
 	$scope.getAchievementCount = function() {

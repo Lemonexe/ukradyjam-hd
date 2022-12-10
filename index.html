@@ -233,9 +233,13 @@ var get_HACKER_achievement = function() {
 						<span class="tip" tooltip="násobí útok všech našich jednotek">Síla armády: {{game.eff().power.toPercent()}}</span>,
 						<span class="tip" tooltip="násobí vydrancované suroviny">účinnost drancování: {{game.eff().dranc.toPercent()}}</span>
 					</p>
-					<p ng-if="armySum(s.army) === 0">
+					<p ng-if="armySum(s.army) === 0 && s.odys.wave === 0">
 						Nemáme vůbec žádnou armádu.. Naše město je zcela nechráněno a může se tedy stát, že nebudeme moci dobývat nepřátele, plenit a loupit!<br>
 						Tak honem do kasárny, uděláme občanům pořádnou vojnu.
+					</p>
+					<p ng-if="armySum(s.army) === 0 && s.odys.wave > 0">
+						Naše veškerá armáda vyplula na dřevěných lodicích v širá moře vstříc neznámým dobrodružstvím, a ve měste vůbec nikdo nezbyl.<br>
+						Tak honem do kasárny, ať se dostane i na ostatní občany.
 					</p>
 					<table class="compactTable">
 						<tr ng-repeat="(i,n) in s.army" ng-if="n > 0">

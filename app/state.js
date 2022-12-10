@@ -21,7 +21,7 @@ const S = () => ({
 		style: {'top': '0px', 'left': '0px'}, //numeric values are just placeholders
 		message: ''
 	},
-	tooltipField: false, //array of tooltips as [top,left,height,width,text], currently used only on battlefield
+	tooltipField: [], //array of tooltips as [top,left,height,width,text], currently used only on battlefield
 
 
 	timestampInit: Date.now(), //start of application

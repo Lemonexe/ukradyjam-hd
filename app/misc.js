@@ -14,7 +14,7 @@ window.onbeforeunload = function() {
 	saveService.save();
 };
 
-window.onerror = function(err) {alert('Došlo k neočekávané chybě aplikace:\n' + err);};
+!window.location.href.match(/127.0.0.1|localhost/) && (window.onerror = err => alert('Došlo k neočekávané chybě aplikace:\n' + err));
 
 //preload images
 window.onload = imgPreload;
@@ -137,6 +137,7 @@ const saveService = {
 
 	//generate a save file for download
 	manualSave: function() {
+		s.tooltipField = [];
 		let blob = new Blob([JSON.stringify(s)], { type : 'application/json' });
 		let url = (window.URL || window.webkitURL).createObjectURL(blob);
 		let elem = document.createElement('a');
