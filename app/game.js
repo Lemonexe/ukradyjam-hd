@@ -1,7 +1,7 @@
 //game object
 const game = {
 	//current version of this build & last supported version (savegame compatibility)
-	version: [1, 2, 5],
+	version: [1, 2, 6],
 	support: [0, 2, 0],
 
 	//all warfare related functions are outsourced to a constructor
@@ -200,7 +200,7 @@ const game = {
 			udrzba: s.p.udrzba - 0.05*palac - consts.rel.blackhole*this.hasRelic('blackhole'),
 			plat:   s.p.plat   - 0.05*palac - consts.rel.LotR*this.hasRelic('LotR'),
 			obchod: s.p.obchod + 0.05*docks + this.mir('delfin', consts.mir.delfin) + consts.rel.eanasir*this.hasRelic('eanasir'),
-			power:  s.p.power + extraPower() + this.mir('faust', consts.mir.faust1) + consts.rel.hitler*this.hasRelic('hitler'),
+			power:  s.p.power  + 0.05*palac + extraPower() + this.mir('faust', consts.mir.faust1) + consts.rel.hitler*this.hasRelic('hitler'),
 			dranc:  s.p.dranc               + this.mir('faust', -consts.mir.faust2)
 		};
 	},

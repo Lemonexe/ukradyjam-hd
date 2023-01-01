@@ -182,7 +182,11 @@ const compatibility = [
 		s.odys = S().odys;
 		s.battleReports = s.battleReports.slice(0, consts.maxReports);
 	}},
-	{v: [1, 2, 1], f: (s) => {s.battleReports.forEach(r => r.name = s.name);}}
+	{v: [1, 2, 1], f: (s) => {s.battleReports.forEach(r => r.name = s.name);}},
+	{v: [1, 2, 6], f: (s) => {
+		s.research.includes('ArmA2') && (s.p.power += .05);
+		s.research.includes('ArmA3') && (s.p.power += .05);
+	}}
 ];
 
 //these images will be used in canvas, and therefore need to be preloaded

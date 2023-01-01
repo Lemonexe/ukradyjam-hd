@@ -1,1 +1,3 @@
 LOTS OF NEW IMAGES see _dev/todo images.md
+	REDESIGN - make base window width = 800px?
+	make battlefield 8 wide...

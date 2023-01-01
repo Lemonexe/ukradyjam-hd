@@ -321,16 +321,16 @@ const research = [
 {id: 'ArmA2', class: 'Arm', name: 'Motivační kouč', cost: 1800,
 	teaser: 'Bojovat se nedá individuálně, vojáci potřebují tvrdé vedení. Určeme proto ty nejvíce arogantní a namyšlené slizouny jako lídry, aby mužstvo nahecovali a popohnali vstříc krvavému masakru!',
 	result: 'Vojáci už mají motivačních proslovů plné zuby, tak se radši bezhlavě vrhají do boje než aby ty kecy museli poslouchat. Účinnost armády je značně zvýšena!',
-	effect: 'síla jednotek +10%',
+	effect: 'síla jednotek +15%',
 	reqs: ['ArmC1'], f: function() {
-		s.p.power += 0.10;
+		s.p.power += 0.15;
 	}},
 {id: 'ArmA3', class: 'Arm', name: 'Příděl piva', cost: 9500,
 	teaser: 'Vojákům rozdáme před bojem pivo, abychom podpořili jejich agresivitu.',
 	result: 'Ožralí vojáci se sice neumí trefit do nepřátel, ale zase ztrácí pud sebezáchovy a zapomínají pak dezertovat. Bojová síla našich pluků se tedy značně zvýšila.',
-	effect: 'síla jednotek +10%',
+	effect: 'síla jednotek +15%',
 	reqs: ['ArmC2'], f: function() {
-		s.p.power += 0.10;
+		s.p.power += 0.15;
 	}},
 {id: 'ArmC1', class: 'Arm', name: 'Konfiskace', cost: 650,
 	teaser: 'Vojáci nyní všechen lup schovávají do kapes a my tedy máme jen to, co neunesou a odpadne jim. Loupež musíme zlegalizovat, a především zorganizovat ku státnímu prospěchu!',
