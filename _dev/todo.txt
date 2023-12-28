@@ -1,3 +1,9 @@
-LOTS OF NEW IMAGES see _dev/todo images.md
-	REDESIGN - make base window width = 800px?
+v1.3
+- REDESIGN - make base window width = 800px?
 	make battlefield 8 wide...
+
+- LOTS OF NEW IMAGES see _dev/todo images.md
+	use AI
+		train stable diffusion on various Martin Mach or my own production,
+		also train on a lot of downloaded pixelart
+		then generate images

@@ -1,6 +1,6 @@
 ## TODO images
 
-**res/env/BATTLE.png** `je třeba zachovat 600x600`  
+**res/env/BATTLE.png** `rozšířit na 800x600`  
 	To je opravdu hnusný a to bych si moc přál předělat.
 	Avšak je třeba dát pozor, pokud tam budou nějaké ozdoby, aby nebyly v konfliktu s jednotkama.
 	Asi by tedy bylo dobré samotný battlefield nechat čistý (ne nutně jednobarevná plocha, ale bez featur) a dát dekorace jen okolo?.  
@@ -24,8 +24,8 @@
 	Ikonky surovin - mě přijdou v pohodě, protože jsou vždy dost zmenšený, ale pokud by byla vůle k vylepšení, tak proč ne  
 	Dřevo je zcela OK, třeba kámen a sýra jsou dost odbyté
 
-**res/env/ISLAND.png** `je třeba zachovat 600x600`  
-**res/env/CITY.png** `je třeba zachovat 600x600`  
+**res/env/ISLAND.png** `rozšířit na 800x600`  
+**res/env/CITY.png** `rozšířit na 800x600`  
 	Určitě by se daly zkrášlit, ale nevypadá to hrozně, když na tom pak stojí budovy
 
 **res/env/prod_kamen.png** `zcela libovolné rozměry`  
